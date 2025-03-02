@@ -9,6 +9,7 @@ body {
     text-align: center;
     margin: 0;
     padding: 0;
+    transition: background 0.3s ease-in-out;
 }
 
 /* 🔹 Top Navigation Bar */
@@ -17,12 +18,18 @@ body {
     justify-content: space-between;
     align-items: center;
     background: #1a1a1a;
-    padding: 15px 20px;
+    padding: 12px 20px;  /* Slightly reduced height */
     box-shadow: 0 4px 8px rgba(255, 255, 255, 0.05);
     position: sticky;
     top: 0;
     width: 100%;
     z-index: 1000;
+    transition: transform 0.3s ease-in-out, background 0.3s ease-in-out;
+}
+
+/* Hide Navbar When Search is Active */
+.top-nav.hidden {
+    transform: translateY(-100%);
 }
 
 /* Menu, Search & Profile Icons */
@@ -32,14 +39,11 @@ body {
     font-size: 22px;
     color: #fff;
     cursor: pointer;
-    transition: 0.3s;
+    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
-.top-nav button i {
-    transition: 0.3s;
-}
-
-.top-nav button:hover i {
+.top-nav button:hover {
+    transform: scale(1.1);
     color: #ccc;
 }
 
@@ -48,6 +52,11 @@ body {
     font-size: 22px;
     font-weight: bold;
     color: #e0e0e0;
+    transition: transform 0.3s ease-in-out;
+}
+
+.logo:hover {
+    transform: scale(1.05);
 }
 
 /* Navigation Icons */
@@ -69,7 +78,7 @@ body {
     justify-content: center;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
+    transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
 }
 
 /* When Search is Active */
@@ -86,8 +95,15 @@ body {
     max-width: 500px;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 25px;
-    padding: 10px;
+    padding: 12px;
     backdrop-filter: blur(5px);
+    box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.1);
+    transform: scale(0.9);
+    transition: transform 0.3s ease-in-out;
+}
+
+#search-overlay.active .search-container {
+    transform: scale(1);
 }
 
 /* Search Input */
@@ -100,6 +116,11 @@ body {
     background: transparent;
     color: #fff;
     outline: none;
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+#search:focus {
+    box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.3);
 }
 
 #search::placeholder {
@@ -114,17 +135,26 @@ body {
     color: #ff4d4d;
     cursor: pointer;
     padding: 10px;
-    transition: 0.3s;
+    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
 #cancel-search:hover {
     color: #ff6666;
+    transform: scale(1.1);
 }
 
 /* 🔹 Responsive Design */
 @media (max-width: 768px) {
-    /* Hide Bottom Nav (Not Needed) */
-    .bottom-nav {
-        display: none;
+    /* Ensure all elements fit within the screen */
+    .top-nav {
+        padding: 10px;
+    }
+
+    .logo {
+        font-size: 18px;
+    }
+
+    .top-nav button {
+        font-size: 18px;
     }
 }
