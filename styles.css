@@ -1,7 +1,7 @@
 /* Import Google Font */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
-/* Prevent Zooming on Input Focus */
+/* Prevent Zooming & Overflow Issues */
 html, body {
     overflow-x: hidden;
     touch-action: manipulation;
@@ -14,7 +14,7 @@ html, body {
     justify-content: space-between;
     align-items: center;
     background: #1a1a1a;
-    padding: 10px 15px;  /* Reduced height */
+    padding: 12px 15px; /* Optimized height */
     box-shadow: 0 4px 8px rgba(255, 255, 255, 0.05);
     position: sticky;
     top: 0;
@@ -23,7 +23,7 @@ html, body {
     transition: transform 0.3s ease-in-out;
 }
 
-/* Hide Navbar When Search Bar is Active */
+/* Hide Navbar When Search is Active */
 .top-nav.hidden {
     transform: translateY(-100%);
 }
@@ -48,9 +48,11 @@ html, body {
 
 /* Logo */
 .logo {
-    font-size: 20px; /* Slightly smaller */
+    font-size: 20px;
     font-weight: bold;
     color: #e0e0e0;
+    text-align: center;
+    flex-grow: 1;
 }
 
 /* Navigation Icons */
@@ -131,8 +133,16 @@ body.search-active {
 
 /* 🔹 Responsive Design */
 @media (max-width: 768px) {
-    /* Hide Bottom Nav (Not Needed) */
-    .bottom-nav {
-        display: none;
+    /* Ensure all elements fit within the screen */
+    .top-nav {
+        padding: 10px;
+    }
+
+    .logo {
+        font-size: 18px;
+    }
+
+    .top-nav button {
+        font-size: 18px;
     }
 }
