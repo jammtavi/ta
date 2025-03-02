@@ -10,23 +10,30 @@
 <body>
 
     <header>
-        <h1>🎬 Movie Details</h1>
+        <h1>🔞 Movie Details</h1>
     </header>
 
-    <!-- Movie Details Section -->
-    <section id="movie-details">
-        <img id="movie-poster" src="https://via.placeholder.com/300x450" alt="Movie Poster">
-        <h2 id="movie-title">Movie Title</h2>
-        <p id="movie-description">
-            This is a brief description of the movie. It provides details about the plot, genre, and other relevant information.
-        </p>
+    <section id="movie-container">
+        <div class="movie-left">
+            <img id="movie-poster" src="https://via.placeholder.com/400x600" alt="Movie Poster">
+        </div>
         
-        <!-- Show Download Button -->
-        <button id="show-download-btn">Show Download</button>
-        
-        <!-- Hidden Download Button -->
-        <div id="download-section" class="hidden">
-            <a id="download-btn" href="#" download>Download Movie</a>
+        <div class="movie-right">
+            <h2 id="movie-title">Movie Title</h2>
+            <p id="movie-genre"><strong>Genres:</strong> Horror, Thriller, 18+</p>
+            <p id="movie-year"><strong>Year:</strong> 2024</p>
+            <p id="movie-description">
+                This is a brief description of the movie. It provides details about the plot, genre, and other relevant information.
+            </p>
+            <iframe id="movie-trailer" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+            
+            <!-- Show Download Button -->
+            <button id="show-download-btn">Show Download</button>
+            
+            <!-- Hidden Download Button -->
+            <div id="download-section" class="hidden">
+                <a id="download-btn" href="#" download>Download Movie</a>
+            </div>
         </div>
     </section>
 
