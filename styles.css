@@ -63,7 +63,7 @@ html, body {
 }
 
 #profile-icon {
-    margin-left: -30px; /* Moves profile icon further left */
+    margin-right: 30px; /* Moves profile icon further left */
 }
 
 /* Menu, Search & Profile Icons */
