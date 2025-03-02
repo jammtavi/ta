@@ -1,11 +1,14 @@
 /* Import Google Font */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
-/* Prevent Zooming & Overflow Issues */
-html, body {
-    overflow-x: hidden;
-    touch-action: manipulation;
-    user-scalable: no;
+/* General Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #141414;
+    color: #fff;
+    text-align: center;
+    margin: 0;
+    padding: 0;
 }
 
 /* 🔹 Top Navigation Bar */
@@ -14,25 +17,19 @@ html, body {
     justify-content: space-between;
     align-items: center;
     background: #1a1a1a;
-    padding: 12px 15px; /* Optimized height */
+    padding: 15px 20px;
     box-shadow: 0 4px 8px rgba(255, 255, 255, 0.05);
     position: sticky;
     top: 0;
     width: 100%;
     z-index: 1000;
-    transition: transform 0.3s ease-in-out;
-}
-
-/* Hide Navbar When Search is Active */
-.top-nav.hidden {
-    transform: translateY(-100%);
 }
 
 /* Menu, Search & Profile Icons */
 .top-nav button {
     background: none;
     border: none;
-    font-size: 20px;
+    font-size: 22px;
     color: #fff;
     cursor: pointer;
     transition: 0.3s;
@@ -48,11 +45,9 @@ html, body {
 
 /* Logo */
 .logo {
-    font-size: 20px;
+    font-size: 22px;
     font-weight: bold;
     color: #e0e0e0;
-    text-align: center;
-    flex-grow: 1;
 }
 
 /* Navigation Icons */
@@ -81,11 +76,6 @@ html, body {
 #search-overlay.active {
     opacity: 1;
     visibility: visible;
-}
-
-/* Hide Scroll When Search is Active */
-body.search-active {
-    overflow: hidden;
 }
 
 /* Search Container */
@@ -133,16 +123,8 @@ body.search-active {
 
 /* 🔹 Responsive Design */
 @media (max-width: 768px) {
-    /* Ensure all elements fit within the screen */
-    .top-nav {
-        padding: 10px;
-    }
-
-    .logo {
-        font-size: 18px;
-    }
-
-    .top-nav button {
-        font-size: 18px;
+    /* Hide Bottom Nav (Not Needed) */
+    .bottom-nav {
+        display: none;
     }
 }
