@@ -1,10 +1,10 @@
-/* Import Google Font */
+/* Import Font */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
 /* General Styles */
 body {
     font-family: 'Poppins', sans-serif;
-    background: #0d0d0d;
+    background: #0a0a0a;
     color: #fff;
     text-align: center;
     margin: 0;
@@ -13,76 +13,71 @@ body {
 
 /* Header */
 header {
-    background: linear-gradient(45deg, #ff0066, #8000ff);
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
     padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 8px rgba(255, 0, 102, 0.3);
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
 }
 
 header h1 {
-    font-size: 24px;
+    font-size: 26px;
     font-weight: 600;
-    text-shadow: 0px 0px 10px rgba(255, 0, 102, 0.8);
+    color: #ff0066;
+    text-shadow: 0px 0px 15px rgba(255, 0, 102, 0.8);
 }
 
-/* Search Bar */
-header input {
-    width: 80%;
-    padding: 12px;
-    margin-top: 10px;
-    border: none;
-    border-radius: 25px;
-    font-size: 16px;
-    background: #222;
-    color: #fff;
-    text-align: center;
-    outline: none;
-    transition: 0.3s;
-}
-
-header input:focus {
-    box-shadow: 0px 0px 10px #ff0066;
-}
-
-/* Movie Grid */
-#movie-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
+/* Movie Details */
+#movie-details {
     padding: 20px;
+    max-width: 600px;
+    margin: auto;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    box-shadow: 0px 0px 20px rgba(255, 0, 102, 0.2);
+    backdrop-filter: blur(10px);
 }
 
-.movie-card {
-    background: #1a1a1a;
-    padding: 15px;
-    border-radius: 12px;
-    transition: 0.3s;
-    cursor: pointer;
-    box-shadow: 0px 0px 10px rgba(128, 0, 255, 0.2);
-}
-
-.movie-card:hover {
-    transform: scale(1.05);
+#movie-poster {
+    width: 100%;
+    max-width: 300px;
+    border-radius: 10px;
     box-shadow: 0px 0px 15px rgba(255, 0, 102, 0.8);
 }
 
-/* Pagination */
-#pagination {
-    display: flex;
-    justify-content: center;
-    margin: 20px 0;
+#movie-title {
+    font-size: 24px;
+    margin-top: 15px;
+    color: #ff0066;
 }
 
-#pagination button {
+#movie-description {
+    font-size: 16px;
+    margin-top: 10px;
+    color: #ddd;
+}
+
+/* Show Download Button */
+#show-download-btn {
     background: linear-gradient(45deg, #ff0066, #8000ff);
     color: #fff;
     border: none;
-    padding: 10px 15px;
-    margin: 5px;
+    padding: 12px 20px;
+    margin-top: 15px;
+    font-size: 16px;
     border-radius: 25px;
     cursor: pointer;
+    transition: 0.3s;
 }
 
-/* Download Section */
+#show-download-btn:hover {
+    box-shadow: 0px 0px 10px #ff0066;
+}
+
+/* Download Section (Hidden by Default) */
 .hidden {
     display: none;
 }
@@ -108,4 +103,8 @@ header input:focus {
     font-size: 16px;
     border-radius: 25px;
     transition: 0.3s;
+}
+
+#download-btn:hover {
+    box-shadow: 0px 0px 10px #ff0066;
 }
