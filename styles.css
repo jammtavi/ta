@@ -52,11 +52,11 @@ html, body {
 
 /* Move Search & Profile Icons Further Left */
 #search-icon {
-    margin-right: 40px; /* Moves search icon further left */
+    margin-right: 30px; /* Moves search icon further left */
 }
 
 #profile-icon {
-    margin-left: -30px; /* Moves profile icon further left */
+    margin-left: -50px; /* Moves profile icon further left */
 }
 
 /* Menu, Search & Profile Icons */
@@ -84,8 +84,9 @@ html, body {
     height: 100vh;
     background: rgba(0, 0, 0, 0.9);
     display: flex;
-    align-items: center;
+    align-items: flex-start; /* Align search to the top */
     justify-content: center;
+    padding-top: 20px; /* Push search bar to the top */
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
@@ -97,7 +98,7 @@ html, body {
     visibility: visible;
 }
 
-/* Search Container */
+/* Search Container Positioned at the Top */
 .search-container {
     display: flex;
     align-items: center;
