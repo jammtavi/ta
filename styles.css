@@ -1,4 +1,4 @@
-/* Import Font */
+/* Import Google Font */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
 /* General Styles */
@@ -11,10 +11,13 @@ body {
     padding: 0;
 }
 
-/* Header */
+/* 🔹 Header - Left for Desktop | Center for Mobile */
 header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background: rgba(20, 20, 20, 0.9);
-    padding: 20px;
+    padding: 15px 20px;
     box-shadow: 0 4px 8px rgba(255, 255, 255, 0.05);
     position: sticky;
     top: 0;
@@ -22,19 +25,20 @@ header {
     z-index: 1000;
 }
 
+/* Header Title */
 header h1 {
-    font-size: 26px;
+    font-size: 24px;
     font-weight: 600;
     color: #e0e0e0;
+    margin: 0;
 }
 
 /* Search Bar */
 header input {
-    width: 80%;
-    padding: 12px;
-    margin-top: 10px;
+    width: 300px; /* Default width for desktop */
+    padding: 10px;
     border: none;
-    border-radius: 25px;
+    border-radius: 20px;
     font-size: 16px;
     background: rgba(255, 255, 255, 0.1);
     color: #fff;
@@ -43,11 +47,12 @@ header input {
     transition: 0.3s;
 }
 
+/* Search Placeholder */
 header input::placeholder {
     color: rgba(255, 255, 255, 0.5);
 }
 
-/* Movie Grid */
+/* 🔹 Movie Grid */
 #movie-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -72,14 +77,29 @@ header input::placeholder {
     border-radius: 10px;
 }
 
-/* Pagination */
+/* 🔹 Pagination */
 #pagination {
     display: flex;
     justify-content: center;
     margin: 20px 0;
 }
 
-/* Movie Details Page */
+#pagination button {
+    background: #444;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    margin: 5px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#pagination button:hover {
+    background: #666;
+}
+
+/* 🔹 Movie Details Page */
 #movie-container {
     display: flex;
     flex-wrap: wrap;
@@ -92,12 +112,14 @@ header input::placeholder {
     box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.1);
 }
 
+/* Movie Poster */
 .movie-left img {
     width: 100%;
     max-width: 400px;
     border-radius: 10px;
 }
 
+/* Movie Info */
 .movie-right {
     flex: 1;
     text-align: left;
@@ -155,8 +177,23 @@ header input::placeholder {
     background: #666;
 }
 
-/* Responsive */
+/* 🔹 Responsive Design */
 @media (max-width: 768px) {
+    /* Header - Center Align */
+    header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    /* Smaller Search Bar on Mobile */
+    header input {
+        width: 80%;
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    /* Movie Details - Adjust for Mobile */
     #movie-container {
         flex-direction: column;
         align-items: center;
