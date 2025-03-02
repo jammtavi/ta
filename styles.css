@@ -11,7 +11,7 @@ body {
     padding: 0;
 }
 
-/* 🔹 Header - Left for Desktop | Center for Mobile */
+/* 🔹 Header - Shown on Desktop, Hidden on Mobile */
 header {
     display: flex;
     justify-content: space-between;
@@ -35,7 +35,7 @@ header h1 {
 
 /* Search Bar */
 header input {
-    width: 300px; /* Default width for desktop */
+    width: 300px;
     padding: 10px;
     border: none;
     border-radius: 20px;
@@ -50,6 +50,13 @@ header input {
 /* Search Placeholder */
 header input::placeholder {
     color: rgba(255, 255, 255, 0.5);
+}
+
+/* 🔹 Hide Header on Mobile */
+@media (max-width: 768px) {
+    header {
+        display: none;
+    }
 }
 
 /* 🔹 Movie Grid */
@@ -179,18 +186,9 @@ header input::placeholder {
 
 /* 🔹 Responsive Design */
 @media (max-width: 768px) {
-    /* Header - Center Align */
+    /* Hide Header on Mobile */
     header {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-
-    /* Smaller Search Bar on Mobile */
-    header input {
-        width: 80%;
-        font-size: 14px;
-        padding: 8px;
+        display: none;
     }
 
     /* Movie Details - Adjust for Mobile */
