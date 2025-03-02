@@ -1,13 +1,14 @@
-/* General Styles */
+/* Import Google Font */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
+/* General Styles */
 body {
     font-family: 'Poppins', sans-serif;
     background: #0d0d0d;
     color: #fff;
+    text-align: center;
     margin: 0;
     padding: 0;
-    text-align: center;
 }
 
 /* Header */
@@ -23,6 +24,7 @@ header h1 {
     text-shadow: 0px 0px 10px rgba(255, 0, 102, 0.8);
 }
 
+/* Search Bar */
 header input {
     width: 80%;
     padding: 12px;
@@ -63,34 +65,6 @@ header input:focus {
     box-shadow: 0px 0px 15px rgba(255, 0, 102, 0.8);
 }
 
-.movie-card img {
-    width: 100%;
-    border-radius: 12px;
-}
-
-.movie-card h3 {
-    font-size: 16px;
-    margin-top: 10px;
-}
-
-/* Download Button */
-.download-btn {
-    background: linear-gradient(45deg, #ff0066, #8000ff);
-    color: #fff;
-    border: none;
-    padding: 12px;
-    margin-top: 10px;
-    width: 100%;
-    border-radius: 25px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.download-btn:hover {
-    box-shadow: 0px 0px 10px #ff0066;
-}
-
 /* Pagination */
 #pagination {
     display: flex;
@@ -106,9 +80,32 @@ header input:focus {
     margin: 5px;
     border-radius: 25px;
     cursor: pointer;
-    transition: 0.3s;
 }
 
-#pagination button:hover {
-    box-shadow: 0px 0px 10px #ff0066;
+/* Download Section */
+.hidden {
+    display: none;
+}
+
+#download-section {
+    margin-top: 20px;
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.5s ease-in-out, transform 0.3s ease-in-out;
+}
+
+#download-section.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+#download-btn {
+    display: inline-block;
+    background: linear-gradient(45deg, #ff0066, #8000ff);
+    color: #fff;
+    padding: 12px 20px;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 25px;
+    transition: 0.3s;
 }
