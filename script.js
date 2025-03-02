@@ -1,67 +1,44 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const movieGrid = document.getElementById("movie-grid");
-    const searchInput = document.getElementById("search");
-    const prevPageBtn = document.getElementById("prevPage");
-    const nextPageBtn = document.getElementById("nextPage");
-    const pageNumber = document.getElementById("pageNumber");
+    const searchIcon = document.getElementById("search-icon");
+    const searchOverlay = document.getElementById("search-overlay");
+    const cancelSearch = document.getElementById("cancel-search");
 
-    let currentPage = 1;
-    const moviesPerPage = 6;
-    let movies = [
-        { title: "Movie 1", poster: "https://via.placeholder.com/200x300", download: "#" },
-        { title: "Movie 2", poster: "https://via.placeholder.com/200x300", download: "#" },
-        { title: "Movie 3", poster: "https://via.placeholder.com/200x300", download: "#" },
-        { title: "Movie 4", poster: "https://via.placeholder.com/200x300", download: "#" },
+    // Open search overlay when clicking search icon
+    searchIcon.addEventListener("click", () => {
+        searchOverlay.classList.add("active");
+    });
+
+    // Close search overlay when clicking cancel
+    cancelSearch.addEventListener("click", () => {
+        searchOverlay.classList.remove("active");
+    });
+
+    // Close search when clicking outside input
+    searchOverlay.addEventListener("click", (e) => {
+        if (e.target === searchOverlay) {
+            searchOverlay.classList.remove("active");
+        }
+    });
+
+    // Movie grid (placeholder for now)
+    const movieGrid = document.getElementById("movie-grid");
+    const movies = [
+        { title: "Movie 1", poster: "https://via.placeholder.com/200x300" },
+        { title: "Movie 2", poster: "https://via.placeholder.com/200x300" }
     ];
 
     function renderMovies() {
         movieGrid.innerHTML = "";
-        let start = (currentPage - 1) * moviesPerPage;
-        let end = start + moviesPerPage;
-        let filteredMovies = movies.slice(start, end);
-
-        filteredMovies.forEach(movie => {
+        movies.forEach(movie => {
             let movieCard = document.createElement("div");
             movieCard.classList.add("movie-card");
             movieCard.innerHTML = `
                 <img src="${movie.poster}" alt="${movie.title}">
                 <h3>${movie.title}</h3>
-                <a href="movie.html" class="details-btn">View Details</a>
             `;
             movieGrid.appendChild(movieCard);
         });
     }
 
-    function updatePagination() {
-        pageNumber.innerText = currentPage;
-        prevPageBtn.disabled = currentPage === 1;
-        nextPageBtn.disabled = currentPage * moviesPerPage >= movies.length;
-    }
-
-    prevPageBtn.addEventListener("click", () => {
-        if (currentPage > 1) {
-            currentPage--;
-            renderMovies();
-            updatePagination();
-        }
-    });
-
-    nextPageBtn.addEventListener("click", () => {
-        if (currentPage * moviesPerPage < movies.length) {
-            currentPage++;
-            renderMovies();
-            updatePagination();
-        }
-    });
-
-    searchInput.addEventListener("input", (e) => {
-        let query = e.target.value.toLowerCase();
-        movies = movies.filter(movie => movie.title.toLowerCase().includes(query));
-        currentPage = 1;
-        renderMovies();
-        updatePagination();
-    });
-
     renderMovies();
-    updatePagination();
 });
