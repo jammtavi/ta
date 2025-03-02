@@ -11,9 +11,21 @@
 
     <!-- Header -->
     <header>
-    <h1>🎬 Movie Hub</h1>
-    <input type="text" id="search" placeholder="Search for movies...">
-</header>
+        <div class="left">
+            <h1>🎬 Movie Hub</h1>
+        </div>
+        <div class="right">
+            <button id="search-icon">🔍</button>
+        </div>
+    </header>
+
+    <!-- Popup Search Bar -->
+    <div id="search-overlay" class="hidden">
+        <div class="search-container">
+            <input type="text" id="search" placeholder="Search for movies...">
+            <button id="cancel-search">Cancel</button>
+        </div>
+    </div>
 
     <!-- Movie Grid -->
     <section id="movie-grid">
