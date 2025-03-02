@@ -3,8 +3,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const downloadSection = document.getElementById("download-section");
 
     showDownloadBtn.addEventListener("click", () => {
-        downloadSection.classList.add("show"); 
-        downloadSection.classList.remove("hidden"); 
-        showDownloadBtn.style.display = "none"; 
+        downloadSection.classList.add("show"); // Smooth transition effect
+        downloadSection.classList.remove("hidden"); // Reveal download button
+        showDownloadBtn.style.display = "none"; // Hide the "Show Download" button
     });
 });
