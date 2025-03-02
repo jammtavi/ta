@@ -59,7 +59,7 @@ html, body {
 
 /* Move Search & Profile Icons Further Left */
 #search-icon {
-    margin-right: 30px; /* Moves search icon further left */
+    margin-right: 15px; /* Moves search icon further left */
 }
 
 #profile-icon {
