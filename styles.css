@@ -19,13 +19,13 @@ html, body {
     justify-content: space-between;
     align-items: center;
     background: #1a1a1a;
-    padding: 10px 15px; /* Adjusted padding for better spacing */
+    padding: 10px 15px;
     box-shadow: 0 4px 8px rgba(255, 255, 255, 0.05);
     position: sticky;
     top: 0;
     width: 100%;
     z-index: 1000;
-    max-width: 100vw; /* Ensures no elements go outside */
+    max-width: 100vw;
 }
 
 /* Ensure all nav elements are properly spaced */
@@ -37,7 +37,7 @@ html, body {
 
 /* Center Logo */
 .logo {
-    font-size: 18px; /* Adjusted for better fit */
+    font-size: 18px;
     font-weight: bold;
     color: #e0e0e0;
     text-align: center;
@@ -50,13 +50,13 @@ html, body {
     justify-content: flex-end;
 }
 
-/* Move Search & Profile Icons Slightly Left */
+/* Move Search & Profile Icons Further Left */
 #search-icon {
-    margin-right: 15px; /* Moves search icon left */
+    margin-right: 30px; /* Moves search icon further left */
 }
 
 #profile-icon {
-    margin-left: -10px; /* Moves profile icon left */
+    margin-left: -30px; /* Moves profile icon further left */
 }
 
 /* Menu, Search & Profile Icons */
@@ -126,11 +126,6 @@ html, body {
     background: transparent;
     color: #fff;
     outline: none;
-    transition: box-shadow 0.3s ease-in-out;
-}
-
-#search:focus {
-    box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.3);
 }
 
 #search::placeholder {
@@ -145,12 +140,6 @@ html, body {
     color: #ff4d4d;
     cursor: pointer;
     padding: 10px;
-    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
-}
-
-#cancel-search:hover {
-    color: #ff6666;
-    transform: scale(1.1);
 }
 
 /* 🔹 Movie Grid */
@@ -220,15 +209,5 @@ html, body {
 
     .nav-icons {
         gap: 8px;
-    }
-
-    /* Ensure all elements fit within the screen */
-    .menu-icon, .logo, .nav-icons {
-        flex: 1;
-    }
-
-    /* Movie Grid - Adjust for Mobile */
-    #movie-grid {
-        grid-template-columns: 1fr;
     }
 }
