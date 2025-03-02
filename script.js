@@ -14,10 +14,6 @@ document.addEventListener("DOMContentLoaded", () => {
         { title: "Movie 4", poster: "https://via.placeholder.com/200x300", download: "#" },
         { title: "Movie 5", poster: "https://via.placeholder.com/200x300", download: "#" },
         { title: "Movie 6", poster: "https://via.placeholder.com/200x300", download: "#" },
-        { title: "Movie 7", poster: "https://via.placeholder.com/200x300", download: "#" },
-        { title: "Movie 8", poster: "https://via.placeholder.com/200x300", download: "#" },
-        { title: "Movie 9", poster: "https://via.placeholder.com/200x300", download: "#" },
-        { title: "Movie 10", poster: "https://via.placeholder.com/200x300", download: "#" },
     ];
 
     function renderMovies() {
