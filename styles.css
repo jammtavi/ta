@@ -58,7 +58,7 @@ body.search-active {
 /* Navigation Icons */
 .nav-icons {
     display: flex;
-    gap: 15px;
+    gap: 12px; /* More spacing for mobile */
     justify-content: flex-end;
 }
 
@@ -92,10 +92,10 @@ body.search-active {
     color: #ccc;
 }
 
-/* 🔹 Search Overlay */
+/* 🔹 Search Overlay (Fixed Animation Issue) */
 #search-overlay {
     position: fixed;
-    top: -100%;
+    top: 0;
     left: 0;
     width: 100%;
     height: 100vh;
@@ -105,6 +105,7 @@ body.search-active {
     justify-content: center;
     padding-top: 20px;
     transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
+    transform: translateY(-100%); /* Fix: Start hidden */
     opacity: 0;
     visibility: hidden;
 }
@@ -113,10 +114,10 @@ body.search-active {
 #search-overlay.active {
     opacity: 1;
     visibility: visible;
-    transform: translateY(100%);
+    transform: translateY(0); /* Fix: Slide down properly */
 }
 
-/* Search Container Positioned at the Top */
+/* 🔹 Search Container Positioned at the Top */
 .search-container {
     display: flex;
     align-items: center;
