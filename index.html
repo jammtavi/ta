@@ -6,29 +6,22 @@
     <title>Movie Download Hub</title>
     <link rel="stylesheet" href="styles.css">
     <script defer src="script.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
 
     <!-- 🔹 Top Navigation Bar -->
     <nav class="top-nav">
-        <button id="menu-icon" aria-label="Menu">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M3 6h18M3 12h18M3 18h18" stroke="white" stroke-width="2" stroke-linecap="round"/>
-            </svg>
+        <button id="menu-icon" aria-label="Open Menu">
+            <i class="fas fa-bars"></i>
         </button>
         <h1 class="logo">MovieHub</h1>
         <div class="nav-icons">
-            <button id="search-icon" aria-label="Search">
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="11" cy="11" r="6" stroke="white" stroke-width="2"/>
-                    <line x1="16" y1="16" x2="22" y2="22" stroke="white" stroke-width="2" stroke-linecap="round"/>
-                </svg>
+            <button id="search-icon" aria-label="Search Movies">
+                <i class="fas fa-search"></i>
             </button>
-            <button id="profile-icon" aria-label="Profile">
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="12" cy="7" r="4" stroke="white" stroke-width="2"/>
-                    <path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="white" stroke-width="2" stroke-linecap="round"/>
-                </svg>
+            <button id="profile-icon" aria-label="User Profile">
+                <i class="fas fa-user"></i>
             </button>
         </div>
     </nav>
@@ -43,7 +36,9 @@
 
     <!-- 🔹 Movie Grid Section -->
     <section id="movie-section">
-        <div id="movie-grid"></div>
+        <div id="movie-grid">
+            <p class="loading-text">Loading movies...</p>
+        </div>
     </section>
 
 </body>
