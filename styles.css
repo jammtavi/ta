@@ -62,10 +62,40 @@ body.search-active {
     justify-content: flex-end;
 }
 
+/* Move Search & Profile Icons Further Left */
+#search-icon {
+    margin-right: 10px;
+}
+
+#profile-icon {
+    margin-right: 20px;
+}
+
+/* Menu, Search & Profile Icons */
+.top-nav button {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #fff;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.top-nav button:focus-visible {
+    outline: 2px solid #fff;
+    border-radius: 4px;
+}
+
+/* Hover Effects */
+.top-nav button:hover {
+    transform: scale(1.1);
+    color: #ccc;
+}
+
 /* 🔹 Search Overlay */
 #search-overlay {
     position: fixed;
-    top: 0;
+    top: -100%;
     left: 0;
     width: 100%;
     height: 100vh;
@@ -77,17 +107,16 @@ body.search-active {
     transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-100%);
 }
 
 /* When Search is Active */
 #search-overlay.active {
     opacity: 1;
     visibility: visible;
-    transform: translateY(0);
+    transform: translateY(100%);
 }
 
-/* Search Container */
+/* Search Container Positioned at the Top */
 .search-container {
     display: flex;
     align-items: center;
@@ -150,6 +179,14 @@ body.search-active {
     text-align: center;
 }
 
+/* Movie Placeholder Text */
+.loading-text {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.6);
+    text-align: center;
+    margin-top: 20px;
+}
+
 /* 🔹 Movie Cards */
 .movie-card {
     background: #1a1a1a;
@@ -157,8 +194,6 @@ body.search-active {
     padding: 10px;
     transition: transform 0.3s ease-in-out;
     box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.05);
-    text-align: center;
-    cursor: pointer;
 }
 
 .movie-card img {
@@ -166,74 +201,13 @@ body.search-active {
     border-radius: 8px;
 }
 
-/* 🔹 Movie Titles in Cards */
-.movie-card h3 {
-    font-size: 16px;
-    margin-top: 5px;
-    color: #fff;
-}
-
-/* 🔹 Movie Card Hover Effect */
 .movie-card:hover {
     transform: scale(1.05);
 }
 
-/* 🔹 Movie Details Page */
-.movie-details {
-    text-align: center;
-    padding: 20px;
-}
-
-.movie-details img {
-    width: 100%;
-    max-width: 300px;
-    border-radius: 10px;
-}
-
-/* Download Button */
-#download-button {
-    background: #ff4d4d;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    color: white;
-    border-radius: 5px;
-    margin-top: 10px;
-    transition: background 0.3s ease-in-out;
-}
-
-#download-button:hover {
-    background: #ff6666;
-}
-
-/* Go Back Button */
-.go-back {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    margin-bottom: 15px;
-}
-
-/* 🔹 Top Navigation Icons */
-.top-nav button svg {
-    width: 26px;
-    height: 26px;
-    fill: none;
-    stroke: #ffffff;
-    transition: transform 0.3s ease-in-out, stroke 0.3s ease-in-out;
-}
-
-/* Hover Effects */
-.top-nav button:hover svg {
-    transform: scale(1.1);
-    stroke: #ff4d4d; /* Added red hover effect */
-}
-
 /* 🔹 Responsive Design Fixes */
 @media (max-width: 768px) {
+    /* Adjust Navigation */
     .top-nav {
         padding: 8px 10px;
     }
@@ -253,10 +227,5 @@ body.search-active {
     /* Reduce Grid Columns on Smaller Screens */
     #movie-grid {
         grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    }
-
-    /* Make Search Box Smaller */
-    .search-container {
-        width: 85%;
     }
 }
