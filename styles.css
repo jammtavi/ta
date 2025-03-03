@@ -217,6 +217,19 @@ body.search-active {
     margin-bottom: 15px;
 }
 
+/* 🔹 Top Navigation Icons */
+.top-nav button i {
+    font-size: 22px; /* Increased size slightly */
+    color: #f0f0f0; /* Brightened the color */
+    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+/* Hover Effects */
+.top-nav button:hover i {
+    transform: scale(1.2);
+    color: #ff4d4d; /* Added red hover effect */
+}
+
 /* 🔹 Responsive Design Fixes */
 @media (max-width: 768px) {
     .top-nav {
