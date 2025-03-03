@@ -5,32 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movie Details</title>
     <link rel="stylesheet" href="styles.css">
-    <script defer src="script.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script defer src="movie.js"></script>
 </head>
 <body>
 
-    <!-- 🔹 Navigation Bar -->
-    <nav class="top-nav">
-        <button id="menu-icon"><i class="fas fa-bars"></i></button>
-        <h1 class="logo">MovieHub</h1>
-        <div class="nav-icons">
-            <button id="search-icon"><i class="fas fa-search"></i></button>
-            <button id="profile-icon"><i class="fas fa-user"></i></button>
-        </div>
-    </nav>
-
-    <!-- 🔹 Movie Details Section -->
-    <section id="movie-details">
-        <div class="movie-details-container">
-            <img id="movie-poster" src="" alt="Movie Poster">
-            <div class="movie-info">
-                <h2 id="movie-title"></h2>
-                <p id="movie-description"></p>
-                <a id="download-button" href="#" class="download-btn">Download</a>
-            </div>
-        </div>
-    </section>
+    <div class="movie-details">
+        <button class="go-back" onclick="goBack()">⬅ Go Back</button>
+        <img id="movie-thumbnail" src="" alt="Movie Thumbnail">
+        <h1 id="movie-title"></h1>
+        <p id="movie-description"></p>
+        <button id="download-button" style="display: none;">Download Movie</button>
+    </div>
 
 </body>
 </html>
