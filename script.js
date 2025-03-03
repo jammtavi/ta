@@ -4,28 +4,24 @@ document.addEventListener("DOMContentLoaded", () => {
     const cancelSearch = document.getElementById("cancel-search");
     const searchInput = document.getElementById("search");
     const topNav = document.querySelector(".top-nav");
-    const body = document.body;
+    const movieGrid = document.getElementById("movie-grid");
 
     // Function to open search overlay
     function openSearch() {
         searchOverlay.classList.add("active");
-        topNav.classList.add("hidden"); // Hide Navbar
-        body.classList.add("search-active"); // Prevent Scroll
-        searchInput.focus(); // Auto-focus input
+        topNav.classList.add("hidden");
+        document.body.classList.add("search-active");
+        searchInput.focus();
     }
 
     // Function to close search overlay
     function closeSearch() {
         searchOverlay.classList.remove("active");
-        topNav.classList.remove("hidden"); // Show Navbar
-        body.classList.remove("search-active"); // Enable Scroll
-        searchInput.blur(); // Remove focus from input
+        topNav.classList.remove("hidden");
+        document.body.classList.remove("search-active");
     }
 
-    // Open search overlay when clicking search icon
     searchIcon.addEventListener("click", openSearch);
-
-    // Close search overlay when clicking cancel
     cancelSearch.addEventListener("click", closeSearch);
 
     // Close search when clicking outside input
@@ -41,4 +37,51 @@ document.addEventListener("DOMContentLoaded", () => {
             closeSearch();
         }
     });
+
+    // Sample Movie Data
+    const movies = [
+        { id: 1, title: "Movie 1", image: "poster1.jpg", description: "A thrilling adventure.", download: "link1.com" },
+        { id: 2, title: "Movie 2", image: "poster2.jpg", description: "An exciting horror film.", download: "link2.com" },
+        { id: 3, title: "Movie 3", image: "poster3.jpg", description: "A gripping drama.", download: "link3.com" }
+    ];
+
+    // Function to Load Movies on Homepage
+    function loadMovies() {
+        movieGrid.innerHTML = "";
+        movies.forEach(movie => {
+            const movieCard = document.createElement("div");
+            movieCard.classList.add("movie-card");
+            movieCard.innerHTML = `
+                <img src="${movie.image}" alt="${movie.title}">
+                <h3>${movie.title}</h3>
+                <button class="details-btn" onclick="openMovieDetails(${movie.id})">View Details</button>
+            `;
+            movieGrid.appendChild(movieCard);
+        });
+    }
+
+    // Function to Open Movie Details Page
+    window.openMovieDetails = (id) => {
+        const movie = movies.find(m => m.id === id);
+        if (movie) {
+            localStorage.setItem("movieData", JSON.stringify(movie));
+            window.location.href = "movie.html";
+        }
+    };
+
+    // Load Movie Details Page
+    if (window.location.pathname.includes("movie.html")) {
+        const movieData = JSON.parse(localStorage.getItem("movieData"));
+        if (movieData) {
+            document.getElementById("movie-title").innerText = movieData.title;
+            document.getElementById("movie-description").innerText = movieData.description;
+            document.getElementById("movie-poster").src = movieData.image;
+            document.getElementById("download-button").href = movieData.download;
+        }
+    }
+
+    // Load Movies on Homepage
+    if (movieGrid) {
+        loadMovies();
+    }
 });
