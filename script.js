@@ -5,13 +5,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const searchInput = document.getElementById("search");
     const topNav = document.querySelector(".top-nav");
     const body = document.body;
+    let isSearchAnimating = false; // Prevent spam clicks
 
     // Function to open search overlay
     function openSearch() {
+        if (isSearchAnimating) return; // Prevent rapid clicks
+        isSearchAnimating = true;
+
         searchOverlay.classList.add("active");
         topNav.classList.add("hidden"); // Hide Navbar
         body.classList.add("search-active"); // Prevent Scroll
         searchInput.focus(); // Auto-focus input
+
+        setTimeout(() => { isSearchAnimating = false; }, 300); // Unlock after animation
     }
 
     // Function to close search overlay
@@ -19,6 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
         searchOverlay.classList.remove("active");
         topNav.classList.remove("hidden"); // Show Navbar
         body.classList.remove("search-active"); // Enable Scroll
+        searchInput.value = ""; // Clear input field
         searchInput.blur(); // Remove focus from input
     }
 
@@ -30,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Close search when clicking outside input
     searchOverlay.addEventListener("click", (e) => {
-        if (e.target === searchOverlay) {
+        if (!e.target.closest(".search-container")) { // Only close if clicking outside the search box
             closeSearch();
         }
     });
