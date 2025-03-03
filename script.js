@@ -5,44 +5,40 @@ document.addEventListener("DOMContentLoaded", () => {
     const searchInput = document.getElementById("search");
     const topNav = document.querySelector(".top-nav");
     const body = document.body;
-    let isSearchAnimating = false; // Prevent spam clicks
+    let isSearchAnimating = false;
 
-    // Function to open search overlay
     function openSearch() {
-        if (isSearchAnimating) return; // Prevent rapid clicks
+        if (isSearchAnimating) return;
         isSearchAnimating = true;
 
         searchOverlay.classList.add("active");
-        topNav.classList.add("hidden"); // Hide Navbar
-        body.classList.add("search-active"); // Prevent Scroll
-        searchInput.focus(); // Auto-focus input
+        topNav.classList.add("hidden");
+        body.classList.add("search-active");
 
-        setTimeout(() => { isSearchAnimating = false; }, 300); // Unlock after animation
+        setTimeout(() => searchInput.focus(), 150); // Slight delay for better UX
     }
 
-    // Function to close search overlay
     function closeSearch() {
         searchOverlay.classList.remove("active");
-        topNav.classList.remove("hidden"); // Show Navbar
-        body.classList.remove("search-active"); // Enable Scroll
-        searchInput.value = ""; // Clear input field
-        searchInput.blur(); // Remove focus from input
+        topNav.classList.remove("hidden");
+        body.classList.remove("search-active");
+        searchInput.value = "";
+        searchInput.blur();
     }
 
-    // Open search overlay when clicking search icon
-    searchIcon.addEventListener("click", openSearch);
+    searchOverlay.addEventListener("transitionend", () => {
+        isSearchAnimating = false;
+    });
 
-    // Close search overlay when clicking cancel
+    searchIcon.addEventListener("click", openSearch);
     cancelSearch.addEventListener("click", closeSearch);
 
-    // Close search when clicking outside input
     searchOverlay.addEventListener("click", (e) => {
-        if (!e.target.closest(".search-container")) { // Only close if clicking outside the search box
+        if (!searchInput.contains(e.target) && !cancelSearch.contains(e.target)) {
             closeSearch();
         }
     });
 
-    // Close search on ESC key press
     document.addEventListener("keydown", (e) => {
         if (e.key === "Escape" && searchOverlay.classList.contains("active")) {
             closeSearch();
