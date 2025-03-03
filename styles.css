@@ -13,12 +13,12 @@ html, body {
     font-family: 'Poppins', sans-serif;
 }
 
-/* 🔹 Prevent Scrolling When Search is Open */
+/* ðŸ”¹ Prevent Scrolling When Search is Open */
 body.search-active {
     overflow: hidden;
 }
 
-/* 🔹 Fixed Navigation Bar */
+/* ðŸ”¹ Fixed Navigation Bar */
 .top-nav {
     display: flex;
     justify-content: space-between;
@@ -58,7 +58,7 @@ body.search-active {
 /* Navigation Icons */
 .nav-icons {
     display: flex;
-    gap: 12px; /* More spacing for mobile */
+    gap: 15px;
     justify-content: flex-end;
 }
 
@@ -92,7 +92,7 @@ body.search-active {
     color: #ccc;
 }
 
-/* 🔹 Search Overlay (Fixed Animation Issue) */
+/* ðŸ”¹ Search Overlay */
 #search-overlay {
     position: fixed;
     top: 0;
@@ -104,20 +104,20 @@ body.search-active {
     align-items: flex-start;
     justify-content: center;
     padding-top: 20px;
-    transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
-    transform: translateY(-100%); /* Fix: Start hidden */
+    transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
     opacity: 0;
     visibility: hidden;
+    transform: translateY(-100%);
 }
 
 /* When Search is Active */
 #search-overlay.active {
     opacity: 1;
     visibility: visible;
-    transform: translateY(0); /* Fix: Slide down properly */
+    transform: translateY(0);
 }
 
-/* 🔹 Search Container Positioned at the Top */
+/* Search Container Positioned at the Top */
 .search-container {
     display: flex;
     align-items: center;
@@ -126,7 +126,7 @@ body.search-active {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 25px;
     padding: 12px;
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(10px);
     box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.1);
     transform: scale(0.9);
     transition: transform 0.3s ease-in-out;
@@ -167,7 +167,7 @@ body.search-active {
     color: #ff6666;
 }
 
-/* 🔹 Movie Grid */
+/* ðŸ”¹ Movie Grid */
 #movie-section {
     padding: 20px;
 }
@@ -188,7 +188,7 @@ body.search-active {
     margin-top: 20px;
 }
 
-/* 🔹 Movie Cards */
+/* ðŸ”¹ Movie Cards */
 .movie-card {
     background: #1a1a1a;
     border-radius: 8px;
@@ -206,7 +206,7 @@ body.search-active {
     transform: scale(1.05);
 }
 
-/* 🔹 Responsive Design Fixes */
+/* ðŸ”¹ Responsive Design Fixes */
 @media (max-width: 768px) {
     /* Adjust Navigation */
     .top-nav {
