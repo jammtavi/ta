@@ -116,7 +116,7 @@ body.search-active {
     transform: translateY(100%);
 }
 
-/* Search Container Positioned at the Top */
+/* Search Container */
 .search-container {
     display: flex;
     align-items: center;
@@ -194,6 +194,7 @@ body.search-active {
     padding: 10px;
     transition: transform 0.3s ease-in-out;
     box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.05);
+    cursor: pointer;
 }
 
 .movie-card img {
@@ -201,13 +202,87 @@ body.search-active {
     border-radius: 8px;
 }
 
+.movie-card h3 {
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.movie-card .details-btn {
+    display: block;
+    margin-top: 10px;
+    padding: 8px 12px;
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.movie-card .details-btn:hover {
+    background: #ff6666;
+}
+
 .movie-card:hover {
     transform: scale(1.05);
 }
 
-/* 🔹 Responsive Design Fixes */
+/* 🔹 Movie Details Page */
+#movie-details {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+.movie-details-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    max-width: 800px;
+    background: #1a1a1a;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.1);
+}
+
+.movie-details-container img {
+    width: 200px;
+    border-radius: 8px;
+}
+
+.movie-info {
+    flex: 1;
+}
+
+.movie-info h2 {
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.movie-info p {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.download-btn {
+    display: inline-block;
+    padding: 10px 15px;
+    background: #ff4d4d;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.download-btn:hover {
+    background: #ff6666;
+}
+
+/* 🔹 Responsive Design */
 @media (max-width: 768px) {
-    /* Adjust Navigation */
     .top-nav {
         padding: 8px 10px;
     }
@@ -216,16 +291,18 @@ body.search-active {
         font-size: 16px;
     }
 
-    .top-nav button {
-        font-size: 18px;
-    }
-
     .nav-icons {
         gap: 10px;
     }
 
-    /* Reduce Grid Columns on Smaller Screens */
-    #movie-grid {
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    /* Adjust movie details layout */
+    .movie-details-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .movie-details-container img {
+        width: 100%;
+        max-width: 300px;
     }
 }
