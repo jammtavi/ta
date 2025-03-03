@@ -10,27 +10,35 @@
 </head>
 <body>
 
-    <!-- Top Navigation Bar -->
+    <!-- 🔹 Top Navigation Bar -->
     <nav class="top-nav">
-        <button id="menu-icon"><i class="fas fa-bars"></i></button>
+        <button id="menu-icon" aria-label="Open Menu">
+            <i class="fas fa-bars"></i>
+        </button>
         <h1 class="logo">MovieHub</h1>
         <div class="nav-icons">
-            <button id="search-icon"><i class="fas fa-search"></i></button>
-            <button id="profile-icon"><i class="fas fa-user"></i></button>
+            <button id="search-icon" aria-label="Search Movies">
+                <i class="fas fa-search"></i>
+            </button>
+            <button id="profile-icon" aria-label="User Profile">
+                <i class="fas fa-user"></i>
+            </button>
         </div>
     </nav>
 
-    <!-- Popup Search Bar -->
-    <div id="search-overlay" class="hidden">
+    <!-- 🔹 Popup Search Bar -->
+    <div id="search-overlay">
         <div class="search-container">
-            <input type="text" id="search" placeholder="Search for movies...">
+            <input type="text" id="search" placeholder="Search for movies..." aria-label="Movie Search">
             <button id="cancel-search">Cancel</button>
         </div>
     </div>
 
-    <!-- Movie Grid -->
-    <section id="movie-grid">
-        <!-- Movies will be loaded dynamically here -->
+    <!-- 🔹 Movie Grid Section -->
+    <section id="movie-section">
+        <div id="movie-grid">
+            <p class="loading-text">Loading movies...</p>
+        </div>
     </section>
 
 </body>
