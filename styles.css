@@ -40,6 +40,13 @@ body.search-active {
     opacity: 0;
 }
 
+/* Ensure all nav elements are properly spaced */
+.top-nav .menu-icon,
+.top-nav .logo,
+.top-nav .nav-icons {
+    flex: 1;
+}
+
 /* Center Logo */
 .logo {
     font-size: 18px;
@@ -78,6 +85,56 @@ body.search-active {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
+}
+
+/* Search Container */
+.search-container {
+    display: flex;
+    align-items: center;
+    width: 90%;
+    max-width: 500px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 25px;
+    padding: 12px;
+    backdrop-filter: blur(5px);
+    box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.1);
+    transform: scale(0.9);
+    transition: transform 0.3s ease-in-out;
+}
+
+#search-overlay.active .search-container {
+    transform: scale(1);
+}
+
+/* Search Input */
+#search {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    background: transparent;
+    color: #fff;
+    outline: none;
+}
+
+#search::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* Cancel Button */
+#cancel-search {
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: #ff4d4d;
+    cursor: pointer;
+    padding: 10px;
+    transition: color 0.3s ease-in-out;
+}
+
+#cancel-search:hover {
+    color: #ff6666;
 }
 
 /* 🔹 Movie Grid */
@@ -119,6 +176,45 @@ body.search-active {
 /* 🔹 Movie Card Hover Effect */
 .movie-card:hover {
     transform: scale(1.05);
+}
+
+/* 🔹 Movie Details Page */
+.movie-details {
+    text-align: center;
+    padding: 20px;
+}
+
+.movie-details img {
+    width: 100%;
+    max-width: 300px;
+    border-radius: 10px;
+}
+
+/* Download Button */
+#download-button {
+    background: #ff4d4d;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    color: white;
+    border-radius: 5px;
+    margin-top: 10px;
+    transition: background 0.3s ease-in-out;
+}
+
+#download-button:hover {
+    background: #ff6666;
+}
+
+/* Go Back Button */
+.go-back {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 15px;
 }
 
 /* 🔹 Responsive Design Fixes */
