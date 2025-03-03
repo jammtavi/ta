@@ -13,6 +13,11 @@ html, body {
     font-family: 'Poppins', sans-serif;
 }
 
+/* 🔹 Prevent Scrolling When Search is Open */
+body.search-active {
+    overflow: hidden;
+}
+
 /* 🔹 Fixed Navigation Bar */
 .top-nav {
     display: flex;
@@ -53,17 +58,17 @@ html, body {
 /* Navigation Icons */
 .nav-icons {
     display: flex;
-    gap: 10px;
+    gap: 15px;
     justify-content: flex-end;
 }
 
 /* Move Search & Profile Icons Further Left */
 #search-icon {
-    margin-right: 15px; /* Moves search icon further left */
+    margin-right: 10px;
 }
 
 #profile-icon {
-    margin-right: 30px; /* Moves profile icon further left */
+    margin-right: 20px;
 }
 
 /* Menu, Search & Profile Icons */
@@ -76,6 +81,11 @@ html, body {
     transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
+.top-nav button:focus-visible {
+    outline: 2px solid #fff;
+    border-radius: 4px;
+}
+
 /* Hover Effects */
 .top-nav button:hover {
     transform: scale(1.1);
@@ -85,24 +95,25 @@ html, body {
 /* 🔹 Search Overlay */
 #search-overlay {
     position: fixed;
-    top: 0;
+    top: -100%;
     left: 0;
     width: 100%;
     height: 100vh;
     background: rgba(0, 0, 0, 0.9);
     display: flex;
-    align-items: flex-start; /* Align search to the top */
+    align-items: flex-start;
     justify-content: center;
-    padding-top: 20px; /* Push search bar to the top */
+    padding-top: 20px;
+    transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
 }
 
 /* When Search is Active */
 #search-overlay.active {
     opacity: 1;
     visibility: visible;
+    transform: translateY(100%);
 }
 
 /* Search Container Positioned at the Top */
@@ -148,6 +159,50 @@ html, body {
     color: #ff4d4d;
     cursor: pointer;
     padding: 10px;
+    transition: color 0.3s ease-in-out;
+}
+
+#cancel-search:hover {
+    color: #ff6666;
+}
+
+/* 🔹 Movie Grid */
+#movie-section {
+    padding: 20px;
+}
+
+#movie-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    justify-content: center;
+    text-align: center;
+}
+
+/* Movie Placeholder Text */
+.loading-text {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.6);
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* 🔹 Movie Cards */
+.movie-card {
+    background: #1a1a1a;
+    border-radius: 8px;
+    padding: 10px;
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.05);
+}
+
+.movie-card img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.movie-card:hover {
+    transform: scale(1.05);
 }
 
 /* 🔹 Responsive Design Fixes */
@@ -166,6 +221,11 @@ html, body {
     }
 
     .nav-icons {
-        gap: 8px;
+        gap: 10px;
+    }
+
+    /* Reduce Grid Columns on Smaller Screens */
+    #movie-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     }
 }
