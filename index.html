@@ -29,15 +29,16 @@
     <!-- 🔹 Popup Search Bar -->
     <div id="search-overlay" role="dialog" aria-hidden="true">
         <div class="search-container">
-            <input type="text" id="search" placeholder="Search for movies..." aria-label="Movie Search">
+            <input type="text" id="movie-search" placeholder="Search for movies..." aria-label="Movie Search">
             <button id="cancel-search" aria-label="Close Search">Cancel</button>
         </div>
     </div>
 
     <!-- 🔹 Movie Grid Section -->
     <section id="movie-section">
+        <h2>Latest Movies</h2>
         <div id="movie-grid">
-            <p class="loading-text">Loading movies...</p>
+            <!-- Movies will be inserted dynamically via JavaScript -->
         </div>
     </section>
 
