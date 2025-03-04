@@ -13,12 +13,12 @@ html, body {
     font-family: 'Poppins', sans-serif;
 }
 
-/* ðŸ”¹ Prevent Scrolling When Search is Open */
+/* Prevent Scrolling When Search is Open */
 body.search-active {
     overflow: hidden;
 }
 
-/* ðŸ”¹ Fixed Navigation Bar */
+/* 🔹 Fixed Navigation Bar */
 .top-nav {
     display: flex;
     justify-content: space-between;
@@ -92,7 +92,7 @@ body.search-active {
     color: #ccc;
 }
 
-/* ðŸ”¹ Search Overlay */
+/* 🔹 Search Overlay */
 #search-overlay {
     position: fixed;
     top: 0;
@@ -152,22 +152,22 @@ body.search-active {
     color: rgba(255, 255, 255, 0.5);
 }
 
-/* Cancel Button */
+/* 🔹 Cancel Button - Purple Theme */
 #cancel-search {
     background: none;
     border: none;
     font-size: 16px;
-    color: #ff4d4d;
+    color: #b27bf9;
     cursor: pointer;
     padding: 10px;
     transition: color 0.3s ease-in-out;
 }
 
 #cancel-search:hover {
-    color: #ff6666;
+    color: #d09cff;
 }
 
-/* ðŸ”¹ Movie Grid */
+/* 🔹 Movie Grid */
 #movie-section {
     padding: 20px;
 }
@@ -188,7 +188,7 @@ body.search-active {
     margin-top: 20px;
 }
 
-/* ðŸ”¹ Movie Cards */
+/* 🔹 Movie Cards */
 .movie-card {
     background: #1a1a1a;
     border-radius: 8px;
@@ -206,9 +206,8 @@ body.search-active {
     transform: scale(1.05);
 }
 
-/* ðŸ”¹ Responsive Design Fixes */
+/* 🔹 Mobile - One Movie per Row */
 @media (max-width: 768px) {
-    /* Adjust Navigation */
     .top-nav {
         padding: 8px 10px;
     }
@@ -225,8 +224,11 @@ body.search-active {
         gap: 10px;
     }
 
-    /* Reduce Grid Columns on Smaller Screens */
+    /* Movie Grid - Mobile Version */
     #movie-grid {
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
     }
 }
