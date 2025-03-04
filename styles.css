@@ -1,7 +1,7 @@
 /* Import Google Font */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
-/* Prevent Zooming & Overflow Issues */
+/* 🔹 Global Styles */
 html, body {
     overflow-x: hidden;
     touch-action: manipulation;
@@ -13,8 +13,8 @@ html, body {
     font-family: 'Poppins', sans-serif;
 }
 
-/* Prevent Scrolling When Search is Open */
-body.search-active {
+/* Prevent Scrolling When Search or Modal is Open */
+body.search-active, body.modal-active {
     overflow: hidden;
 }
 
@@ -33,7 +33,7 @@ body.search-active {
     transition: transform 0.3s ease-in-out;
 }
 
-/* Hide Header When Search Bar is Active */
+/* Hide Navigation When Search is Active */
 .top-nav.hidden {
     transform: translateY(-100%);
     opacity: 0;
@@ -44,22 +44,13 @@ body.search-active {
     transform: translateY(-100%);
 }
 
-/* Center Logo */
-.logo {
-    font-size: 18px;
-    font-weight: bold;
-    color: #e0e0e0;
-    text-align: center;
-}
-
-/* Navigation Icons */
+/* 🔹 Navigation Icons */
 .nav-icons {
     display: flex;
     gap: 15px;
     justify-content: flex-end;
 }
 
-/* 🔹 Menu, Search & Profile Icons */
 .top-nav button {
     background: none;
     border: none;
@@ -69,12 +60,6 @@ body.search-active {
     transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
-.top-nav button:focus-visible {
-    outline: 2px solid #fff;
-    border-radius: 4px;
-}
-
-/* Hover Effects */
 .top-nav button:hover {
     transform: scale(1.1);
     color: #ccc;
@@ -98,14 +83,13 @@ body.search-active {
     transform: scale(0.95);
 }
 
-/* When Search is Active */
 #search-overlay.active {
     opacity: 1;
     visibility: visible;
     transform: scale(1);
 }
 
-/* Search Container */
+/* Search Input */
 .search-container {
     display: flex;
     align-items: center;
@@ -124,7 +108,6 @@ body.search-active {
     transform: scale(1);
 }
 
-/* Search Input */
 #search {
     flex: 1;
     padding: 12px;
@@ -140,24 +123,10 @@ body.search-active {
     color: rgba(255, 255, 255, 0.5);
 }
 
-/* Cancel Button */
-#cancel-search {
-    background: none;
-    border: none;
-    font-size: 16px;
-    color: #ff4d4d;
-    cursor: pointer;
-    padding: 10px;
-    transition: color 0.3s ease-in-out;
-}
-
-#cancel-search:hover {
-    color: #ff6666;
-}
-
 /* 🔹 Movie Grid */
 #movie-section {
     padding: 20px;
+    margin-top: 60px;
 }
 
 #movie-grid {
@@ -168,14 +137,6 @@ body.search-active {
     text-align: center;
 }
 
-/* Movie Placeholder Text */
-.loading-text {
-    font-size: 18px;
-    color: rgba(255, 255, 255, 0.6);
-    text-align: center;
-    margin-top: 20px;
-}
-
 /* 🔹 Movie Cards */
 .movie-card {
     background: #1a1a1a;
@@ -183,6 +144,7 @@ body.search-active {
     padding: 10px;
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
     box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.05);
+    cursor: pointer;
 }
 
 .movie-card img {
@@ -192,13 +154,85 @@ body.search-active {
     object-fit: cover;
 }
 
-/* Hover Effect - Subtle Glow */
 .movie-card:hover {
     transform: scale(1.05);
     box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.2);
 }
 
-/* 🔹 Responsive Design Fixes */
+/* 🔹 Movie Details Modal */
+#movie-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.8);
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+#movie-modal.active {
+    opacity: 1;
+    display: flex;
+}
+
+.modal-content {
+    background: #1a1a1a;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.2);
+    position: relative;
+}
+
+/* Movie Details */
+.modal-content h2 {
+    color: #fff;
+    font-size: 22px;
+}
+
+.modal-content img {
+    width: 100%;
+    border-radius: 8px;
+    margin: 10px 0;
+}
+
+.modal-content p {
+    color: #ccc;
+    font-size: 14px;
+}
+
+/* 🔹 Download Button */
+.download-btn {
+    display: block;
+    background: #ff4d4d;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-top: 10px;
+}
+
+.download-btn:hover {
+    background: #ff6666;
+}
+
+/* 🔹 Close Button */
+#close-modal {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #fff;
+}
+
+/* 🔹 Responsive Design */
 @media (max-width: 768px) {
     /* Adjust Navigation */
     .top-nav {
