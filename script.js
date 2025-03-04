@@ -23,13 +23,13 @@ document.addEventListener("DOMContentLoaded", () => {
         {
             title: "Inception",
             description: "A skilled thief enters dreams to steal secrets.",
-            thumbnail: "https://via.placeholder.com/150",
+            thumbnail: "https://via.placeholder.com/250",
             downloadLink: "https://example.com/inception.mp4"
         },
         {
             title: "Interstellar",
             description: "A journey beyond the stars to save humanity.",
-            thumbnail: "https://via.placeholder.com/150",
+            thumbnail: "https://via.placeholder.com/250",
             downloadLink: "https://example.com/interstellar.mp4"
         }
     ];
@@ -103,14 +103,14 @@ document.addEventListener("DOMContentLoaded", () => {
         movieThumbnail.src = movie.thumbnail;
         downloadBtn.href = movie.downloadLink;
 
-        movieGrid.classList.add("hidden");
-        movieDetails.classList.remove("hidden");
+        movieGrid.style.display = "none";
+        movieDetails.classList.add("active");
     }
 
     // 🔹 Go Back to Movie Grid
     goBackBtn.addEventListener("click", () => {
-        movieDetails.classList.add("hidden");
-        movieGrid.classList.remove("hidden");
+        movieDetails.classList.remove("active");
+        movieGrid.style.display = "grid";
     });
 
     // 🔹 Load Movies on Page Load
