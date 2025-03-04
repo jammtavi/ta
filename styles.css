@@ -1,7 +1,7 @@
 /* Import Google Font */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
-/* 🔹 General Page Styling */
+/* General Page Styling */
 html, body {
     overflow-x: hidden;
     margin: 0;
@@ -30,10 +30,17 @@ body.search-active {
     z-index: 1000;
 }
 
-/* Hide Header When Search is Active */
-.top-nav.hidden {
-    transform: translateY(-100%);
-    opacity: 0;
+.top-nav .menu-icon,
+.top-nav .logo,
+.top-nav .nav-icons {
+    flex: 1;
+}
+
+.logo {
+    font-size: 18px;
+    font-weight: bold;
+    color: #e0e0e0;
+    text-align: center;
 }
 
 /* 🔹 Search Overlay */
@@ -60,7 +67,7 @@ body.search-active {
     transform: translateY(0);
 }
 
-/* Search Bar */
+/* 🔹 Search Bar */
 .search-container {
     display: flex;
     align-items: center;
@@ -145,18 +152,12 @@ body.search-active {
 #movie-details {
     text-align: center;
     padding: 20px;
-    display: none;
     background: #1a1a1a;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-}
-
-/* Movie Details Active */
-#movie-details.active {
-    display: flex;
 }
 
 /* Movie Info Container */
