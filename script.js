@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+    // 🔹 Get Elements
     const searchIcon = document.getElementById("search-icon");
     const searchOverlay = document.getElementById("search-overlay");
     const cancelSearch = document.getElementById("cancel-search");
@@ -7,41 +8,58 @@ document.addEventListener("DOMContentLoaded", () => {
     const body = document.body;
     let isSearchAnimating = false;
 
+    // 🔹 Open Search Function
     function openSearch() {
-        if (isSearchAnimating) return;
+        if (isSearchAnimating) return; // Prevent multiple animations
         isSearchAnimating = true;
 
-        searchOverlay.classList.add("active");
-        topNav.classList.add("hidden");
-        body.classList.add("search-active");
+        searchOverlay.classList.add("active"); // Show overlay
+        topNav.classList.add("hidden"); // Hide nav
+        body.classList.add("search-active"); // Prevent scrolling
 
-        setTimeout(() => searchInput.focus(), 150); // Slight delay for better UX
+        setTimeout(() => {
+            searchInput.focus(); // Auto-focus input
+            isSearchAnimating = false;
+        }, 150);
     }
 
+    // 🔹 Close Search Function
     function closeSearch() {
-        searchOverlay.classList.remove("active");
-        topNav.classList.remove("hidden");
-        body.classList.remove("search-active");
-        searchInput.value = "";
-        searchInput.blur();
+        searchOverlay.classList.remove("active"); // Hide overlay
+        topNav.classList.remove("hidden"); // Show nav
+        body.classList.remove("search-active"); // Enable scrolling
+        searchInput.value = ""; // Clear input
+        searchInput.blur(); // Remove focus
     }
 
+    // 🔹 Prevent Animation from Triggering Multiple Times
     searchOverlay.addEventListener("transitionend", () => {
         isSearchAnimating = false;
     });
 
+    // 🔹 Event Listeners
     searchIcon.addEventListener("click", openSearch);
     cancelSearch.addEventListener("click", closeSearch);
 
+    // 🔹 Close Search on Outside Click (Except Input & Cancel)
     searchOverlay.addEventListener("click", (e) => {
-        if (!searchInput.contains(e.target) && !cancelSearch.contains(e.target)) {
+        if (e.target === searchOverlay) {
             closeSearch();
         }
     });
 
+    // 🔹 Close Search on ESC Key
     document.addEventListener("keydown", (e) => {
         if (e.key === "Escape" && searchOverlay.classList.contains("active")) {
             closeSearch();
         }
     });
+
+    // 🔹 Mobile Menu Toggle (If Needed in Future)
+    const menuIcon = document.getElementById("menu-icon");
+    if (menuIcon) {
+        menuIcon.addEventListener("click", () => {
+            alert("Menu Clicked! (Feature Coming Soon)");
+        });
+    }
 });
