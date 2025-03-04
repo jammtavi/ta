@@ -13,12 +13,12 @@ html, body {
     font-family: 'Poppins', sans-serif;
 }
 
-/* ðŸ”¹ Prevent Scrolling When Search is Open */
+/* Prevent Scrolling When Search is Open */
 body.search-active {
     overflow: hidden;
 }
 
-/* ðŸ”¹ Fixed Navigation Bar */
+/* 🔹 Navigation Bar */
 .top-nav {
     display: flex;
     justify-content: space-between;
@@ -30,29 +30,13 @@ body.search-active {
     top: 0;
     width: 100%;
     z-index: 1000;
-    max-width: 100vw;
     transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 
-/* Hide Header When Search Bar is Active */
+/* Hide Header When Search is Active */
 .top-nav.hidden {
     transform: translateY(-100%);
     opacity: 0;
-}
-
-/* Ensure all nav elements are properly spaced */
-.top-nav .menu-icon,
-.top-nav .logo,
-.top-nav .nav-icons {
-    flex: 1;
-}
-
-/* Center Logo */
-.logo {
-    font-size: 18px;
-    font-weight: bold;
-    color: #e0e0e0;
-    text-align: center;
 }
 
 /* Navigation Icons */
@@ -62,16 +46,7 @@ body.search-active {
     justify-content: flex-end;
 }
 
-/* Move Search & Profile Icons Further Left */
-#search-icon {
-    margin-right: 10px;
-}
-
-#profile-icon {
-    margin-right: 20px;
-}
-
-/* Menu, Search & Profile Icons */
+/* Buttons inside Navigation */
 .top-nav button {
     background: none;
     border: none;
@@ -81,18 +56,12 @@ body.search-active {
     transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
-.top-nav button:focus-visible {
-    outline: 2px solid #fff;
-    border-radius: 4px;
-}
-
-/* Hover Effects */
 .top-nav button:hover {
     transform: scale(1.1);
     color: #ccc;
 }
 
-/* ðŸ”¹ Search Overlay */
+/* 🔹 Search Overlay */
 #search-overlay {
     position: fixed;
     top: 0;
@@ -104,20 +73,19 @@ body.search-active {
     align-items: flex-start;
     justify-content: center;
     padding-top: 20px;
-    transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
     opacity: 0;
     visibility: hidden;
     transform: translateY(-100%);
+    transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
 }
 
-/* When Search is Active */
 #search-overlay.active {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
 }
 
-/* Search Container Positioned at the Top */
+/* Search Bar */
 .search-container {
     display: flex;
     align-items: center;
@@ -167,7 +135,7 @@ body.search-active {
     color: #ff6666;
 }
 
-/* ðŸ”¹ Movie Grid */
+/* 🔹 Movie Grid */
 #movie-section {
     padding: 20px;
 }
@@ -188,13 +156,14 @@ body.search-active {
     margin-top: 20px;
 }
 
-/* ðŸ”¹ Movie Cards */
+/* 🔹 Movie Cards */
 .movie-card {
     background: #1a1a1a;
     border-radius: 8px;
     padding: 10px;
     transition: transform 0.3s ease-in-out;
     box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.05);
+    cursor: pointer;
 }
 
 .movie-card img {
@@ -206,7 +175,38 @@ body.search-active {
     transform: scale(1.05);
 }
 
-/* ðŸ”¹ Responsive Design Fixes */
+/* 🔹 Movie Details Page */
+#movie-details {
+    text-align: center;
+    padding: 20px;
+}
+
+#movie-details img {
+    width: 200px;
+    border-radius: 10px;
+}
+
+.details {
+    margin-top: 10px;
+}
+
+/* Buttons for Movie Details */
+#go-back, #download-movie {
+    background: #ff4d4d;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px;
+    transition: background 0.3s ease-in-out;
+}
+
+#go-back:hover, #download-movie:hover {
+    background: #ff6666;
+}
+
+/* 🔹 Responsive Design Fixes */
 @media (max-width: 768px) {
     /* Adjust Navigation */
     .top-nav {
