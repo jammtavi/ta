@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Details | MovieHub</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+
+    <!-- 🔹 Top Navigation Bar -->
+    <nav class="top-nav">
+        <button id="menu-icon" aria-label="Open Menu">
+            <i class="fas fa-bars"></i>
+        </button>
+        <h1 class="logo">MovieHub</h1>
+        <div class="nav-icons">
+            <button id="search-icon" aria-label="Search Movies">
+                <i class="fas fa-search"></i>
+            </button>
+            <button id="profile-icon" aria-label="User Profile">
+                <i class="fas fa-user"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- 🔹 Movie Details Section -->
+    <section id="movie-details">
+        <div class="movie-container">
+            <img id="movie-img" src="https://via.placeholder.com/300x450" alt="Movie Title">
+            <div class="movie-info">
+                <h1 id="movie-title">Movie Title</h1>
+                <p id="movie-description">This is an amazing movie with a thrilling plot that keeps you engaged.</p>
+                <p><strong>Genre:</strong> <span id="movie-genre">Action, Thriller</span></p>
+                <p><strong>Release Year:</strong> <span id="movie-year">2024</span></p>
+                <p><strong>Rating:</strong> ⭐⭐⭐⭐☆ (4.5/5)</p>
+                <a id="download-btn" href="#" class="download-btn">Download Movie</a>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>
