@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const body = document.body;
     let isSearchAnimating = false;
 
+    /* 🔹 Open Search */
     function openSearch() {
         if (isSearchAnimating) return;
         isSearchAnimating = true;
@@ -15,9 +16,10 @@ document.addEventListener("DOMContentLoaded", () => {
         topNav.classList.add("hidden");
         body.classList.add("search-active");
 
-        setTimeout(() => searchInput.focus(), 150); // Slight delay for better UX
+        setTimeout(() => searchInput.focus(), 150);
     }
 
+    /* 🔹 Close Search */
     function closeSearch() {
         searchOverlay.classList.remove("active");
         topNav.classList.remove("hidden");
@@ -44,4 +46,36 @@ document.addEventListener("DOMContentLoaded", () => {
             closeSearch();
         }
     });
+
+    /* 🔹 Open Movie Details Page */
+    window.openMovieDetails = (movieId, title, genre, duration, description, imageUrl) => {
+        const movieData = {
+            id: movieId,
+            title,
+            genre,
+            duration,
+            description,
+            imageUrl
+        };
+        localStorage.setItem("movieDetails", JSON.stringify(movieData));
+        window.location.href = "movie.html";
+    };
+
+    /* 🔹 Load Movie Details on movie.html */
+    if (window.location.pathname.includes("movie.html")) {
+        const movieData = JSON.parse(localStorage.getItem("movieDetails"));
+
+        if (movieData) {
+            document.getElementById("movie-title").innerText = movieData.title;
+            document.getElementById("movie-genre").innerText = "Genre: " + movieData.genre;
+            document.getElementById("movie-duration").innerText = "Duration: " + movieData.duration;
+            document.getElementById("movie-description").innerText = movieData.description;
+            document.getElementById("movie-thumbnail").src = movieData.imageUrl;
+        }
+
+        /* 🔹 Show Download Button After 2s */
+        setTimeout(() => {
+            document.getElementById("download-btn").style.display = "block";
+        }, 2000);
+    }
 });
