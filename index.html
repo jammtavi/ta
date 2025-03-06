@@ -37,7 +37,30 @@
     <!-- 🔹 Movie Grid Section -->
     <section id="movie-section">
         <div id="movie-grid">
-            <p class="loading-text">Loading movies...</p>
+            <!-- Example Movie Cards -->
+            <div class="movie-card" onclick="openMovieDetails('movie1', 'Movie Title 1', 'Action', '1h 45m', 'Exciting action-packed adventure.', 'movie1.jpg')">
+                <img src="movie1.jpg" alt="Movie 1">
+                <div class="movie-info">
+                    <h3>Movie Title 1</h3>
+                    <p>Action | 1h 45m</p>
+                </div>
+            </div>
+
+            <div class="movie-card" onclick="openMovieDetails('movie2', 'Movie Title 2', 'Horror', '2h 10m', 'A terrifying journey into the unknown.', 'movie2.jpg')">
+                <img src="movie2.jpg" alt="Movie 2">
+                <div class="movie-info">
+                    <h3>Movie Title 2</h3>
+                    <p>Horror | 2h 10m</p>
+                </div>
+            </div>
+
+            <div class="movie-card" onclick="openMovieDetails('movie3', 'Movie Title 3', 'Comedy', '1h 30m', 'A hilarious comedy that will make you laugh.', 'movie3.jpg')">
+                <img src="movie3.jpg" alt="Movie 3">
+                <div class="movie-info">
+                    <h3>Movie Title 3</h3>
+                    <p>Comedy | 1h 30m</p>
+                </div>
+            </div>
         </div>
     </section>
 
