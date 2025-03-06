@@ -9,21 +9,40 @@
 <body>
 
     <div class="movie-details">
-        <img src="movie1.jpg" alt="Movie Thumbnail">
-        <h2 id="movie-title">Movie Title</h2>
-        <p id="movie-genre">Genre: Action</p>
-        <p id="movie-duration">Duration: 1h 45m</p>
-        <p id="movie-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        <img id="movie-thumbnail" src="" alt="Movie Thumbnail" loading="lazy">
+        <h2 id="movie-title" aria-live="polite">Loading...</h2>
+        <p id="movie-genre">Genre: Loading...</p>
+        <p id="movie-duration">Duration: Loading...</p>
+        <p id="movie-description">Loading movie details...</p>
         
-        <button class="download-button" id="download-btn">Download</button>
+        <button class="download-button" id="download-btn" style="display: none;" aria-hidden="true">Download</button>
         <a href="index.html" class="back-button">⬅ Back to Home</a>
     </div>
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            setTimeout(() => {
-                document.getElementById("download-btn").style.display = "block";
-            }, 2000);
+            const movieData = JSON.parse(localStorage.getItem("movieDetails"));
+
+            if (movieData) {
+                document.getElementById("movie-title").innerText = movieData.title;
+                document.getElementById("movie-genre").innerText = "Genre: " + movieData.genre;
+                document.getElementById("movie-duration").innerText = "Duration: " + movieData.duration;
+                document.getElementById("movie-description").innerText = movieData.description;
+                document.getElementById("movie-thumbnail").src = movieData.imageUrl;
+                document.getElementById("movie-thumbnail").alt = movieData.title + " Thumbnail";
+
+                // Show Download Button After 2s
+                setTimeout(() => {
+                    document.getElementById("download-btn").style.display = "block";
+                    document.getElementById("download-btn").setAttribute("aria-hidden", "false");
+                }, 2000);
+            } else {
+                // Handle missing movie data
+                document.querySelector(".movie-details").innerHTML = `
+                    <p style="color: red; text-align: center;">❌ Error: No movie details found.</p>
+                    <a href="index.html" class="back-button">⬅ Back to Home</a>
+                `;
+            }
         });
     </script>
 
