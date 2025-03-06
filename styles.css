@@ -19,7 +19,7 @@ body.search-active {
     overflow: hidden;
 }
 
-/* Fixed Navigation Bar */
+/* 🔹 Fixed Navigation Bar */
 .top-nav {
     display: flex;
     justify-content: space-between;
@@ -72,37 +72,15 @@ body.search-active {
     margin-right: 10px;
 }
 
-/* Menu, Search & Profile Icons */
-.top-nav button {
-    background: none;
-    border: none;
-    font-size: 20px;
-    color: #fff;
-    cursor: pointer;
-    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
-    padding: 10px;
-}
-
-.top-nav button:focus-visible {
-    outline: 2px solid #fff;
-    border-radius: 4px;
-}
-
-/* Hover Effects */
-.top-nav button:hover {
-    transform: scale(1.1);
-    color: #ccc;
-}
-
-/* Search Overlay - Fully Black with Blur & Slight Transparency */
+/* 🔹 Smooth Search Overlay - Full Black Blur */
 #search-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.95); /* Almost fully black with slight transparency */
-    backdrop-filter: blur(8px); /* Blurs background */
+    background: rgba(0, 0, 0, 0.95); /* Almost fully black */
+    backdrop-filter: blur(12px); /* Strong blur effect */
     display: flex;
     align-items: flex-start;
     justify-content: center;
@@ -113,46 +91,57 @@ body.search-active {
     transform: translateY(-100%);
 }
 
-/* When Search is Active */
+/* Show Search Overlay */
 #search-overlay.active {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
 }
 
-/* Search Container Positioned at the Top */
+/* Search Box - Rounded, Dark, Centered */
 .search-container {
     display: flex;
     align-items: center;
     width: 90%;
-    max-width: 500px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 25px;
-    padding: 12px;
-    backdrop-filter: blur(10px);
+    max-width: 450px;
+    background: rgba(40, 40, 40, 1); /* Dark background */
+    border-radius: 30px;
+    padding: 12px 15px;
     box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.1);
-    transform: scale(0.9);
-    transition: transform 0.3s ease-in-out;
+    transform: translateY(-20px);
+    opacity: 0;
+    transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
 }
 
+/* Show Search Box */
 #search-overlay.active .search-container {
-    transform: scale(1);
+    transform: translateY(0);
+    opacity: 1;
 }
 
 /* Search Input */
 #search {
     flex: 1;
-    padding: 12px;
+    padding: 10px;
     border: none;
     border-radius: 25px;
     font-size: 16px;
     background: transparent;
     color: #fff;
     outline: none;
+    font-weight: 500;
 }
 
+/* Placeholder Text */
 #search::placeholder {
     color: rgba(255, 255, 255, 0.5);
+}
+
+/* Search Icon */
+.search-container i {
+    font-size: 18px;
+    color: #fff;
+    margin-right: 10px;
 }
 
 /* Cancel Button */
@@ -160,17 +149,17 @@ body.search-active {
     background: none;
     border: none;
     font-size: 16px;
-    color: #ff4d4d;
+    color: #aaa;
     cursor: pointer;
-    padding: 10px;
+    margin-left: 10px;
     transition: color 0.3s ease-in-out;
 }
 
 #cancel-search:hover {
-    color: #ff6666;
+    color: #fff;
 }
 
-/* Movie Grid */
+/* 🎬 Movie Grid */
 #movie-section {
     padding: 20px;
 }
@@ -181,14 +170,6 @@ body.search-active {
     gap: 15px;
     justify-content: center;
     text-align: center;
-}
-
-/* Movie Placeholder Text */
-.loading-text {
-    font-size: 18px;
-    color: rgba(255, 255, 255, 0.6);
-    text-align: center;
-    margin-top: 20px;
 }
 
 /* 🎬 Improved Movie Cards */
@@ -286,9 +267,8 @@ body.search-active {
     font-size: 16px;
 }
 
-/* Responsive Design Fixes */
+/* 🔹 Responsive Fixes */
 @media (max-width: 768px) {
-    /* Adjust Navigation */
     .top-nav {
         padding: 6px 8px;
     }
@@ -305,7 +285,6 @@ body.search-active {
         gap: 10px;
     }
 
-    /* Adjust Movie Grid */
     #movie-grid {
         grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     }
