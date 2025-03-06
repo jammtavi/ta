@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Details</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="movie-details">
+        <img src="movie1.jpg" alt="Movie Thumbnail">
+        <h2 id="movie-title">Movie Title</h2>
+        <p id="movie-genre">Genre: Action</p>
+        <p id="movie-duration">Duration: 1h 45m</p>
+        <p id="movie-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        
+        <button class="download-button" id="download-btn">Download</button>
+        <a href="index.html" class="back-button">⬅ Back to Home</a>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(() => {
+                document.getElementById("download-btn").style.display = "block";
+            }, 2000);
+        });
+    </script>
+
+</body>
+</html>
