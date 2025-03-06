@@ -15,6 +15,7 @@ html, body {
 
 /* Prevent Scrolling When Search is Open */
 body.search-active {
+    height: 100vh;
     overflow: hidden;
 }
 
@@ -64,11 +65,11 @@ body.search-active {
 
 /* Move Search & Profile Icons Further Left */
 #search-icon {
-    margin-right: 10px;
+    margin-right: 5px;
 }
 
 #profile-icon {
-    margin-right: 20px;
+    margin-right: 10px;
 }
 
 /* Menu, Search & Profile Icons */
@@ -79,6 +80,7 @@ body.search-active {
     color: #fff;
     cursor: pointer;
     transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+    padding: 10px;
 }
 
 .top-nav button:focus-visible {
@@ -188,31 +190,6 @@ body.search-active {
     margin-top: 20px;
 }
 
-/* Responsive Design Fixes */
-@media (max-width: 768px) {
-    /* Adjust Navigation */
-    .top-nav {
-        padding: 8px 10px;
-    }
-
-    .logo {
-        font-size: 16px;
-    }
-
-    .top-nav button {
-        font-size: 18px;
-    }
-
-    .nav-icons {
-        gap: 10px;
-    }
-
-    /* Reduce Grid Columns on Smaller Screens */
-    #movie-grid {
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    }
-}
-
 /* 🎬 Improved Movie Cards */
 .movie-card {
     background: #1a1a1a;
@@ -280,6 +257,7 @@ body.search-active {
     font-size: 16px;
 }
 
+/* Download Button */
 .download-button {
     display: none;
     margin-top: 20px;
@@ -297,6 +275,7 @@ body.search-active {
     background: #a020f0;
 }
 
+/* Back Button */
 .back-button {
     display: block;
     margin-top: 15px;
@@ -304,4 +283,29 @@ body.search-active {
     text-decoration: none;
     font-weight: bold;
     font-size: 16px;
+}
+
+/* Responsive Design Fixes */
+@media (max-width: 768px) {
+    /* Adjust Navigation */
+    .top-nav {
+        padding: 6px 8px;
+    }
+
+    .logo {
+        font-size: 16px;
+    }
+
+    .top-nav button {
+        font-size: 18px;
+    }
+
+    .nav-icons {
+        gap: 10px;
+    }
+
+    /* Adjust Movie Grid */
+    #movie-grid {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    }
 }
