@@ -5,6 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movie Details</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Prevent FOUC (Flash of Unstyled Content) */
+        .movie-details {
+            display: none; /* Hide initially */
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Improved Download Button Visibility */
+        .download-button {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease-in-out, visibility 0.5s;
+        }
+
+        .download-button.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+    </style>
 </head>
 <body>
 
@@ -13,35 +33,44 @@
         <h2 id="movie-title" aria-live="polite">Loading...</h2>
         <p id="movie-genre">Genre: Loading...</p>
         <p id="movie-duration">Duration: Loading...</p>
-        <p id="movie-description">Loading movie details...</p>
+        <p id="movie-description" aria-live="polite">Loading movie details...</p>
         
-        <button class="download-button" id="download-btn" style="display: none;" aria-hidden="true">Download</button>
+        <button class="download-button" id="download-btn" aria-hidden="true">Download</button>
         <a href="index.html" class="back-button">⬅ Back to Home</a>
     </div>
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const movieData = JSON.parse(localStorage.getItem("movieDetails"));
+            const movieDetailsContainer = document.querySelector(".movie-details");
+            const downloadButton = document.getElementById("download-btn");
 
             if (movieData) {
                 document.getElementById("movie-title").innerText = movieData.title;
                 document.getElementById("movie-genre").innerText = "Genre: " + movieData.genre;
                 document.getElementById("movie-duration").innerText = "Duration: " + movieData.duration;
                 document.getElementById("movie-description").innerText = movieData.description;
-                document.getElementById("movie-thumbnail").src = movieData.imageUrl;
-                document.getElementById("movie-thumbnail").alt = movieData.title + " Thumbnail";
 
-                // Show Download Button After 2s
+                // Check if the image URL is valid, otherwise use a placeholder
+                const movieThumbnail = document.getElementById("movie-thumbnail");
+                movieThumbnail.src = movieData.imageUrl || "default-placeholder.jpg";
+                movieThumbnail.alt = movieData.title ? `${movieData.title} Thumbnail` : "Movie Thumbnail";
+
+                // Fade-in movie details after data is loaded
+                movieDetailsContainer.style.display = "block";
+
+                // Show Download Button After 2s with animation
                 setTimeout(() => {
-                    document.getElementById("download-btn").style.display = "block";
-                    document.getElementById("download-btn").setAttribute("aria-hidden", "false");
+                    downloadButton.classList.add("visible");
+                    downloadButton.setAttribute("aria-hidden", "false");
                 }, 2000);
             } else {
-                // Handle missing movie data
-                document.querySelector(".movie-details").innerHTML = `
-                    <p style="color: red; text-align: center;">❌ Error: No movie details found.</p>
+                // Handle missing movie data with a better user experience
+                movieDetailsContainer.innerHTML = `
+                    <p role="alert" style="color: red; text-align: center;">❌ Error: No movie details found.</p>
                     <a href="index.html" class="back-button">⬅ Back to Home</a>
                 `;
+                movieDetailsContainer.style.display = "block";
             }
         });
     </script>
