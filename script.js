@@ -127,4 +127,9 @@ document.addEventListener("DOMContentLoaded", () => {
             }, 300);
         });
     });
+
+    /* 🔹 Restore Original Navigation Bar Icons */
+    document.querySelectorAll(".nav-icons button").forEach((btn) => {
+        btn.style.display = "inline-flex";
+    });
 });
