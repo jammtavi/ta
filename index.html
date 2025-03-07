@@ -4,33 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movie Download Hub</title>
-    
-    <!-- Stylesheets -->
     <link rel="stylesheet" href="styles.css">
-    
-    <!-- FontAwesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    
-    <!-- JavaScript -->
     <script defer src="script.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
 
     <!-- 🔹 Top Navigation Bar -->
-    <header class="top-nav">
+    <nav class="top-nav">
         <button id="menu-icon" aria-label="Open Menu">
             <i class="fas fa-bars"></i>
         </button>
         <h1 class="logo">MovieHub</h1>
         <div class="nav-icons">
-            <button id="search-icon" aria-label="Search Movies" aria-expanded="false" aria-controls="search-overlay">
+            <button id="search-icon" aria-label="Search Movies">
                 <i class="fas fa-search"></i>
             </button>
             <button id="profile-icon" aria-label="User Profile">
                 <i class="fas fa-user"></i>
             </button>
         </div>
-    </header>
+    </nav>
 
     <!-- 🔹 Popup Search Bar -->
     <div id="search-overlay" role="dialog" aria-hidden="true">
@@ -40,40 +34,12 @@
         </div>
     </div>
 
-    <!-- 🔹 Main Content -->
-    <main>
-        <!-- 🎬 Movie Grid Section -->
-        <section id="movie-section">
-            <div id="movie-grid">
-                
-                <!-- 🎥 Example Movie Cards -->
-                <article class="movie-card" onclick="openMovieDetails('movie1', 'Movie Title 1', 'Action', '1h 45m', 'Exciting action-packed adventure.', 'movie1.jpg')">
-                    <img src="movie1.jpg" alt="Movie 1 Poster" loading="lazy">
-                    <div class="movie-info">
-                        <h3>Movie Title 1</h3>
-                        <p>Action | 1h 45m</p>
-                    </div>
-                </article>
-
-                <article class="movie-card" onclick="openMovieDetails('movie2', 'Movie Title 2', 'Horror', '2h 10m', 'A terrifying journey into the unknown.', 'movie2.jpg')">
-                    <img src="movie2.jpg" alt="Movie 2 Poster" loading="lazy">
-                    <div class="movie-info">
-                        <h3>Movie Title 2</h3>
-                        <p>Horror | 2h 10m</p>
-                    </div>
-                </article>
-
-                <article class="movie-card" onclick="openMovieDetails('movie3', 'Movie Title 3', 'Comedy', '1h 30m', 'A hilarious comedy that will make you laugh.', 'movie3.jpg')">
-                    <img src="movie3.jpg" alt="Movie 3 Poster" loading="lazy">
-                    <div class="movie-info">
-                        <h3>Movie Title 3</h3>
-                        <p>Comedy | 1h 30m</p>
-                    </div>
-                </article>
-
-            </div>
-        </section>
-    </main>
+    <!-- 🔹 Movie Grid Section -->
+    <section id="movie-section">
+        <div id="movie-grid">
+            <p class="loading-text">Loading movies...</p>
+        </div>
+    </section>
 
 </body>
 </html>
