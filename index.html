@@ -40,9 +40,29 @@
     <!-- 🔹 Main Content -->
     <main id="movie-section">
         <div id="movie-grid" role="list">
-            <p class="loading-text">Loading movies...</p>
+            <!-- Movie Cards -->
+            <article class="movie-card" onclick="openMovieDetails('movie1')">
+                <img src="movie1.jpg" alt="Movie 1 Poster">
+                <h3>Movie 1</h3>
+            </article>
+
+            <article class="movie-card" onclick="openMovieDetails('movie2')">
+                <img src="movie2.jpg" alt="Movie 2 Poster">
+                <h3>Movie 2</h3>
+            </article>
+
+            <article class="movie-card" onclick="openMovieDetails('movie3')">
+                <img src="movie3.jpg" alt="Movie 3 Poster">
+                <h3>Movie 3</h3>
+            </article>
         </div>
     </main>
+
+    <script>
+        function openMovieDetails(movieId) {
+            window.location.href = `movie.html?id=${movieId}`;
+        }
+    </script>
 
 </body>
 </html>
