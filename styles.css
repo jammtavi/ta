@@ -1,7 +1,7 @@
 /* Import Google Font */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
-/* 🔹 Global Styles */
+/* Prevent Zooming & Overflow Issues */
 html, body {
     overflow-x: hidden;
     touch-action: manipulation;
@@ -13,32 +13,12 @@ html, body {
     font-family: 'Poppins', sans-serif;
 }
 
-/* 🔹 Prevent Scrolling When Search is Open */
+/* ðŸ”¹ Prevent Scrolling When Search is Open */
 body.search-active {
     overflow: hidden;
 }
 
-/* 🔹 Blur Effect for Background When Search is Active */
-body.search-active::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    z-index: 999;
-    opacity: 0;
-    transition: opacity 0.4s ease-in-out;
-}
-
-body.search-active::before {
-    opacity: 1;
-}
-
-/* 🔹 Fixed Navigation Bar */
+/* ðŸ”¹ Fixed Navigation Bar */
 .top-nav {
     display: flex;
     justify-content: space-between;
@@ -54,20 +34,72 @@ body.search-active::before {
     transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 
-/* 🔹 Hide Header When Search Bar is Active */
+/* Hide Header When Search Bar is Active */
 .top-nav.hidden {
     transform: translateY(-100%);
     opacity: 0;
 }
 
-/* 🔹 Search Overlay */
+/* Ensure all nav elements are properly spaced */
+.top-nav .menu-icon,
+.top-nav .logo,
+.top-nav .nav-icons {
+    flex: 1;
+}
+
+/* Center Logo */
+.logo {
+    font-size: 18px;
+    font-weight: bold;
+    color: #e0e0e0;
+    text-align: center;
+}
+
+/* Navigation Icons */
+.nav-icons {
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end;
+}
+
+/* Move Search & Profile Icons Further Left */
+#search-icon {
+    margin-right: 10px;
+}
+
+#profile-icon {
+    margin-right: 20px;
+}
+
+/* Menu, Search & Profile Icons */
+.top-nav button {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #fff;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.top-nav button:focus-visible {
+    outline: 2px solid #fff;
+    border-radius: 4px;
+}
+
+/* Hover Effects */
+.top-nav button:hover {
+    transform: scale(1.1);
+    color: #ccc;
+}
+
+/* ðŸ”¹ Search Overlay */
 #search-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.85);
+    background: rgba(0, 0, 0, 0.9);
     display: flex;
     align-items: flex-start;
     justify-content: center;
@@ -75,17 +107,17 @@ body.search-active::before {
     transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-10%);
+    transform: translateY(-100%);
 }
 
-/* 🔹 When Search is Active */
+/* When Search is Active */
 #search-overlay.active {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
 }
 
-/* 🔹 Search Container */
+/* Search Container Positioned at the Top */
 .search-container {
     display: flex;
     align-items: center;
@@ -95,20 +127,16 @@ body.search-active::before {
     border-radius: 25px;
     padding: 12px;
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.1);
     transform: scale(0.9);
-    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-    opacity: 0;
+    transition: transform 0.3s ease-in-out;
 }
 
-/* 🔹 When Search is Active */
 #search-overlay.active .search-container {
     transform: scale(1);
-    opacity: 1;
 }
 
-/* 🔹 Search Input */
+/* Search Input */
 #search {
     flex: 1;
     padding: 12px;
@@ -120,12 +148,11 @@ body.search-active::before {
     outline: none;
 }
 
-/* 🔹 Placeholder Text */
 #search::placeholder {
     color: rgba(255, 255, 255, 0.5);
 }
 
-/* 🔹 Cancel Button */
+/* Cancel Button */
 #cancel-search {
     background: none;
     border: none;
@@ -133,32 +160,14 @@ body.search-active::before {
     color: #ff4d4d;
     cursor: pointer;
     padding: 10px;
-    transition: color 0.3s ease-in-out, transform 0.2s ease-in-out;
+    transition: color 0.3s ease-in-out;
 }
 
-/* 🔹 Cancel Button Hover Effect */
 #cancel-search:hover {
     color: #ff6666;
-    transform: scale(1.1);
 }
 
-/* 🔹 Navigation Icons */
-.nav-icons {
-    display: flex;
-    gap: 15px;
-    justify-content: flex-end;
-}
-
-/* 🔹 Move Search & Profile Icons Further Left */
-#search-icon {
-    margin-right: 10px;
-}
-
-#profile-icon {
-    margin-right: 20px;
-}
-
-/* 🔹 Movie Grid */
+/* ðŸ”¹ Movie Grid */
 #movie-section {
     padding: 20px;
 }
@@ -171,7 +180,7 @@ body.search-active::before {
     text-align: center;
 }
 
-/* 🔹 Movie Placeholder Text */
+/* Movie Placeholder Text */
 .loading-text {
     font-size: 18px;
     color: rgba(255, 255, 255, 0.6);
@@ -179,28 +188,25 @@ body.search-active::before {
     margin-top: 20px;
 }
 
-/* 🔹 Movie Cards */
+/* ðŸ”¹ Movie Cards */
 .movie-card {
     background: #1a1a1a;
     border-radius: 8px;
     padding: 10px;
     transition: transform 0.3s ease-in-out;
     box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.05);
-    will-change: transform;
 }
 
-/* 🔹 Movie Card Image */
 .movie-card img {
     width: 100%;
     border-radius: 8px;
 }
 
-/* 🔹 Hover Effect */
 .movie-card:hover {
     transform: scale(1.05);
 }
 
-/* 🔹 Responsive Design Fixes */
+/* ðŸ”¹ Responsive Design Fixes */
 @media (max-width: 768px) {
     /* Adjust Navigation */
     .top-nav {
@@ -222,10 +228,5 @@ body.search-active::before {
     /* Reduce Grid Columns on Smaller Screens */
     #movie-grid {
         grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    }
-
-    /* 🔹 Increase Icon Click Area for Better Mobile UX */
-    .top-nav button {
-        padding: 8px;
     }
 }
