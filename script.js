@@ -14,14 +14,13 @@ document.addEventListener("DOMContentLoaded", () => {
         searchOverlay.classList.add("active");
         topNav.classList.add("hidden");
         body.classList.add("search-active");
-        searchIcon.setAttribute("aria-expanded", "true");
-        searchOverlay.setAttribute("aria-hidden", "false");
 
-        // Delay focus for a smooth effect
-        setTimeout(() => {
-            searchInput.focus();
-            isSearchAnimating = false;
-        }, 300);
+        // Accessibility Update
+        searchOverlay.setAttribute("aria-hidden", "false");
+        searchIcon.setAttribute("aria-expanded", "true");
+
+        // Delay focus slightly for better UX
+        setTimeout(() => searchInput.focus(), 150);
     }
 
     function closeSearch() {
@@ -31,45 +30,34 @@ document.addEventListener("DOMContentLoaded", () => {
         searchOverlay.classList.remove("active");
         topNav.classList.remove("hidden");
         body.classList.remove("search-active");
-        searchIcon.setAttribute("aria-expanded", "false");
-        searchOverlay.setAttribute("aria-hidden", "true");
 
-        // Clear input and remove focus
         searchInput.value = "";
         searchInput.blur();
 
-        // Ensure animation flag resets after transition
-        setTimeout(() => {
-            isSearchAnimating = false;
-        }, 400);
+        // Accessibility Update
+        searchOverlay.setAttribute("aria-hidden", "true");
+        searchIcon.setAttribute("aria-expanded", "false");
     }
 
-    // 🔹 Open search when clicking the search icon
-    searchIcon.addEventListener("click", openSearch);
+    // Prevent multiple event triggers during animations
+    searchOverlay.addEventListener("transitionend", () => {
+        isSearchAnimating = false;
+    });
 
-    // 🔹 Close search when clicking the cancel button
+    searchIcon.addEventListener("click", openSearch);
     cancelSearch.addEventListener("click", closeSearch);
 
-    // 🔹 Close search when clicking outside the search input
+    // Ensure search closes when clicking outside the search container
     searchOverlay.addEventListener("click", (e) => {
-        if (e.target === searchOverlay) {
+        if (!searchInput.contains(e.target) && !cancelSearch.contains(e.target)) {
             closeSearch();
         }
     });
 
-    // 🔹 Close search on pressing Escape key
+    // Close search when pressing ESC key
     document.addEventListener("keydown", (e) => {
         if (e.key === "Escape" && searchOverlay.classList.contains("active")) {
             closeSearch();
         }
-    });
-
-    // 🔹 Handle focus glow effect (Optional Enhancement)
-    searchInput.addEventListener("focus", () => {
-        searchInput.style.outline = "2px solid #ff4d4d";
-    });
-
-    searchInput.addEventListener("blur", () => {
-        searchInput.style.outline = "none";
     });
 });
