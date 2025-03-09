@@ -1,8 +1,7 @@
-/* Prevent Zooming & Overflow Issues */
+/* 🔹 Prevent Zooming & Overflow Issues */
 html, body {
     overflow-x: hidden;
     touch-action: manipulation;
-    user-scalable: no;
     margin: 0;
     padding: 0;
     background: #141414;
@@ -10,12 +9,12 @@ html, body {
     font-family: 'Poppins', sans-serif;
 }
 
-/*  Prevent Scrolling When Search is Open */
+/* 🔹 Prevent Scrolling When Search is Open */
 body.search-active {
     overflow: hidden;
 }
 
-/*  Fixed Navigation Bar */
+/* 🔹 Fixed Navigation Bar */
 .top-nav {
     display: flex;
     justify-content: space-between;
@@ -30,20 +29,21 @@ body.search-active {
     transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 
-/* Hide Header When Search Bar is Active */
+/* 🔹 Hide Header When Search Bar is Active */
 .top-nav.hidden {
     transform: translateY(-100%);
     opacity: 0;
+    pointer-events: none;
 }
 
-/* Ensure all nav elements are properly spaced */
+/* 🔹 Ensure all nav elements are properly spaced */
 .top-nav .menu-icon,
 .top-nav .logo,
 .top-nav .nav-icons {
     flex: 1;
 }
 
-/* Center Logo */
+/* 🔹 Center Logo */
 .logo {
     font-size: 18px;
     font-weight: bold;
@@ -51,14 +51,14 @@ body.search-active {
     text-align: center;
 }
 
-/* Navigation Icons */
+/* 🔹 Navigation Icons */
 .nav-icons {
     display: flex;
     gap: 15px;
     justify-content: flex-end;
 }
 
-/* Move Search & Profile Icons Further Left */
+/* 🔹 Move Search & Profile Icons Further Left */
 #search-icon {
     margin-right: 10px;
 }
@@ -67,7 +67,7 @@ body.search-active {
     margin-right: 20px;
 }
 
-/* Menu, Search & Profile Icons */
+/* 🔹 Menu, Search & Profile Icons */
 .top-nav button {
     background: none;
     border: none;
@@ -82,13 +82,13 @@ body.search-active {
     border-radius: 4px;
 }
 
-/* Hover Effects */
+/* 🔹 Hover Effects */
 .top-nav button:hover {
     transform: scale(1.1);
     color: #ccc;
 }
 
-/* Search Overlay */
+/* 🔹 Search Overlay */
 #search-overlay {
     position: fixed;
     top: 0;
@@ -106,14 +106,14 @@ body.search-active {
     transform: translateY(-100%);
 }
 
-/* When Search is Active */
+/* 🔹 When Search is Active */
 #search-overlay.active {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
 }
 
-/* Search Container Positioned at the Top */
+/* 🔹 Search Container Positioned at the Top */
 .search-container {
     display: flex;
     align-items: center;
@@ -132,7 +132,7 @@ body.search-active {
     transform: scale(1);
 }
 
-/* Search Input */
+/* 🔹 Search Input */
 #search {
     flex: 1;
     padding: 12px;
@@ -148,7 +148,7 @@ body.search-active {
     color: rgba(255, 255, 255, 0.5);
 }
 
-/* Cancel Button */
+/* 🔹 Cancel Button */
 #cancel-search {
     background: none;
     border: none;
@@ -163,7 +163,7 @@ body.search-active {
     color: #ff6666;
 }
 
-/* Movie Grid */
+/* 🔹 Movie Grid */
 #movie-section {
     padding: 20px;
 }
@@ -176,7 +176,7 @@ body.search-active {
     text-align: center;
 }
 
-/* Movie Placeholder Text */
+/* 🔹 Movie Placeholder Text */
 .loading-text {
     font-size: 18px;
     color: rgba(255, 255, 255, 0.6);
@@ -184,7 +184,7 @@ body.search-active {
     margin-top: 20px;
 }
 
-/* Movie Cards */
+/* 🔹 Movie Cards */
 .movie-card {
     background: #1a1a1a;
     border-radius: 8px;
@@ -203,7 +203,7 @@ body.search-active {
     box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.1);
 }
 
-/* Responsive Design Fixes */
+/* 🔹 Responsive Design Fixes */
 @media (max-width: 768px) {
     /* Adjust Navigation */
     .top-nav {
@@ -272,6 +272,7 @@ body.search-active {
     margin-bottom: 20px;
 }
 
+/* 🔹 Download Button */
 #download-button {
     display: inline-block;
     background: #ff4d4d;
@@ -285,6 +286,7 @@ body.search-active {
 
 #download-button:hover {
     background: #ff6666;
+    box-shadow: 0px 4px 10px rgba(255, 77, 77, 0.3);
 }
 
 /* 🔹 Go Back Button */
