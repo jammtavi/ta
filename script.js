@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const body = document.body;
     let isSearchAnimating = false;
 
+    // 🔹 Open Search
     function openSearch() {
         if (isSearchAnimating) return;
         isSearchAnimating = true;
@@ -24,6 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 300);
     }
 
+    // 🔹 Close Search
     function closeSearch() {
         if (isSearchAnimating) return;
         isSearchAnimating = true;
@@ -46,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
     searchIcon.addEventListener("click", openSearch);
     cancelSearch.addEventListener("click", closeSearch);
 
-    // 🔹 Load Movies with Caching
+    // 🔹 Load Movies (Pornhub-Style Cards)
     async function loadMovies() {
         const movieGrid = document.getElementById("movie-grid");
 
@@ -65,8 +67,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 article.classList.add("movie-card");
                 article.setAttribute("onclick", `openMovieDetails('${movie.id}')`);
                 article.innerHTML = `
-                    <img src="${movie.poster}" alt="${movie.title} Poster" loading="lazy" onerror="this.src='default-placeholder.jpg'">
-                    <h3>${movie.title}</h3>
+                    <img src="${movie.poster}" alt="${movie.title}" loading="lazy" onerror="this.src='default-placeholder.jpg'">
+                    <span class="movie-duration">${movie.duration}</span>
+                    <div class="movie-info">
+                        <h3 class="movie-title">${movie.title}</h3>
+                        <div class="movie-stats">
+                            <span><i class="fas fa-eye"></i> ${movie.views}</span>
+                            <span><i class="fas fa-thumbs-up"></i> ${movie.likes}%</span>
+                        </div>
+                    </div>
                 `;
                 movieGrid.appendChild(article);
             });
@@ -91,16 +100,28 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         try {
-            const response = await fetch("movies.json");
-            const movies = await response.json();
+            let movies;
+            if (sessionStorage.getItem("movies")) {
+                movies = JSON.parse(sessionStorage.getItem("movies"));
+            } else {
+                const response = await fetch("movies.json");
+                movies = await response.json();
+                sessionStorage.setItem("movies", JSON.stringify(movies));
+            }
+
             const movie = movies.find(m => m.id === movieId);
 
             if (movie) {
                 document.getElementById("movie-title").textContent = movie.title;
                 document.getElementById("movie-description").textContent = movie.description || "No description available.";
                 document.getElementById("movie-poster").src = movie.poster;
+                document.getElementById("movie-poster").alt = movie.title + " Poster";
+                document.getElementById("movie-views").textContent = movie.views || "0";
+                document.getElementById("movie-likes").textContent = movie.likes || "0";
+                document.getElementById("movie-duration").textContent = movie.duration || "00:00";
                 document.getElementById("download-button").href = movie.downloadLink || "#";
 
+                // Update meta description for SEO
                 document.querySelector('meta[name="description"]').setAttribute("content", movie.description || "Movie details page.");
             } else {
                 document.getElementById("movie-info").innerHTML = "<p>Movie not found.</p>";
@@ -124,7 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    // 🔹 Open Movie Details
+    // 🔹 Open Movie Details Page
     window.openMovieDetails = function(movieId) {
         window.location.href = `movie.html?id=${movieId}`;
     };
