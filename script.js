@@ -91,10 +91,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 🔹 Go Back Function
     window.goBack = function() {
-    if (document.referrer && document.referrer.includes(window.location.origin)) {
+    if (window.history.length > 1) {
         window.history.back();
     } else {
-        window.location.href = "index.html"; // Redirect to home if no history
+        window.location.href = "index.html"; // Redirect to home if no history exists
     }
 };
 
