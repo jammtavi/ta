@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
             "movie1": {
                 title: "Movie 1",
                 description: "This is the description for Movie 1.",
-                poster: "5794217401691262868.jpg",
+                poster: "images/5794217401691262868.jpg",
                 downloadLink: "https://example.com/download/movie1"
             },
             "movie2": {
