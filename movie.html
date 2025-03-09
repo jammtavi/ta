@@ -23,9 +23,9 @@
     <!-- 🔹 Movie Details Section -->
     <main id="movie-details">
         <div id="movie-info">
-            <img id="movie-poster" src="" alt="Movie Poster" loading="lazy">
-            <h2 id="movie-title"></h2>
-            <p id="movie-description"></p>
+            <img id="movie-poster" src="" alt="Movie Poster" loading="lazy" onerror="this.src='default-placeholder.jpg'">
+            <h2 id="movie-title" aria-live="polite"></h2>
+            <p id="movie-description" aria-live="polite"></p>
             <a id="download-button" href="#" target="_blank">Download</a>
         </div>
     </main>
