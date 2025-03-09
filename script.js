@@ -18,7 +18,10 @@ document.addEventListener("DOMContentLoaded", () => {
         searchOverlay.setAttribute("aria-hidden", "false");
         searchIcon.setAttribute("aria-expanded", "true");
 
-        setTimeout(() => searchInput.focus(), 150);
+        setTimeout(() => {
+            searchInput.focus();
+            isSearchAnimating = false;
+        }, 300);
     }
 
     function closeSearch() {
@@ -34,54 +37,77 @@ document.addEventListener("DOMContentLoaded", () => {
 
         searchOverlay.setAttribute("aria-hidden", "true");
         searchIcon.setAttribute("aria-expanded", "false");
-    }
 
-    searchOverlay.addEventListener("transitionend", () => {
-        isSearchAnimating = false;
-    });
+        setTimeout(() => {
+            isSearchAnimating = false;
+        }, 300);
+    }
 
     searchIcon.addEventListener("click", openSearch);
     cancelSearch.addEventListener("click", closeSearch);
 
-    // 🔹 Load Movies Dynamically
+    // 🔹 Load Movies with Caching
     async function loadMovies() {
-        const response = await fetch("movies.json");
-        const movies = await response.json();
         const movieGrid = document.getElementById("movie-grid");
 
-        movies.forEach(movie => {
-            const article = document.createElement("article");
-            article.classList.add("movie-card");
-            article.setAttribute("onclick", `openMovieDetails('${movie.id}')`);
-            article.innerHTML = `
-                <img src="${movie.poster}" alt="${movie.title} Poster" loading="lazy">
-                <h3>${movie.title}</h3>
-            `;
-            movieGrid.appendChild(article);
-        });
+        try {
+            let movies;
+            if (sessionStorage.getItem("movies")) {
+                movies = JSON.parse(sessionStorage.getItem("movies"));
+            } else {
+                const response = await fetch("movies.json");
+                movies = await response.json();
+                sessionStorage.setItem("movies", JSON.stringify(movies)); 
+            }
+
+            movies.forEach(movie => {
+                const article = document.createElement("article");
+                article.classList.add("movie-card");
+                article.setAttribute("onclick", `openMovieDetails('${movie.id}')`);
+                article.innerHTML = `
+                    <img src="${movie.poster}" alt="${movie.title} Poster" loading="lazy" onerror="this.src='default-placeholder.jpg'">
+                    <h3>${movie.title}</h3>
+                `;
+                movieGrid.appendChild(article);
+            });
+        } catch (error) {
+            console.error("Error loading movies:", error);
+            movieGrid.innerHTML = "<p>Failed to load movies.</p>";
+        }
     }
 
     if (document.getElementById("movie-grid")) {
         loadMovies();
     }
 
-    // 🔹 Movie Details Page Logic
+    // 🔹 Load Movie Details
     async function loadMovieDetails() {
         const urlParams = new URLSearchParams(window.location.search);
         const movieId = urlParams.get("id");
 
-        const response = await fetch("movies.json");
-        const movies = await response.json();
-
-        const movie = movies.find(m => m.id === movieId);
-
-        if (movie) {
-            document.getElementById("movie-title").textContent = movie.title;
-            document.getElementById("movie-description").textContent = movie.description;
-            document.getElementById("movie-poster").src = movie.poster;
-            document.getElementById("download-button").href = movie.downloadLink;
-        } else {
+        if (!movieId) {
             document.getElementById("movie-info").innerHTML = "<p>Movie not found.</p>";
+            return;
+        }
+
+        try {
+            const response = await fetch("movies.json");
+            const movies = await response.json();
+            const movie = movies.find(m => m.id === movieId);
+
+            if (movie) {
+                document.getElementById("movie-title").textContent = movie.title;
+                document.getElementById("movie-description").textContent = movie.description || "No description available.";
+                document.getElementById("movie-poster").src = movie.poster;
+                document.getElementById("download-button").href = movie.downloadLink || "#";
+
+                document.querySelector('meta[name="description"]').setAttribute("content", movie.description || "Movie details page.");
+            } else {
+                document.getElementById("movie-info").innerHTML = "<p>Movie not found.</p>";
+            }
+        } catch (error) {
+            console.error("Error loading movie details:", error);
+            document.getElementById("movie-info").innerHTML = "<p>Error fetching movie details.</p>";
         }
     }
 
@@ -91,13 +117,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 🔹 Go Back Function
     window.goBack = function() {
-    if (window.history.length > 1) {
-        window.history.back();
-    } else {
-        window.location.href = "index.html"; // Redirect to home if no history exists
-    }
-};
-
+        if (document.referrer) {
+            window.history.back();
+        } else {
+            window.location.href = "index.html";
+        }
+    };
 
     // 🔹 Open Movie Details
     window.openMovieDetails = function(movieId) {
