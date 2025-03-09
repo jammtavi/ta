@@ -23,55 +23,12 @@
     <!-- 🔹 Movie Details Section -->
     <main id="movie-details">
         <div id="movie-info">
-            <img id="movie-poster" src="" alt="Movie Poster">
+            <img id="movie-poster" src="" alt="Movie Poster" loading="lazy">
             <h2 id="movie-title"></h2>
             <p id="movie-description"></p>
             <a id="download-button" href="#" target="_blank">Download</a>
         </div>
     </main>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const movieId = urlParams.get("id");
-
-            // Dummy movie data (replace with actual data)
-            const movies = {
-                "movie1": {
-                    title: "Movie 1",
-                    description: "This is the description for Movie 1.",
-                    poster: "images/5794217401691262868.jpg",
-                    downloadLink: "https://example.com/download/movie1"
-                },
-                "movie2": {
-                    title: "Movie 2",
-                    description: "This is the description for Movie 2.",
-                    poster: "movie2.jpg",
-                    downloadLink: "https://example.com/download/movie2"
-                },
-                "movie3": {
-                    title: "Movie 3",
-                    description: "This is the description for Movie 3.",
-                    poster: "movie3.jpg",
-                    downloadLink: "https://example.com/download/movie3"
-                }
-            };
-
-            // Load movie details
-            if (movies[movieId]) {
-                document.getElementById("movie-title").textContent = movies[movieId].title;
-                document.getElementById("movie-description").textContent = movies[movieId].description;
-                document.getElementById("movie-poster").src = movies[movieId].poster;
-                document.getElementById("download-button").href = movies[movieId].downloadLink;
-            } else {
-                document.getElementById("movie-info").innerHTML = "<p>Movie not found.</p>";
-            }
-        });
-
-        function goBack() {
-            window.history.back();
-        }
-    </script>
 
 </body>
 </html>
