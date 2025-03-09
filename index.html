@@ -7,7 +7,7 @@
     <title>Movie Download Hub</title>
 
     <!-- Styles & Scripts -->
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style.css">
     <script defer src="script.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
@@ -20,7 +20,7 @@
         </button>
         <h1 class="logo">MovieHub</h1>
         <div class="nav-icons">
-            <button id="search-icon" aria-label="Search Movies" aria-expanded="false" aria-controls="search-overlay">
+            <button id="search-icon" aria-label="Search Movies" aria-expanded="false">
                 <i class="fas fa-search"></i>
             </button>
             <button id="profile-icon" aria-label="User Profile">
@@ -39,10 +39,15 @@
 
     <!-- 🔹 Main Content -->
     <main id="movie-section">
-        <div id="movie-grid" role="list">
-            <!-- Movie Cards will be loaded dynamically -->
+        <div id="movie-grid">
+            <!-- Movies will be loaded dynamically here -->
         </div>
     </main>
+
+    <!-- 🔹 Footer -->
+    <footer>
+        <p>&copy; 2025 Movie Download Hub. All rights reserved.</p>
+    </footer>
 
 </body>
 </html>
