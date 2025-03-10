@@ -7,13 +7,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const body = document.body;
     let isSearchAnimating = false;
 
+    // 🔹 Prevent Zooming & Double Tap Zoom
+    document.addEventListener("gesturestart", (e) => e.preventDefault());
+    document.addEventListener("dblclick", (e) => e.preventDefault());
+
     // 🔹 Open Search
     function openSearch() {
         if (isSearchAnimating) return;
         isSearchAnimating = true;
 
         searchOverlay.classList.add("active");
-        topNav.classList.add("hidden");
+        topNav.style.display = "none"; // Hide navbar smoothly
         body.classList.add("search-active");
 
         searchOverlay.setAttribute("aria-hidden", "false");
@@ -31,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
         isSearchAnimating = true;
 
         searchOverlay.classList.remove("active");
-        topNav.classList.remove("hidden");
+        topNav.style.display = "flex"; // Restore navbar visibility
         body.classList.remove("search-active");
 
         searchInput.value = "";
@@ -53,15 +57,16 @@ document.addEventListener("DOMContentLoaded", () => {
         const movieGrid = document.getElementById("movie-grid");
 
         try {
-            let movies;
-            if (sessionStorage.getItem("movies")) {
-                movies = JSON.parse(sessionStorage.getItem("movies"));
-            } else {
+            let movies = JSON.parse(sessionStorage.getItem("movies"));
+
+            if (!movies) {
                 const response = await fetch("movies.json");
+                if (!response.ok) throw new Error("Failed to fetch movies");
                 movies = await response.json();
                 sessionStorage.setItem("movies", JSON.stringify(movies)); 
             }
 
+            movieGrid.innerHTML = ""; // Clear previous content
             movies.forEach(movie => {
                 const article = document.createElement("article");
                 article.classList.add("movie-card");
@@ -81,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         } catch (error) {
             console.error("Error loading movies:", error);
-            movieGrid.innerHTML = "<p>Failed to load movies.</p>";
+            movieGrid.innerHTML = "<p>Failed to load movies. Please try again later.</p>";
         }
     }
 
@@ -100,11 +105,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         try {
-            let movies;
-            if (sessionStorage.getItem("movies")) {
-                movies = JSON.parse(sessionStorage.getItem("movies"));
-            } else {
+            let movies = JSON.parse(sessionStorage.getItem("movies"));
+
+            if (!movies) {
                 const response = await fetch("movies.json");
+                if (!response.ok) throw new Error("Failed to fetch movie details");
                 movies = await response.json();
                 sessionStorage.setItem("movies", JSON.stringify(movies));
             }
@@ -128,7 +133,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         } catch (error) {
             console.error("Error loading movie details:", error);
-            document.getElementById("movie-info").innerHTML = "<p>Error fetching movie details.</p>";
+            document.getElementById("movie-info").innerHTML = "<p>Error fetching movie details. Please try again later.</p>";
         }
     }
 
