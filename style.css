@@ -1,8 +1,7 @@
-/* 🔹 Prevent Zooming & Overflow Issues */
+/* 🔹 Global Styling */
 html, body {
     overflow-x: hidden;
     touch-action: manipulation;
-    user-scalable: no;
     margin: 0;
     padding: 0;
     background: #141414;
@@ -28,19 +27,34 @@ body.search-active {
     z-index: 1000;
 }
 
+/* 🔹 Center Logo */
+.logo {
+    font-size: 18px;
+    font-weight: bold;
+    color: #e0e0e0;
+    text-align: center;
+}
+
 /* 🔹 Navigation Icons */
 .nav-icons {
     display: flex;
-    gap: 10px;
+    gap: 15px;
 }
 
-/* 🔹 Search & Profile Icons Spacing */
-#search-icon {
-    margin-right: 5px;
+/* 🔹 Navigation Buttons */
+.top-nav button {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #fff;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
-#profile-icon {
-    margin-left: 10px;
+/* 🔹 Hover Effects */
+.top-nav button:hover {
+    transform: scale(1.1);
+    color: #ccc;
 }
 
 /* 🔹 Search Overlay */
@@ -55,10 +69,10 @@ body.search-active {
     align-items: flex-start;
     justify-content: center;
     padding-top: 20px;
+    transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
     opacity: 0;
     visibility: hidden;
     transform: translateY(-100%);
-    transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
 }
 
 /* 🔹 When Search is Active */
