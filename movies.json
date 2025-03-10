@@ -5,28 +5,28 @@
         "description": "This is the description for Movie 1.",
         "poster": "images/5794217401691262868.jpg",
         "downloadLink": "https://example.com/download/movie1",
-        "views": "1.2M",
-        "likes": "89%",
+        "views": 1200000,
+        "likes": 89,
         "duration": "12:34"
     },
     {
         "id": "movie2",
         "title": "Movie 2",
         "description": "This is the description for Movie 2.",
-        "poster": "movie2.jpg",
+        "poster": "images/5794217401691262868.jpg",
         "downloadLink": "https://example.com/download/movie2",
-        "views": "856K",
-        "likes": "76%",
+        "views": 856000,
+        "likes": 76,
         "duration": "15:21"
     },
     {
         "id": "movie3",
         "title": "Movie 3",
         "description": "This is the description for Movie 3.",
-        "poster": "movie3.jpg",
+        "poster": "images/5794217401691262868.jpg",
         "downloadLink": "https://example.com/download/movie3",
-        "views": "632K",
-        "likes": "81%",
+        "views": 632000,
+        "likes": 81,
         "duration": "9:45"
     }
 ]
