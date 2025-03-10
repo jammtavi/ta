@@ -7,35 +7,26 @@ document.addEventListener("DOMContentLoaded", () => {
     const body = document.body;
     let isSearchAnimating = false;
 
-    // 🔹 Prevent Zooming & Double Tap Zoom
-    document.addEventListener("gesturestart", (e) => e.preventDefault());
-    document.addEventListener("dblclick", (e) => e.preventDefault());
-
-    // 🔹 Open Search
     function openSearch() {
         if (isSearchAnimating) return;
         isSearchAnimating = true;
 
         searchOverlay.classList.add("active");
-        topNav.style.display = "none"; // Hide navbar smoothly
+        topNav.classList.add("hidden");
         body.classList.add("search-active");
 
         searchOverlay.setAttribute("aria-hidden", "false");
         searchIcon.setAttribute("aria-expanded", "true");
 
-        setTimeout(() => {
-            searchInput.focus();
-            isSearchAnimating = false;
-        }, 300);
+        setTimeout(() => searchInput.focus(), 150);
     }
 
-    // 🔹 Close Search
     function closeSearch() {
         if (isSearchAnimating) return;
         isSearchAnimating = true;
 
         searchOverlay.classList.remove("active");
-        topNav.style.display = "flex"; // Restore navbar visibility
+        topNav.classList.remove("hidden");
         body.classList.remove("search-active");
 
         searchInput.value = "";
@@ -43,115 +34,71 @@ document.addEventListener("DOMContentLoaded", () => {
 
         searchOverlay.setAttribute("aria-hidden", "true");
         searchIcon.setAttribute("aria-expanded", "false");
-
-        setTimeout(() => {
-            isSearchAnimating = false;
-        }, 300);
     }
+
+    searchOverlay.addEventListener("transitionend", () => {
+        isSearchAnimating = false;
+    });
 
     searchIcon.addEventListener("click", openSearch);
     cancelSearch.addEventListener("click", closeSearch);
 
-    // 🔹 Load Movies (Pornhub-Style Cards)
-    async function loadMovies() {
-        const movieGrid = document.getElementById("movie-grid");
-
-        try {
-            let movies = JSON.parse(sessionStorage.getItem("movies"));
-
-            if (!movies) {
-                const response = await fetch("movies.json");
-                if (!response.ok) throw new Error("Failed to fetch movies");
-                movies = await response.json();
-                sessionStorage.setItem("movies", JSON.stringify(movies)); 
-            }
-
-            movieGrid.innerHTML = ""; // Clear previous content
-            movies.forEach(movie => {
-                const article = document.createElement("article");
-                article.classList.add("movie-card");
-                article.setAttribute("onclick", `openMovieDetails('${movie.id}')`);
-                article.innerHTML = `
-                    <img src="${movie.poster}" alt="${movie.title}" loading="lazy" onerror="this.src='default-placeholder.jpg'">
-                    <span class="movie-duration">${movie.duration}</span>
-                    <div class="movie-info">
-                        <h3 class="movie-title">${movie.title}</h3>
-                        <div class="movie-stats">
-                            <span><i class="fas fa-eye"></i> ${movie.views}</span>
-                            <span><i class="fas fa-thumbs-up"></i> ${movie.likes}%</span>
-                        </div>
-                    </div>
-                `;
-                movieGrid.appendChild(article);
-            });
-        } catch (error) {
-            console.error("Error loading movies:", error);
-            movieGrid.innerHTML = "<p>Failed to load movies. Please try again later.</p>";
+    searchOverlay.addEventListener("click", (e) => {
+        if (!searchInput.contains(e.target) && !cancelSearch.contains(e.target)) {
+            closeSearch();
         }
-    }
+    });
 
-    if (document.getElementById("movie-grid")) {
-        loadMovies();
-    }
-
-    // 🔹 Load Movie Details
-    async function loadMovieDetails() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const movieId = urlParams.get("id");
-
-        if (!movieId) {
-            document.getElementById("movie-info").innerHTML = "<p>Movie not found.</p>";
-            return;
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && searchOverlay.classList.contains("active")) {
+            closeSearch();
         }
-
-        try {
-            let movies = JSON.parse(sessionStorage.getItem("movies"));
-
-            if (!movies) {
-                const response = await fetch("movies.json");
-                if (!response.ok) throw new Error("Failed to fetch movie details");
-                movies = await response.json();
-                sessionStorage.setItem("movies", JSON.stringify(movies));
-            }
-
-            const movie = movies.find(m => m.id === movieId);
-
-            if (movie) {
-                document.getElementById("movie-title").textContent = movie.title;
-                document.getElementById("movie-description").textContent = movie.description || "No description available.";
-                document.getElementById("movie-poster").src = movie.poster;
-                document.getElementById("movie-poster").alt = movie.title + " Poster";
-                document.getElementById("movie-views").textContent = movie.views || "0";
-                document.getElementById("movie-likes").textContent = movie.likes || "0";
-                document.getElementById("movie-duration").textContent = movie.duration || "00:00";
-                document.getElementById("download-button").href = movie.downloadLink || "#";
-
-                // Update meta description for SEO
-                document.querySelector('meta[name="description"]').setAttribute("content", movie.description || "Movie details page.");
-            } else {
-                document.getElementById("movie-info").innerHTML = "<p>Movie not found.</p>";
-            }
-        } catch (error) {
-            console.error("Error loading movie details:", error);
-            document.getElementById("movie-info").innerHTML = "<p>Error fetching movie details. Please try again later.</p>";
-        }
-    }
-
-    if (window.location.pathname.includes("movie.html")) {
-        loadMovieDetails();
-    }
-
-    // 🔹 Go Back Function
-    window.goBack = function() {
-        if (document.referrer) {
-            window.history.back();
-        } else {
-            window.location.href = "index.html";
-        }
-    };
+    });
 
     // 🔹 Open Movie Details Page
     window.openMovieDetails = function(movieId) {
         window.location.href = `movie.html?id=${movieId}`;
+    };
+
+    // 🔹 Movie Details Page Logic
+    if (window.location.pathname.includes("movie.html")) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const movieId = urlParams.get("id");
+
+        // Dummy movie data (replace with actual data)
+        const movies = {
+            "movie1": {
+                title: "Movie 1",
+                description: "This is the description for Movie 1.",
+                poster: "images/5794217401691262868.jpg",
+                downloadLink: "https://example.com/download/movie1"
+            },
+            "movie2": {
+                title: "Movie 2",
+                description: "This is the description for Movie 2.",
+                poster: "movie2.jpg",
+                downloadLink: "https://example.com/download/movie2"
+            },
+            "movie3": {
+                title: "Movie 3",
+                description: "This is the description for Movie 3.",
+                poster: "movie3.jpg",
+                downloadLink: "https://example.com/download/movie3"
+            }
+        };
+
+        if (movies[movieId]) {
+            document.getElementById("movie-title").textContent = movies[movieId].title;
+            document.getElementById("movie-description").textContent = movies[movieId].description;
+            document.getElementById("movie-poster").src = movies[movieId].poster;
+            document.getElementById("download-button").href = movies[movieId].downloadLink;
+        } else {
+            document.getElementById("movie-info").innerHTML = "<p>Movie not found.</p>";
+        }
+    }
+
+    // 🔹 Go Back Function
+    window.goBack = function() {
+        window.history.back();
     };
 });
