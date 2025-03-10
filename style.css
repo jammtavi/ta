@@ -7,6 +7,18 @@ html, body {
     background: #141414;
     color: #fff;
     font-family: 'Poppins', sans-serif;
+    user-select: none; /* Prevents text selection */
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    -moz-user-select: none;
+    overscroll-behavior: contain;
+}
+
+/* 🔹 Prevent Zooming */
+body {
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    touch-action: manipulation;
 }
 
 /* 🔹 Prevent Scrolling When Search is Open */
@@ -39,6 +51,7 @@ body.search-active {
 .nav-icons {
     display: flex;
     gap: 15px;
+    margin-right: 10px; /* Adjusted right margin */
 }
 
 /* 🔹 Navigation Buttons */
@@ -143,6 +156,7 @@ body.search-active {
     width: 100%;
     max-width: 100%;
     transition: transform 0.2s ease-in-out;
+    will-change: transform;
 }
 
 .movie-card img {
@@ -263,7 +277,7 @@ footer {
     text-align: center;
     padding: 15px;
     font-size: 14px;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.8);
 }
 
 /* 🔹 Responsive Design */
@@ -286,5 +300,9 @@ footer {
 
     .movie-stats {
         font-size: 11px;
+    }
+
+    .nav-icons {
+        margin-right: 5px; /* Adjusted spacing */
     }
 }
