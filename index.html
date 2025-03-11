@@ -6,7 +6,6 @@
     <meta name="description" content="Download and stream your favorite movies on Movie Download Hub. Get the latest releases in high quality.">
     <title>Movie Download Hub</title>
     
-    <!-- Styles & Scripts -->
     <link rel="stylesheet" href="style.css">
     <script defer src="script.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -15,12 +14,12 @@
 
     <!-- 🔹 Header (Navigation Bar) -->
     <header class="top-nav">
-        <button id="menu-icon" aria-label="Open Menu" aria-expanded="false">
+        <button id="menu-icon" aria-label="Open Menu">
             <i class="fas fa-bars"></i>
         </button>
         <h1 class="logo">MovieHub</h1>
         <div class="nav-icons">
-            <button id="search-icon" aria-label="Search Movies" aria-expanded="false">
+            <button id="search-icon" aria-label="Search Movies">
                 <i class="fas fa-search"></i>
             </button>
             <button id="profile-icon" aria-label="User Profile">
@@ -30,39 +29,24 @@
     </header>
 
     <!-- 🔹 Search Overlay -->
-    <div id="search-overlay" role="dialog" aria-hidden="true">
+    <div id="search-overlay">
         <div class="search-container">
-            <input type="text" id="search" placeholder="Search for movies..." aria-label="Movie Search">
-            <button id="cancel-search" aria-label="Close Search">Cancel</button>
+            <input type="text" id="search" placeholder="Search for movies...">
+            <button id="cancel-search">Cancel</button>
         </div>
     </div>
 
     <!-- 🔹 Main Content -->
     <main id="movie-section">
-        <div id="movie-grid" role="list">
-            <!-- Movie Cards -->
-            <article class="movie-card" onclick="openMovieDetails('movie1')">
-                <img src="images/5794217401691262868.jpg" alt="Movie 1 Poster">
-                <h3>Movie 1</h3>
-            </article>
-
-            <article class="movie-card" onclick="openMovieDetails('movie2')">
-                <img src="movie2.jpg" alt="Movie 2 Poster">
-                <h3>Movie 2</h3>
-            </article>
-
-            <article class="movie-card" onclick="openMovieDetails('movie3')">
-                <img src="movie3.jpg" alt="Movie 3 Poster">
-                <h3>Movie 3</h3>
-            </article>
+        <div id="movie-grid">
+            <!-- Movie Cards will be dynamically inserted via JavaScript -->
         </div>
     </main>
 
-    <script>
-        function openMovieDetails(movieId) {
-            window.location.href = `movie.html?id=${movieId}`;
-        }
-    </script>
+    <!-- 🔹 Footer -->
+    <footer class="footer">
+        <p>© 2025 Movie Download Hub. All Rights Reserved.</p>
+    </footer>
 
 </body>
 </html>
