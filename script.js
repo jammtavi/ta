@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 🔹 Movie Data (Dynamic)
     const movies = [
-        { id: "movie1", title: "Movie 1", description: "This is the description for Movie 1.", poster: "images/5794217401691262868.jpg", downloadLink: "https://example.com/download/movie1" },
+        { id: "movie1", title: "James Bond", description: "This is James Bond Movie.", poster: "images/5794217401691262868.jpg", downloadLink: "https://www.cricbuzz.com/" },
         { id: "movie2", title: "Movie 2", description: "This is the description for Movie 2.", poster: "movie2.jpg", downloadLink: "https://example.com/download/movie2" },
         { id: "movie3", title: "Movie 3", description: "This is the description for Movie 3.", poster: "movie3.jpg", downloadLink: "https://example.com/download/movie3" }
     ];
