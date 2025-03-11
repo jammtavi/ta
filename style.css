@@ -167,11 +167,14 @@ body.search-active {
 .thumbnail {
     position: relative;
     width: 45%;
-    aspect-ratio: 16/9; /* Forces the correct aspect ratio */
+    padding-top: 56.25%; /* 16:9 aspect ratio (9 / 16 * 100) */
     overflow: hidden;
 }
 
 .thumbnail img {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
