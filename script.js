@@ -4,96 +4,78 @@ document.addEventListener("DOMContentLoaded", () => {
     const cancelSearch = document.getElementById("cancel-search");
     const searchInput = document.getElementById("search");
     const topNav = document.querySelector(".top-nav");
+    const movieGrid = document.getElementById("movie-grid");
     const body = document.body;
-    let isSearchAnimating = false;
 
+    // 🔹 Movie Data (Dynamic)
+    const movies = [
+        { id: "movie1", title: "Movie 1", description: "This is the description for Movie 1.", poster: "images/5794217401691262868.jpg", downloadLink: "https://example.com/download/movie1" },
+        { id: "movie2", title: "Movie 2", description: "This is the description for Movie 2.", poster: "movie2.jpg", downloadLink: "https://example.com/download/movie2" },
+        { id: "movie3", title: "Movie 3", description: "This is the description for Movie 3.", poster: "movie3.jpg", downloadLink: "https://example.com/download/movie3" }
+    ];
+
+    // 🔹 Open Search Overlay
     function openSearch() {
-        if (isSearchAnimating) return;
-        isSearchAnimating = true;
-
         searchOverlay.classList.add("active");
         topNav.classList.add("hidden");
         body.classList.add("search-active");
-
-        searchOverlay.setAttribute("aria-hidden", "false");
-        searchIcon.setAttribute("aria-expanded", "true");
-
         setTimeout(() => searchInput.focus(), 150);
     }
 
+    // 🔹 Close Search Overlay
     function closeSearch() {
-        if (isSearchAnimating) return;
-        isSearchAnimating = true;
-
         searchOverlay.classList.remove("active");
         topNav.classList.remove("hidden");
         body.classList.remove("search-active");
-
         searchInput.value = "";
         searchInput.blur();
-
-        searchOverlay.setAttribute("aria-hidden", "true");
-        searchIcon.setAttribute("aria-expanded", "false");
+        renderMovies(movies); // Restore full movie list
     }
 
-    searchOverlay.addEventListener("transitionend", () => {
-        isSearchAnimating = false;
-    });
+    // 🔹 Filter Movies Based on Search Query
+    function searchMovies() {
+        let query = searchInput.value.toLowerCase();
+        let filteredMovies = movies.filter(movie => movie.title.toLowerCase().includes(query));
+        renderMovies(filteredMovies);
+    }
 
-    searchIcon.addEventListener("click", openSearch);
-    cancelSearch.addEventListener("click", closeSearch);
-
-    searchOverlay.addEventListener("click", (e) => {
-        if (!searchInput.contains(e.target) && !cancelSearch.contains(e.target)) {
-            closeSearch();
+    // 🔹 Render Movies in the Grid
+    function renderMovies(movieList) {
+        movieGrid.innerHTML = "";
+        if (movieList.length === 0) {
+            movieGrid.innerHTML = `<p class="loading-text">No movies found.</p>`;
+            return;
         }
-    });
-
-    document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape" && searchOverlay.classList.contains("active")) {
-            closeSearch();
-        }
-    });
+        movieList.forEach(movie => {
+            const movieCard = document.createElement("article");
+            movieCard.classList.add("movie-card");
+            movieCard.innerHTML = `
+                <img src="${movie.poster}" alt="${movie.title} Poster">
+                <h3>${movie.title}</h3>
+            `;
+            movieCard.addEventListener("click", () => openMovieDetails(movie.id));
+            movieGrid.appendChild(movieCard);
+        });
+    }
 
     // 🔹 Open Movie Details Page
     window.openMovieDetails = function(movieId) {
         window.location.href = `movie.html?id=${movieId}`;
     };
 
-    // 🔹 Movie Details Page Logic
+    // 🔹 Load Movie Details on `movie.html`
     if (window.location.pathname.includes("movie.html")) {
         const urlParams = new URLSearchParams(window.location.search);
         const movieId = urlParams.get("id");
+        const movie = movies.find(m => m.id === movieId);
 
-        // Dummy movie data (replace with actual data)
-        const movies = {
-            "movie1": {
-                title: "Movie 1",
-                description: "This is the description for Movie 1.",
-                poster: "images/5794217401691262868.jpg",
-                downloadLink: "https://example.com/download/movie1"
-            },
-            "movie2": {
-                title: "Movie 2",
-                description: "This is the description for Movie 2.",
-                poster: "movie2.jpg",
-                downloadLink: "https://example.com/download/movie2"
-            },
-            "movie3": {
-                title: "Movie 3",
-                description: "This is the description for Movie 3.",
-                poster: "movie3.jpg",
-                downloadLink: "https://example.com/download/movie3"
-            }
-        };
-
-        if (movies[movieId]) {
-            document.getElementById("movie-title").textContent = movies[movieId].title;
-            document.getElementById("movie-description").textContent = movies[movieId].description;
-            document.getElementById("movie-poster").src = movies[movieId].poster;
-            document.getElementById("download-button").href = movies[movieId].downloadLink;
+        if (movie) {
+            document.getElementById("movie-title").textContent = movie.title;
+            document.getElementById("movie-description").textContent = movie.description;
+            document.getElementById("movie-poster").src = movie.poster;
+            document.getElementById("download-button").href = movie.downloadLink;
         } else {
-            document.getElementById("movie-info").innerHTML = "<p>Movie not found.</p>";
+            document.getElementById("movie-details").innerHTML = `<p class="loading-text">Movie not found.</p>`;
         }
     }
 
@@ -101,4 +83,14 @@ document.addEventListener("DOMContentLoaded", () => {
     window.goBack = function() {
         window.history.back();
     };
+
+    // 🔹 Event Listeners
+    searchIcon.addEventListener("click", openSearch);
+    cancelSearch.addEventListener("click", closeSearch);
+    searchInput.addEventListener("input", searchMovies);
+
+    // 🔹 Initialize Movies on Home Page
+    if (movieGrid) {
+        renderMovies(movies);
+    }
 });
