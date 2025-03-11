@@ -136,6 +136,15 @@ body.search-active {
     color: #ff6666;
 }
 
+/* Move Search & Profile Icons Further Left */
+ #search-icon {
+     margin-right: 10px;
+ }
+ 
+ #profile-icon {
+     margin-right: 20px;
+ }
+
 /* 🔹 Movie Grid */
 #movie-section {
     padding: 20px;
