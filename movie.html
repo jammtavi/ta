@@ -22,7 +22,7 @@
 
     <!-- 🔹 Movie Details Section -->
     <main id="movie-details">
-        <div id="movie-info">
+        <div class="details-container">
             <img id="movie-poster" src="" alt="Movie Poster">
             <h2 id="movie-title"></h2>
             <p id="movie-description"></p>
@@ -30,12 +30,16 @@
         </div>
     </main>
 
+    <!-- 🔹 Footer -->
+    <footer class="footer">
+        <p>© 2025 Movie Download Hub. All Rights Reserved.</p>
+    </footer>
+
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const urlParams = new URLSearchParams(window.location.search);
             const movieId = urlParams.get("id");
 
-            // Dummy movie data (replace with actual data)
             const movies = {
                 "movie1": {
                     title: "Movie 1",
@@ -57,14 +61,13 @@
                 }
             };
 
-            // Load movie details
             if (movies[movieId]) {
                 document.getElementById("movie-title").textContent = movies[movieId].title;
                 document.getElementById("movie-description").textContent = movies[movieId].description;
                 document.getElementById("movie-poster").src = movies[movieId].poster;
                 document.getElementById("download-button").href = movies[movieId].downloadLink;
             } else {
-                document.getElementById("movie-info").innerHTML = "<p>Movie not found.</p>";
+                document.getElementById("movie-details").innerHTML = "<p class='loading-text'>Movie not found.</p>";
             }
         });
 
