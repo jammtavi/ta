@@ -63,7 +63,7 @@ body.search-active {
     color: #ccc;
 }
 
-/* 🔹 Restore Old Search Bar */
+/* 🔹 Search Overlay */
 #search-overlay {
     position: fixed;
     top: 0;
@@ -87,7 +87,7 @@ body.search-active {
     transform: translateY(0);
 }
 
-/* 🔹 Old Search Container */
+/* 🔹 Search Container */
 .search-container {
     display: flex;
     align-items: center;
@@ -104,15 +104,6 @@ body.search-active {
 
 #search-overlay.active .search-container {
     transform: scale(1);
-}
-
-/* Move Search & Profile Icons Further Left */
-#search-icon {
-    margin-right: 10px;
-}
-
-#profile-icon {
-    margin-right: 20px;
 }
 
 /* 🔹 Search Input */
@@ -150,7 +141,7 @@ body.search-active {
     padding: 15px;
 }
 
-/* 🔹 Movie Grid: One Row, One Movie */
+/* 🔹 Movie Grid */
 #movie-grid {
     display: flex;
     flex-direction: column;
@@ -188,18 +179,6 @@ body.search-active {
     border-radius: 6px 0 0 6px;
 }
 
-/* 🔹 Movie Duration */
-.duration {
-    position: absolute;
-    bottom: 5px;
-    right: 5px;
-    background: rgba(0, 0, 0, 0.7);
-    color: #fff;
-    font-size: 12px;
-    padding: 3px 6px;
-    border-radius: 3px;
-}
-
 /* 🔹 Movie Info */
 .movie-info {
     padding: 10px;
@@ -217,21 +196,46 @@ body.search-active {
     line-height: 1.2;
 }
 
-/* 🔹 Rating & Views */
-.rating {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 14px;
+/* 🔹 Movie Details Page */
+.details-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #1a1a1a;
+    border-radius: 10px;
+    text-align: center;
 }
 
-.percent {
-    color: #ff4d4d;
+#movie-poster {
+    width: 100%;
+    border-radius: 8px;
+}
+
+#movie-title {
+    font-size: 24px;
     font-weight: bold;
+    margin-top: 10px;
 }
 
-.views {
-    color: rgba(255, 255, 255, 0.7);
+#movie-description {
+    font-size: 16px;
+    color: #ddd;
+    margin: 10px 0;
+}
+
+#download-button {
+    display: inline-block;
+    background: #ff4d4d;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background 0.3s ease-in-out;
+}
+
+#download-button:hover {
+    background: #ff6666;
 }
 
 /* 🔹 Footer */
@@ -263,10 +267,6 @@ body.search-active {
         font-size: 14px;
     }
 
-    .rating {
-        font-size: 12px;
-    }
-
     .details-container {
         max-width: 90%;
         padding: 15px;
@@ -279,5 +279,18 @@ body.search-active {
     #download-button {
         font-size: 16px;
         padding: 8px 16px;
+    }
+
+    /* 🔹 Reduce Header Size for Mobile */
+    .top-nav {
+        padding: 8px 12px;
+    }
+
+    .logo {
+        font-size: 16px;
+    }
+
+    .nav-icons button {
+        font-size: 18px;
     }
 }
