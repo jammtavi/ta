@@ -10,8 +10,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // 🔹 Movie Data (Dynamic)
     const movies = [
         { id: "movie1", title: "Movie 1", description: "This is the description for Movie 1.", poster: "images/5794217401691262868.jpg", downloadLink: "https://example.com/download/movie1" },
-        { id: "movie2", title: "Movie 2", description: "This is the description for Movie 2.", poster: "images/movie2.jpg", downloadLink: "https://example.com/download/movie2" },
-        { id: "movie3", title: "Movie 3", description: "This is the description for Movie 3.", poster: "images/movie3.jpg", downloadLink: "https://example.com/download/movie3" }
+        { id: "movie2", title: "Movie 2", description: "This is the description for Movie 2.", poster: "movie2.jpg", downloadLink: "https://example.com/download/movie2" },
+        { id: "movie3", title: "Movie 3", description: "This is the description for Movie 3.", poster: "movie3.jpg", downloadLink: "https://example.com/download/movie3" }
     ];
 
     // 🔹 Open Search Overlay
@@ -60,9 +60,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 🔹 Open Movie Details Page
     window.openMovieDetails = function(movieId) {
-        if (window.location.pathname.includes("movie.html") && new URLSearchParams(window.location.search).get("id") === movieId) {
-            return;
-        }
         window.location.href = `movie.html?id=${movieId}`;
     };
 
@@ -78,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("movie-poster").src = movie.poster;
             document.getElementById("download-button").href = movie.downloadLink;
         } else {
-            window.location.href = "index.html"; // Redirect if movie not found
+            document.getElementById("movie-details").innerHTML = `<p class="loading-text">Movie not found.</p>`;
         }
     }
 
@@ -91,7 +88,6 @@ document.addEventListener("DOMContentLoaded", () => {
     searchIcon.addEventListener("click", openSearch);
     cancelSearch.addEventListener("click", closeSearch);
     searchInput.addEventListener("input", searchMovies);
-    searchInput.addEventListener("keyup", searchMovies); // 🔹 Fix: Search updates as user types
 
     // 🔹 Initialize Movies on Home Page
     if (movieGrid) {
