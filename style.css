@@ -77,7 +77,7 @@ body.search-active {
     padding-top: 20px;
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-100%);
+    transform: translateY(-10%);
     transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
 }
 
@@ -129,7 +129,8 @@ body.search-active {
     font-size: 16px;
     color: #ff4d4d;
     cursor: pointer;
-    padding: 10px;
+    padding: 12px 20px;
+    transition: color 0.2s ease-in-out;
 }
 
 #cancel-search:hover {
@@ -143,7 +144,7 @@ body.search-active {
 
 #movie-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     gap: 15px;
     justify-content: center;
     text-align: center;
@@ -157,9 +158,10 @@ body.search-active {
 .movie-card img {
     width: 100%;
     border-radius: 8px;
+    transition: transform 0.3s ease-in-out;
 }
 
-.movie-card:hover {
+.movie-card:hover img {
     transform: scale(1.05);
 }
 
@@ -185,6 +187,11 @@ body.search-active {
     max-width: 400px;
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+    transition: transform 0.3s ease-in-out;
+}
+
+#movie-poster:hover {
+    transform: scale(1.05);
 }
 
 #movie-title {
