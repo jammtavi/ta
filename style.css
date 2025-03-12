@@ -106,6 +106,15 @@ body.search-active {
     transform: scale(1);
 }
 
+/* Move Search & Profile Icons Further Left */
+#search-icon {
+    margin-right: 10px;
+}
+
+#profile-icon {
+    margin-right: 20px;
+}
+
 /* 🔹 Search Input */
 #search {
     flex: 1;
