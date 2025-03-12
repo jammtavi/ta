@@ -33,7 +33,7 @@ body.search-active {
     opacity: 0;
 }
 
-/* 🔹 Restore Old Search Bar */
+/* 🔹 Search Overlay (Restored Original Style) */
 #search-overlay {
     position: fixed;
     top: 0;
@@ -140,7 +140,7 @@ body.search-active {
     position: relative;
     width: 100%;
     max-width: 480px;
-    height: 270px; /* Forces exact height to maintain 16:9 ratio */
+    height: 270px; /* Fixed height to maintain 16:9 ratio */
     overflow: hidden;
 }
 
@@ -209,7 +209,7 @@ body.search-active {
 #movie-poster {
     width: 90%;
     max-width: 480px;
-    aspect-ratio: 16 / 9; /* Ensures correct ratio */
+    aspect-ratio: 16 / 9; /* Forces correct ratio */
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
 }
@@ -224,16 +224,22 @@ body.search-active {
     margin-top: 20px;
 }
 
+/* 🔹 Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 /* 🔹 Responsive Design */
 @media (max-width: 768px) {
     .movie-card {
         width: 100%;
-    }
-
-    .thumbnail {
-        width: 100%;
-        max-width: 480px;
-        height: 270px; /* Ensures 16:9 ratio */
     }
 
     .movie-info h3 {
