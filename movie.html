@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description" content="Movie Details Page">
     <title>Movie Details</title>
     
@@ -14,7 +14,7 @@
 
     <!-- 🔹 Header (Navigation Bar) -->
     <header class="top-nav">
-        <button onclick="goBack()" aria-label="Go Back">
+        <button onclick="goBack()" aria-label="Go Back" class="back-button">
             <i class="fas fa-arrow-left"></i>
         </button>
         <h1 class="logo">Movie Details</h1>
@@ -23,10 +23,10 @@
     <!-- 🔹 Movie Details Section -->
     <main id="movie-details">
         <div class="details-container">
-            <img id="movie-poster" src="" alt="Movie Poster">
+            <img id="movie-poster" src="" alt="Movie Poster" class="poster">
             <h2 id="movie-title"></h2>
             <p id="movie-description"></p>
-            <a id="download-button" href="#" target="_blank">Download</a>
+            <a id="download-button" href="#" target="_blank" class="download-btn">Download</a>
         </div>
     </main>
 
@@ -40,6 +40,7 @@
             const urlParams = new URLSearchParams(window.location.search);
             const movieId = urlParams.get("id");
 
+            // Mock Movie Database
             const movies = {
                 "movie1": {
                     title: "Movie 1",
@@ -61,8 +62,9 @@
                 }
             };
 
+            // If movie ID is invalid, redirect to homepage
             if (!movies[movieId]) {
-                window.location.href = "index.html"; // Redirect to homepage if movie not found
+                window.location.href = "index.html"; 
                 return;
             }
 
