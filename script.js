@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const movies = [
         { id: "movie1", title: "James Bond", description: "This is James Bond Movie.", poster: "images/3-316-16-9-aspect-ratio-s-sfw-wallpaper-preview.jpg", downloadLink: "https://www.cricbuzz.com/" },
         { id: "movie2", title: "Movie 2", description: "This is the description for Movie 2.", poster: "images/447d76a8817d3804243cd2bac16ac7be.jpg", downloadLink: "https://example.com/download/movie2" },
-        { id: "movie3", title: "Movie 3", description: "This is the description for Movie 3.", poster: "movie3.jpg", downloadLink: "https://example.com/download/movie3" }
+        { id: "movie3", title: "Movie 3", description: "This is the description for Movie 3.", poster: "images/movie3.jpg", downloadLink: "https://example.com/download/movie3" }
     ];
 
     // 🔹 Open Search Overlay
@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => searchInput.focus(), 150);
     }
 
-    // 🔹 Close Search Overlay
+    // 🔹 Close Search Overlay (Improved)
     function closeSearch() {
         searchOverlay.classList.remove("active");
         topNav.classList.remove("hidden");
@@ -31,6 +31,13 @@ document.addEventListener("DOMContentLoaded", () => {
         searchInput.blur();
         renderMovies(movies); // Restore full movie list
     }
+
+    // 🔹 Close Search When Clicking Outside Input
+    searchOverlay.addEventListener("click", (event) => {
+        if (event.target === searchOverlay) {
+            closeSearch();
+        }
+    });
 
     // 🔹 Filter Movies Based on Search Query
     function searchMovies() {
@@ -50,8 +57,12 @@ document.addEventListener("DOMContentLoaded", () => {
             const movieCard = document.createElement("article");
             movieCard.classList.add("movie-card");
             movieCard.innerHTML = `
-                <img src="${movie.poster}" alt="${movie.title} Poster">
-                <h3>${movie.title}</h3>
+                <div class="thumbnail">
+                    <img src="${movie.poster}" alt="${movie.title} Poster">
+                </div>
+                <div class="movie-info">
+                    <h3>${movie.title}</h3>
+                </div>
             `;
             movieCard.addEventListener("click", () => openMovieDetails(movie.id));
             movieGrid.appendChild(movieCard);
@@ -74,6 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("movie-description").textContent = movie.description;
             document.getElementById("movie-poster").src = movie.poster;
             document.getElementById("download-button").href = movie.downloadLink;
+            document.getElementById("download-button").style.display = "block"; // Show download button
         } else {
             document.getElementById("movie-details").innerHTML = `<p class="loading-text">Movie not found.</p>`;
         }
