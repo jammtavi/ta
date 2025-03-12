@@ -28,6 +28,20 @@
         </div>
     </header>
 
+    <!-- 🔹 Sidebar Menu -->
+    <nav id="sidebar">
+        <button id="close-menu" aria-label="Close Menu">
+            <i class="fas fa-times"></i>
+        </button>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Trending</a></li>
+            <li><a href="#">Latest</a></li>
+            <li><a href="#">Categories</a></li>
+            <li><a href="#">Favorites</a></li>
+        </ul>
+    </nav>
+
     <!-- 🔹 Search Overlay -->
     <div id="search-overlay">
         <div class="search-container">
@@ -39,7 +53,19 @@
     <!-- 🔹 Main Content -->
     <main id="movie-section">
         <div id="movie-grid">
-            <!-- Movie Cards will be dynamically inserted via JavaScript -->
+            <!-- Placeholder Movies for Faster Loading -->
+            <article class="movie-card" onclick="openMovieDetails('movie1')">
+                <img src="images/5794217401691262868.jpg" alt="Movie 1">
+                <h3>Movie 1</h3>
+            </article>
+            <article class="movie-card" onclick="openMovieDetails('movie2')">
+                <img src="images/movie2.jpg" alt="Movie 2">
+                <h3>Movie 2</h3>
+            </article>
+            <article class="movie-card" onclick="openMovieDetails('movie3')">
+                <img src="images/movie3.jpg" alt="Movie 3">
+                <h3>Movie 3</h3>
+            </article>
         </div>
     </main>
 
@@ -47,6 +73,26 @@
     <footer class="footer">
         <p>© 2025 Movie Download Hub. All Rights Reserved.</p>
     </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const menuIcon = document.getElementById("menu-icon");
+            const sidebar = document.getElementById("sidebar");
+            const closeMenu = document.getElementById("close-menu");
+
+            menuIcon.addEventListener("click", () => {
+                sidebar.classList.add("active");
+            });
+
+            closeMenu.addEventListener("click", () => {
+                sidebar.classList.remove("active");
+            });
+        });
+
+        function openMovieDetails(movieId) {
+            window.location.href = `movie.html?id=${movieId}`;
+        }
+    </script>
 
 </body>
 </html>
