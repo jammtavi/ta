@@ -50,24 +50,37 @@
                 "movie2": {
                     title: "Movie 2",
                     description: "This is the description for Movie 2.",
-                    poster: "movie2.jpg",
+                    poster: "images/movie2.jpg",
                     downloadLink: "https://example.com/download/movie2"
                 },
                 "movie3": {
                     title: "Movie 3",
                     description: "This is the description for Movie 3.",
-                    poster: "movie3.jpg",
+                    poster: "images/movie3.jpg",
                     downloadLink: "https://example.com/download/movie3"
                 }
             };
 
-            if (movies[movieId]) {
-                document.getElementById("movie-title").textContent = movies[movieId].title;
-                document.getElementById("movie-description").textContent = movies[movieId].description;
-                document.getElementById("movie-poster").src = movies[movieId].poster;
-                document.getElementById("download-button").href = movies[movieId].downloadLink;
+            if (!movies[movieId]) {
+                window.location.href = "index.html"; // Redirect to homepage if movie not found
+                return;
+            }
+
+            // Set Movie Details
+            document.getElementById("movie-title").textContent = movies[movieId].title;
+            document.getElementById("movie-description").textContent = movies[movieId].description;
+            document.getElementById("movie-poster").src = movies[movieId].poster;
+
+            // Set Page Title Dynamically
+            document.title = movies[movieId].title + " - Movie Details";
+
+            // Handle Download Button Visibility
+            const downloadButton = document.getElementById("download-button");
+            if (movies[movieId].downloadLink) {
+                downloadButton.href = movies[movieId].downloadLink;
+                downloadButton.style.display = "inline-block";
             } else {
-                document.getElementById("movie-details").innerHTML = "<p class='loading-text'>Movie not found.</p>";
+                downloadButton.style.display = "none";
             }
         });
 
