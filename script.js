@@ -9,9 +9,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 🔹 Movie Data (Dynamic)
     const movies = [
-        { id: "movie1", title: "James Bond", description: "This is James Bond Movie.", poster: "images/3-316-16-9-aspect-ratio-s-sfw-wallpaper-preview.jpg", downloadLink: "https://www.cricbuzz.com/" },
-        { id: "movie2", title: "Movie 2", description: "This is the description for Movie 2.", poster: "images/447d76a8817d3804243cd2bac16ac7be.jpg", downloadLink: "https://example.com/download/movie2" },
-        { id: "movie3", title: "Movie 3", description: "This is the description for Movie 3.", poster: "images/movie3.jpg", downloadLink: "https://example.com/download/movie3" } // Fixed path
+        { id: "movie1", title: "Movie 1", description: "This is the description for Movie 1.", poster: "images/5794217401691262868.jpg", downloadLink: "https://example.com/download/movie1" },
+        { id: "movie2", title: "Movie 2", description: "This is the description for Movie 2.", poster: "movie2.jpg", downloadLink: "https://example.com/download/movie2" },
+        { id: "movie3", title: "Movie 3", description: "This is the description for Movie 3.", poster: "movie3.jpg", downloadLink: "https://example.com/download/movie3" }
     ];
 
     // 🔹 Open Search Overlay
@@ -32,15 +32,11 @@ document.addEventListener("DOMContentLoaded", () => {
         renderMovies(movies); // Restore full movie list
     }
 
-    // 🔹 Debounced Search Function (Better Performance)
-    let debounceTimer;
+    // 🔹 Filter Movies Based on Search Query
     function searchMovies() {
-        clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(() => {
-            let query = searchInput.value.trim().toLowerCase();
-            let filteredMovies = movies.filter(movie => movie.title.toLowerCase().includes(query));
-            renderMovies(filteredMovies);
-        }, 300); // Prevents excessive re-rendering
+        let query = searchInput.value.toLowerCase();
+        let filteredMovies = movies.filter(movie => movie.title.toLowerCase().includes(query));
+        renderMovies(filteredMovies);
     }
 
     // 🔹 Render Movies in the Grid
@@ -54,12 +50,8 @@ document.addEventListener("DOMContentLoaded", () => {
             const movieCard = document.createElement("article");
             movieCard.classList.add("movie-card");
             movieCard.innerHTML = `
-                <div class="thumbnail">
-                    <img src="${movie.poster}" alt="${movie.title} Poster" loading="lazy">
-                </div>
-                <div class="movie-info">
-                    <h3>${movie.title}</h3>
-                </div>
+                <img src="${movie.poster}" alt="${movie.title} Poster">
+                <h3>${movie.title}</h3>
             `;
             movieCard.addEventListener("click", () => openMovieDetails(movie.id));
             movieGrid.appendChild(movieCard);
@@ -68,11 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 🔹 Open Movie Details Page
     window.openMovieDetails = function(movieId) {
-        if (movies.some(movie => movie.id === movieId)) {
-            window.location.href = `movie.html?id=${movieId}`;
-        } else {
-            alert("Movie not found!");
-        }
+        window.location.href = `movie.html?id=${movieId}`;
     };
 
     // 🔹 Load Movie Details on `movie.html`
