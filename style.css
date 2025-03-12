@@ -31,7 +31,6 @@ body.search-active {
 .top-nav.hidden {
     transform: translateY(-100%);
     opacity: 0;
-    pointer-events: none;
 }
 
 /* 🔹 Center Logo */
@@ -54,7 +53,6 @@ body.search-active {
     background: none;
     border: none;
     font-size: 20px;
-    padding: 8px;
     color: #fff;
     cursor: pointer;
     transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
@@ -63,55 +61,6 @@ body.search-active {
 .top-nav button:hover {
     transform: scale(1.1);
     color: #ccc;
-}
-
-/* 🔹 Sidebar Menu */
-#sidebar {
-    position: fixed;
-    top: 0;
-    left: -250px;
-    width: 250px;
-    height: 100%;
-    background: #1a1a1a;
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    transition: left 0.3s ease-in-out;
-    z-index: 1001;
-}
-
-#sidebar.active {
-    left: 0;
-}
-
-#sidebar button {
-    align-self: flex-end;
-    background: none;
-    border: none;
-    font-size: 18px;
-    color: #ff4d4d;
-    cursor: pointer;
-}
-
-#sidebar ul {
-    list-style: none;
-    padding: 0;
-    margin-top: 20px;
-}
-
-#sidebar ul li {
-    margin: 15px 0;
-}
-
-#sidebar ul li a {
-    color: #ccc;
-    text-decoration: none;
-    transition: color 0.3s ease-in-out;
-}
-
-#sidebar ul li a:hover {
-    color: #ff4d4d;
 }
 
 /* 🔹 Search Overlay */
@@ -128,8 +77,8 @@ body.search-active {
     padding-top: 20px;
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-20px);
-    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    transform: translateY(-100%);
+    transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
 }
 
 #search-overlay.active {
@@ -200,16 +149,13 @@ body.search-active {
     text-align: center;
 }
 
-/* 🔹 Movie Cards */
+/* 🔹 Movie Cards (No Background Box) */
 .movie-card {
     transition: transform 0.3s ease-in-out;
 }
 
 .movie-card img {
     width: 100%;
-    height: auto;
-    max-height: 250px;
-    object-fit: cover;
     border-radius: 8px;
 }
 
@@ -234,13 +180,33 @@ body.search-active {
     animation: fadeIn 0.5s ease-in-out;
 }
 
+#movie-poster {
+    width: 90%;
+    max-width: 400px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+#movie-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+    margin-top: 15px;
+}
+
+#movie-description {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 10px;
+}
+
 /* 🔹 Download Button */
 #download-button {
     display: inline-block;
     background: #ff4d4d;
     color: #fff;
-    padding: 10px 18px;
-    font-size: 16px;
+    padding: 12px 20px;
+    font-size: 18px;
     border-radius: 5px;
     text-decoration: none;
     transition: background 0.3s ease-in-out;
@@ -261,28 +227,6 @@ body.search-active {
     margin-top: 20px;
 }
 
-/* 🔹 Responsive Design */
-@media (max-width: 1024px) {
-    #movie-grid {
-        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    }
-}
-
-@media (max-width: 768px) {
-    .top-nav {
-        padding: 8px 10px;
-    }
-
-    #movie-grid {
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    }
-
-    #download-button {
-        font-size: 16px;
-        padding: 8px 16px;
-    }
-}
-
 /* 🔹 Animations */
 @keyframes fadeIn {
     from {
@@ -292,5 +236,42 @@ body.search-active {
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+/* 🔹 Responsive Design */
+@media (max-width: 768px) {
+    .top-nav {
+        padding: 8px 10px;
+    }
+
+    .logo {
+        font-size: 16px;
+    }
+
+    .top-nav button {
+        font-size: 18px;
+    }
+
+    .nav-icons {
+        gap: 10px;
+    }
+
+    #movie-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    }
+
+    .details-container {
+        max-width: 90%;
+        padding: 15px;
+    }
+
+    #movie-poster {
+        width: 80%;
+    }
+
+    #download-button {
+        font-size: 16px;
+        padding: 8px 16px;
     }
 }
