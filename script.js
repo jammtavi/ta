@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const movies = [
         { id: "movie1", title: "James Bond", description: "This is James Bond Movie.", poster: "images/3-316-16-9-aspect-ratio-s-sfw-wallpaper-preview.jpg", downloadLink: "https://www.cricbuzz.com/" },
         { id: "movie2", title: "Movie 2", description: "This is the description for Movie 2.", poster: "images/447d76a8817d3804243cd2bac16ac7be.jpg", downloadLink: "https://example.com/download/movie2" },
-        { id: "movie3", title: "Movie 3", description: "This is the description for Movie 3.", poster: "images/movie3.jpg", downloadLink: "https://example.com/download/movie3" }
+        { id: "movie3", title: "Movie 3", description: "This is the description for Movie 3.", poster: "images/movie3.jpg", downloadLink: "https://example.com/download/movie3" } // Fixed path
     ];
 
     // 🔹 Open Search Overlay
@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => searchInput.focus(), 150);
     }
 
-    // 🔹 Close Search Overlay (Improved)
+    // 🔹 Close Search Overlay
     function closeSearch() {
         searchOverlay.classList.remove("active");
         topNav.classList.remove("hidden");
@@ -32,18 +32,15 @@ document.addEventListener("DOMContentLoaded", () => {
         renderMovies(movies); // Restore full movie list
     }
 
-    // 🔹 Close Search When Clicking Outside Input
-    searchOverlay.addEventListener("click", (event) => {
-        if (event.target === searchOverlay) {
-            closeSearch();
-        }
-    });
-
-    // 🔹 Filter Movies Based on Search Query
+    // 🔹 Debounced Search Function (Better Performance)
+    let debounceTimer;
     function searchMovies() {
-        let query = searchInput.value.toLowerCase();
-        let filteredMovies = movies.filter(movie => movie.title.toLowerCase().includes(query));
-        renderMovies(filteredMovies);
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+            let query = searchInput.value.trim().toLowerCase();
+            let filteredMovies = movies.filter(movie => movie.title.toLowerCase().includes(query));
+            renderMovies(filteredMovies);
+        }, 300); // Prevents excessive re-rendering
     }
 
     // 🔹 Render Movies in the Grid
@@ -58,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
             movieCard.classList.add("movie-card");
             movieCard.innerHTML = `
                 <div class="thumbnail">
-                    <img src="${movie.poster}" alt="${movie.title} Poster">
+                    <img src="${movie.poster}" alt="${movie.title} Poster" loading="lazy">
                 </div>
                 <div class="movie-info">
                     <h3>${movie.title}</h3>
@@ -71,7 +68,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 🔹 Open Movie Details Page
     window.openMovieDetails = function(movieId) {
-        window.location.href = `movie.html?id=${movieId}`;
+        if (movies.some(movie => movie.id === movieId)) {
+            window.location.href = `movie.html?id=${movieId}`;
+        } else {
+            alert("Movie not found!");
+        }
     };
 
     // 🔹 Load Movie Details on `movie.html`
@@ -85,7 +86,6 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("movie-description").textContent = movie.description;
             document.getElementById("movie-poster").src = movie.poster;
             document.getElementById("download-button").href = movie.downloadLink;
-            document.getElementById("download-button").style.display = "block"; // Show download button
         } else {
             document.getElementById("movie-details").innerHTML = `<p class="loading-text">Movie not found.</p>`;
         }
