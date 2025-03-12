@@ -33,36 +33,6 @@ body.search-active {
     opacity: 0;
 }
 
-/* 🔹 Center Logo */
-.logo {
-    font-size: 18px;
-    font-weight: bold;
-    color: #e0e0e0;
-    text-align: center;
-}
-
-/* 🔹 Navigation Icons */
-.nav-icons {
-    display: flex;
-    gap: 15px;
-    justify-content: flex-end;
-}
-
-/* 🔹 Menu, Search & Profile Icons */
-.top-nav button {
-    background: none;
-    border: none;
-    font-size: 20px;
-    color: #fff;
-    cursor: pointer;
-    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
-}
-
-.top-nav button:hover {
-    transform: scale(1.1);
-    color: #ccc;
-}
-
 /* 🔹 Restore Old Search Bar */
 #search-overlay {
     position: fixed;
@@ -151,38 +121,38 @@ body.search-active {
 /* 🔹 Movie Card */
 .movie-card {
     display: flex;
+    flex-direction: column;
     align-items: center;
     background: #1a1a1a;
     border-radius: 8px;
     overflow: hidden;
     cursor: pointer;
     transition: background 0.3s ease-in-out;
+    padding-bottom: 10px;
 }
 
 .movie-card:hover {
     background: #222;
 }
 
-/* 🔹 Movie Thumbnail (16:9 Aspect Ratio) */
+/* 🔹 Movie Thumbnail (Fixed 480x270 Pixels, 16:9 Ratio) */
 .thumbnail {
     position: relative;
-    width: 45%;
-    padding-top: 56.25%; /* 16:9 aspect ratio (9 / 16 * 100) */
+    width: 100%;
+    max-width: 480px;
+    height: 270px; /* Forces exact height to maintain 16:9 ratio */
     overflow: hidden;
 }
 
 .thumbnail img {
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
-    border-radius: 6px 0 0 6px;
+    border-radius: 6px 6px 0 0;
 }
 
-/* 🔹 Movie Duration */
+/* 🔹 Movie Duration (Overlay on Thumbnail) */
 .duration {
     position: absolute;
     bottom: 5px;
@@ -197,10 +167,8 @@ body.search-active {
 /* 🔹 Movie Info */
 .movie-info {
     padding: 10px;
-    width: 55%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    text-align: center;
+    width: 100%;
 }
 
 .movie-info h3 {
@@ -214,7 +182,7 @@ body.search-active {
 /* 🔹 Rating & Views */
 .rating {
     display: flex;
-    align-items: center;
+    justify-content: center;
     gap: 10px;
     font-size: 14px;
 }
@@ -226,6 +194,24 @@ body.search-active {
 
 .views {
     color: rgba(255, 255, 255, 0.7);
+}
+
+/* 🔹 Movie Details Page */
+#movie-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    text-align: center;
+}
+
+/* 🔹 Movie Poster (16:9 Aspect Ratio) */
+#movie-poster {
+    width: 90%;
+    max-width: 480px;
+    aspect-ratio: 16 / 9; /* Ensures correct ratio */
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
 }
 
 /* 🔹 Footer */
@@ -241,16 +227,13 @@ body.search-active {
 /* 🔹 Responsive Design */
 @media (max-width: 768px) {
     .movie-card {
-        flex-direction: row;
         width: 100%;
     }
 
     .thumbnail {
-        width: 40%;
-    }
-
-    .movie-info {
-        width: 60%;
+        width: 100%;
+        max-width: 480px;
+        height: 270px; /* Ensures 16:9 ratio */
     }
 
     .movie-info h3 {
@@ -259,11 +242,6 @@ body.search-active {
 
     .rating {
         font-size: 12px;
-    }
-
-    .details-container {
-        max-width: 90%;
-        padding: 15px;
     }
 
     #movie-poster {
