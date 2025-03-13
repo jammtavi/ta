@@ -23,10 +23,10 @@
     <!-- 🔹 Movie Details Section -->
     <main id="movie-details">
         <div class="details-container">
-            <img id="movie-poster" src="" alt="Movie Poster" class="poster">
+            <img id="movie-poster" src="" alt="Movie Poster" class="poster" loading="lazy">
             <h2 id="movie-title"></h2>
             <p id="movie-description"></p>
-            <a id="download-button" href="#" target="_blank" class="download-btn">Download</a>
+            <a id="download-button" href="#" target="_blank" rel="noopener noreferrer" class="download-btn">Download</a>
         </div>
     </main>
 
@@ -40,7 +40,7 @@
             const urlParams = new URLSearchParams(window.location.search);
             const movieId = urlParams.get("id");
 
-            // Mock Movie Database
+            // Movie Database (Mock Data)
             const movies = {
                 "movie1": {
                     title: "Movie 1",
@@ -71,10 +71,13 @@
             // Set Movie Details
             document.getElementById("movie-title").textContent = movies[movieId].title;
             document.getElementById("movie-description").textContent = movies[movieId].description;
-            document.getElementById("movie-poster").src = movies[movieId].poster;
+
+            const moviePoster = document.getElementById("movie-poster");
+            moviePoster.src = movies[movieId].poster;
+            moviePoster.alt = movies[movieId].title + " Poster"; // Better Accessibility
 
             // Set Page Title Dynamically
-            document.title = movies[movieId].title + " - Movie Details";
+            document.title = `${movies[movieId].title} - Movie Details`;
 
             // Handle Download Button Visibility
             const downloadButton = document.getElementById("download-button");
@@ -87,7 +90,11 @@
         });
 
         function goBack() {
-            window.history.back();
+            if (document.referrer) {
+                window.history.back();
+            } else {
+                window.location.href = "index.html"; // Fallback to home
+            }
         }
     </script>
 
