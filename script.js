@@ -9,8 +9,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 🔹 Movie Data (Dynamic)
     const movies = [
-        { id: "movie1", title: "Movie 1", description: "This is the description for Movie 1.", poster: "images/5794217401691262868.jpg", downloadLink: "https://example.com/download/movie1" },
-        { id: "movie2", title: "Movie 2", description: "This is the description for Movie 2.", poster: "images/movie2.jpg", downloadLink: "https://example.com/download/movie2" },
+        { id: "movie1", title: "Movie 1", description: "This is the description for Movie 1.", poster: "images/447d76a8817d3804243cd2bac16ac7be.jpg", downloadLink: "https://example.com/download/movie1" },
+        { id: "movie2", title: "Movie 2", description: "This is the description for Movie 2.", poster: "images/3-316-16-9-aspect-ratio-s-sfw-wallpaper-preview.jpg", downloadLink: "https://example.com/download/movie2" },
         { id: "movie3", title: "Movie 3", description: "This is the description for Movie 3.", poster: "images/movie3.jpg", downloadLink: "https://example.com/download/movie3" }
     ];
 
