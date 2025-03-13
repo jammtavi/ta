@@ -14,6 +14,14 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "movie3", title: "Movie 3", description: "This is the description for Movie 3.", poster: "images/movie3.jpg", downloadLink: "https://example.com/download/movie3" }
     ];
 
+    // 🔹 Store Movies in Local Storage (if not already stored)
+    if (!localStorage.getItem("movies")) {
+        localStorage.setItem("movies", JSON.stringify(movies));
+    }
+
+    // Retrieve Movies from Local Storage
+    const storedMovies = JSON.parse(localStorage.getItem("movies"));
+
     // 🔹 Open Search Overlay
     function openSearch() {
         searchOverlay.classList.add("active");
@@ -31,19 +39,30 @@ document.addEventListener("DOMContentLoaded", () => {
         document.documentElement.style.overflow = ""; // Restore scrolling
         searchInput.value = "";
         searchInput.blur();
-        renderMovies(movies); // Restore full movie list
+        renderMovies(storedMovies); // Restore full movie list
+    }
+
+    // 🔹 Debounce Function (Optimize Search Performance)
+    function debounce(func, delay) {
+        let timer;
+        return function (...args) {
+            clearTimeout(timer);
+            timer = setTimeout(() => func.apply(this, args), delay);
+        };
     }
 
     // 🔹 Filter Movies Based on Search Query
     function searchMovies() {
         let query = searchInput.value.trim().toLowerCase();
         if (!query) {
-            renderMovies(movies); // Show all movies if empty
+            renderMovies(storedMovies); // Show all movies if empty
             return;
         }
-        let filteredMovies = movies.filter(movie => movie.title.toLowerCase().includes(query));
+        let filteredMovies = storedMovies.filter(movie => movie.title.toLowerCase().includes(query));
         renderMovies(filteredMovies);
     }
+
+    const debouncedSearch = debounce(searchMovies, 300); // 🔥 Reduces API calls
 
     // 🔹 Render Movies in the Grid
     function renderMovies(movieList) {
@@ -65,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // 🔹 Open Movie Details Page
-    window.openMovieDetails = function(movieId) {
+    window.openMovieDetails = function (movieId) {
         window.location.href = `movie.html?id=${movieId}`;
     };
 
@@ -74,8 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const urlParams = new URLSearchParams(window.location.search);
         const movieId = urlParams.get("id");
 
-        // Fetch movie data dynamically from localStorage (to fix missing movie list issue)
-        let storedMovies = JSON.parse(localStorage.getItem("movies")) || movies;
+        // Retrieve Movie Data from Local Storage
         const movie = storedMovies.find(m => m.id === movieId);
 
         if (movie) {
@@ -96,23 +114,22 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // 🔹 Save Movies to Local Storage for Cross-Page Access
-    if (!localStorage.getItem("movies")) {
-        localStorage.setItem("movies", JSON.stringify(movies));
-    }
-
     // 🔹 Go Back Function
-    window.goBack = function() {
-        window.history.back();
+    window.goBack = function () {
+        if (document.referrer) {
+            window.history.back();
+        } else {
+            window.location.href = "index.html"; // Fallback to home
+        }
     };
 
     // 🔹 Event Listeners
     searchIcon.addEventListener("click", openSearch);
     cancelSearch.addEventListener("click", closeSearch);
-    searchInput.addEventListener("input", searchMovies);
+    searchInput.addEventListener("input", debouncedSearch);
 
     // 🔹 Initialize Movies on Home Page
     if (movieGrid) {
-        renderMovies(movies);
+        renderMovies(storedMovies);
     }
 });
