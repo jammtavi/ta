@@ -133,3 +133,26 @@ document.addEventListener("DOMContentLoaded", () => {
         renderMovies(storedMovies);
     }
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+    const profileIcon = document.getElementById("profile-icon");
+    const profileMenu = document.getElementById("profile-menu");
+
+    // 🔹 Toggle Dropdown Menu
+    profileIcon.addEventListener("click", (event) => {
+        profileMenu.classList.toggle("active");
+        event.stopPropagation(); // Prevents immediate closure when clicking the icon
+    });
+
+    // 🔹 Close Dropdown When Clicking Outside
+    document.addEventListener("click", (event) => {
+        if (!profileIcon.contains(event.target) && !profileMenu.contains(event.target)) {
+            profileMenu.classList.remove("active");
+        }
+    });
+
+    // 🔹 Close Dropdown on Scroll
+    window.addEventListener("scroll", () => {
+        profileMenu.classList.remove("active");
+    });
+});
