@@ -28,10 +28,9 @@ body.search-active {
     transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 
-/* Hide Header When Search is Active */
-.top-nav.hidden {
-    transform: translateY(-100%);
-    opacity: 0;
+/* 🔹 Hide Navigation Bar When Search is Active */
+body.search-active .top-nav {
+    display: none;
 }
 
 /* 🔹 Center Logo */
