@@ -3,7 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="Movie Details Page">
+    <meta name="description" content="Movie Details - Watch and Download Your Favorite Movies">
+    
+    <!-- 🔹 SEO & Open Graph Tags -->
+    <meta property="og:title" content="Movie Details - Movie Download Hub">
+    <meta property="og:description" content="View details and download your favorite movies.">
+    <meta property="og:image" content="thumbnail.jpg">
+    <meta property="og:url" content="https://moviedownloadhub.com/movie.html">
+    
     <title>Movie Details</title>
     
     <link rel="stylesheet" href="style.css">
@@ -34,69 +41,6 @@
     <footer class="footer">
         <p>© 2025 Movie Download Hub. All Rights Reserved.</p>
     </footer>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const movieId = urlParams.get("id");
-
-            // Movie Database (Mock Data)
-            const movies = {
-                "movie1": {
-                    title: "Movie 1",
-                    description: "This is the description for Movie 1.",
-                    poster: "images/447d76a8817d3804243cd2bac16ac7be.jpg",
-                    downloadLink: "https://example.com/download/movie1"
-                },
-                "movie2": {
-                    title: "Movie 2",
-                    description: "This is the description for Movie 2.",
-                    poster: "images/3-316-16-9-aspect-ratio-s-sfw-wallpaper-preview.jpg",
-                    downloadLink: "https://example.com/download/movie2"
-                },
-                "movie3": {
-                    title: "Movie 3",
-                    description: "This is the description for Movie 3.",
-                    poster: "images/movie3.jpg",
-                    downloadLink: "https://example.com/download/movie3"
-                }
-            };
-
-            // If movie ID is invalid, redirect to homepage
-            if (!movies[movieId]) {
-                window.location.href = "index.html"; 
-                return;
-            }
-
-            // Set Movie Details
-            document.getElementById("movie-title").textContent = movies[movieId].title;
-            document.getElementById("movie-description").textContent = movies[movieId].description;
-
-            const moviePoster = document.getElementById("movie-poster");
-            moviePoster.src = movies[movieId].poster;
-            moviePoster.alt = movies[movieId].title + " Poster"; // Better Accessibility
-
-            // Set Page Title Dynamically
-            document.title = `${movies[movieId].title} - Movie Details`;
-
-            // Handle Download Button Visibility
-            const downloadButton = document.getElementById("download-button");
-            if (movies[movieId].downloadLink) {
-                downloadButton.href = movies[movieId].downloadLink;
-                downloadButton.style.display = "inline-block";
-            } else {
-                downloadButton.style.display = "none";
-            }
-        });
-
-        function goBack() {
-            if (document.referrer) {
-                window.history.back();
-            } else {
-                window.location.href = "index.html"; // Fallback to home
-            }
-        }
-    </script>
 
 </body>
 </html>
