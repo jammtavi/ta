@@ -5,12 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description" content="Movie Details - Watch and Download Your Favorite Movies">
     
-    <!-- 🔹 SEO & Open Graph Tags -->
-    <meta property="og:title" content="Movie Details - Movie Download Hub">
-    <meta property="og:description" content="View details and download your favorite movies.">
-    <meta property="og:image" content="thumbnail.jpg">
-    <meta property="og:url" content="https://moviedownloadhub.com/movie.html">
-    
     <title>Movie Details</title>
     
     <link rel="stylesheet" href="style.css">
@@ -37,10 +31,105 @@
         </div>
     </main>
 
+    <!-- 🔹 Recommended Movies -->
+    <section id="recommended-movies">
+        <h3>Recommended Movies</h3>
+        <div class="recommended-grid">
+            <!-- Movies will be dynamically loaded via JavaScript -->
+        </div>
+    </section>
+
     <!-- 🔹 Footer -->
     <footer class="footer">
         <p>© 2025 Movie Download Hub. All Rights Reserved.</p>
     </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const movieId = urlParams.get("id");
+
+            // Movie Database (Mock Data)
+            const movies = {
+                "movie1": {
+                    title: "Movie 1",
+                    description: "An action-packed thriller that keeps you on the edge.",
+                    poster: "images/3-316-16-9-aspect-ratio-s-sfw-wallpaper-preview.jpg",
+                    downloadLink: "https://example.com/download/movie1"
+                },
+                "movie2": {
+                    title: "Movie 2",
+                    description: "A breathtaking adventure that takes you into another world.",
+                    poster: "images/447d76a8817d3804243cd2bac16ac7be.jpg",
+                    downloadLink: "https://example.com/download/movie2"
+                },
+                "movie3": {
+                    title: "Movie 3",
+                    description: "A suspenseful mystery with unexpected twists and turns.",
+                    poster: "images/3-316-16-9-aspect-ratio-s-sfw-wallpaper-preview.jpg",
+                    downloadLink: "https://example.com/download/movie3"
+                }
+            };
+
+            // If movie ID is invalid, redirect to homepage
+            if (!movies[movieId]) {
+                window.location.href = "index.html"; 
+                return;
+            }
+
+            // Set Movie Details
+            document.getElementById("movie-title").textContent = movies[movieId].title;
+            document.getElementById("movie-description").textContent = movies[movieId].description;
+
+            const moviePoster = document.getElementById("movie-poster");
+            moviePoster.src = movies[movieId].poster;
+            moviePoster.alt = movies[movieId].title + " Poster"; 
+
+            // Set Page Title Dynamically
+            document.title = `${movies[movieId].title} - Movie Details`;
+
+            // Handle Download Button Visibility
+            const downloadButton = document.getElementById("download-button");
+            if (movies[movieId].downloadLink) {
+                downloadButton.href = movies[movieId].downloadLink;
+                downloadButton.style.display = "inline-block";
+            } else {
+                downloadButton.style.display = "none";
+            }
+
+            // Load Recommended Movies
+            loadRecommendedMovies(movieId, movies);
+        });
+
+        function loadRecommendedMovies(currentMovieId, allMovies) {
+            const recommendedGrid = document.querySelector(".recommended-grid");
+            recommendedGrid.innerHTML = "";
+
+            Object.keys(allMovies).forEach(movieId => {
+                if (movieId !== currentMovieId) { // Exclude current movie
+                    const movie = allMovies[movieId];
+                    const movieCard = document.createElement("div");
+                    movieCard.classList.add("recommended-card");
+                    movieCard.innerHTML = `
+                        <img src="${movie.poster}" alt="${movie.title}">
+                        <p>${movie.title}</p>
+                    `;
+                    movieCard.addEventListener("click", () => {
+                        window.location.href = `movie.html?id=${movieId}`;
+                    });
+                    recommendedGrid.appendChild(movieCard);
+                }
+            });
+        }
+
+        function goBack() {
+            if (document.referrer) {
+                window.history.back();
+            } else {
+                window.location.href = "index.html"; 
+            }
+        }
+    </script>
 
 </body>
 </html>
