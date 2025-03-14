@@ -60,22 +60,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 🔹 Render Movies in the Grid
     function renderMovies(movieList) {
-        movieGrid.innerHTML = "";
-        if (movieList.length === 0) {
-            movieGrid.innerHTML = `<p class="loading-text">No movies found.</p>`;
-            return;
-        }
-        movieList.forEach(movie => {
-            const movieCard = document.createElement("article");
-            movieCard.classList.add("movie-card");
-            movieCard.innerHTML = `
-                <img src="${movie.poster}" alt="${movie.title} Poster" loading="lazy">
-                <h3>${movie.title}</h3>
-            `;
-            movieCard.addEventListener("click", () => openMovieDetails(movie.id));
-            movieGrid.appendChild(movieCard);
-        });
+    movieGrid.innerHTML = "";
+    if (movieList.length === 0) {
+        movieGrid.innerHTML = `<p class="loading-text">No movies found.</p>`;
+        return;
     }
+    movieList.forEach(movie => {
+        const movieCard = document.createElement("article");
+        movieCard.classList.add("movie-card");
+        movieCard.innerHTML = `
+            <img src="${movie.poster}" alt="${movie.title} Poster" loading="lazy">
+            <h3>${movie.title}</h3>
+        `;
+        movieCard.addEventListener("click", () => openMovieDetails(movie.id));
+        movieGrid.appendChild(movieCard);
+    });
+}
+
 
     // 🔹 Open Movie Details Page
     window.openMovieDetails = function (movieId) {
