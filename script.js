@@ -3,15 +3,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const searchOverlay = document.getElementById("search-overlay");
     const cancelSearch = document.getElementById("cancel-search");
     const searchInput = document.getElementById("search");
-    const topNav = document.querySelector(".top-nav");
     const movieGrid = document.getElementById("movie-grid");
     const body = document.body;
 
     // 🔹 Movie Data (Dynamic)
     const movies = [
-        { id: "movie1", title: "Movie 1", description: "This is the description for Movie 1.", poster: "images/447d76a8817d3804243cd2bac16ac7be.jpg", downloadLink: "https://example.com/download/movie1" },
-        { id: "movie2", title: "Movie 2", description: "This is the description for Movie 2.", poster: "images/3-316-16-9-aspect-ratio-s-sfw-wallpaper-preview.jpg", downloadLink: "https://example.com/download/movie2" },
-        { id: "movie3", title: "Movie 3", description: "This is the description for Movie 3.", poster: "images/movie3.jpg", downloadLink: "https://example.com/download/movie3" }
+        { id: "movie1", title: "Movie 1", description: "A thrilling movie experience.", poster: "images/movie1.jpg", downloadLink: "https://example.com/download/movie1" },
+        { id: "movie2", title: "Movie 2", description: "A breathtaking adventure.", poster: "images/movie2.jpg", downloadLink: "https://example.com/download/movie2" },
+        { id: "movie3", title: "Movie 3", description: "A suspenseful mystery.", poster: "images/movie3.jpg", downloadLink: "https://example.com/download/movie3" }
     ];
 
     // 🔹 Store Movies in Local Storage (if not already stored)
@@ -25,20 +24,15 @@ document.addEventListener("DOMContentLoaded", () => {
     // 🔹 Open Search Overlay
     function openSearch() {
         searchOverlay.classList.add("active");
-        topNav.classList.add("hidden");
         body.classList.add("search-active");
-        document.documentElement.style.overflow = "hidden"; // Prevent scrolling
         setTimeout(() => searchInput.focus(), 150);
     }
 
     // 🔹 Close Search Overlay
     function closeSearch() {
         searchOverlay.classList.remove("active");
-        topNav.classList.remove("hidden");
         body.classList.remove("search-active");
-        document.documentElement.style.overflow = ""; // Restore scrolling
         searchInput.value = "";
-        searchInput.blur();
         renderMovies(storedMovies); // Restore full movie list
     }
 
@@ -134,6 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
+/* 🔹 Profile Dropdown Handling */
 document.addEventListener("DOMContentLoaded", () => {
     const profileIcon = document.getElementById("profile-icon");
     const profileMenu = document.getElementById("profile-menu");
