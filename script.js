@@ -13,27 +13,29 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "movie3", title: "Movie 3", description: "A suspenseful mystery.", poster: "images/3-316-16-9-aspect-ratio-s-sfw-wallpaper-preview.jpg", downloadLink: "https://example.com/download/movie3" }
     ];
 
-    // 🔹 Store Movies in Local Storage (if not already stored)
-    if (!localStorage.getItem("movies")) {
-        localStorage.setItem("movies", JSON.stringify(movies));
+    // 🔹 Fix: Force Refresh Data Across Browsers
+    function fetchAndStoreMovies() {
+        localStorage.removeItem("movies"); // Clear old cache
+        localStorage.setItem("movies", JSON.stringify(movies)); // Store fresh data
+        return JSON.parse(localStorage.getItem("movies"));
     }
 
-    // Retrieve Movies from Local Storage
-    const storedMovies = JSON.parse(localStorage.getItem("movies"));
-
+    // 🔹 Retrieve Movies and Ensure Fresh Load
+    const storedMovies = fetchAndStoreMovies();
+    
     // 🔹 Open Search Overlay
     function openSearch() {
         searchOverlay.classList.add("active");
-        body.classList.add("search-active");
+        body.classList.add("search-active"); 
         setTimeout(() => searchInput.focus(), 150);
     }
 
     // 🔹 Close Search Overlay
     function closeSearch() {
         searchOverlay.classList.remove("active");
-        body.classList.remove("search-active");
+        body.classList.remove("search-active"); 
         searchInput.value = "";
-        renderMovies(storedMovies); // Restore full movie list
+        renderMovies(storedMovies); 
     }
 
     // 🔹 Debounce Function (Optimize Search Performance)
@@ -56,27 +58,30 @@ document.addEventListener("DOMContentLoaded", () => {
         renderMovies(filteredMovies);
     }
 
-    const debouncedSearch = debounce(searchMovies, 300); // 🔥 Reduces API calls
+    const debouncedSearch = debounce(searchMovies, 300); 
 
     // 🔹 Render Movies in the Grid
     function renderMovies(movieList) {
-    movieGrid.innerHTML = "";
-    if (movieList.length === 0) {
-        movieGrid.innerHTML = `<p class="loading-text">No movies found.</p>`;
-        return;
-    }
-    movieList.forEach(movie => {
-        const movieCard = document.createElement("article");
-        movieCard.classList.add("movie-card");
-        movieCard.innerHTML = `
-            <img src="${movie.poster}" alt="${movie.title} Poster" loading="lazy">
-            <h3>${movie.title}</h3>
-        `;
-        movieCard.addEventListener("click", () => openMovieDetails(movie.id));
-        movieGrid.appendChild(movieCard);
-    });
-}
+        movieGrid.innerHTML = "";
+        if (movieList.length === 0) {
+            movieGrid.innerHTML = `<p class="loading-text">No movies found.</p>`;
+            return;
+        }
+        movieList.forEach(movie => {
+            const movieCard = document.createElement("article");
+            movieCard.classList.add("movie-card");
 
+            // 🔹 Append a timestamp to prevent caching issues
+            const imgSrc = `${movie.poster}?t=${new Date().getTime()}`;
+
+            movieCard.innerHTML = `
+                <img src="${imgSrc}" alt="${movie.title} Poster" loading="lazy">
+                <h3>${movie.title}</h3>
+            `;
+            movieCard.addEventListener("click", () => openMovieDetails(movie.id));
+            movieGrid.appendChild(movieCard);
+        });
+    }
 
     // 🔹 Open Movie Details Page
     window.openMovieDetails = function (movieId) {
@@ -114,7 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (document.referrer) {
             window.history.back();
         } else {
-            window.location.href = "index.html"; // Fallback to home
+            window.location.href = "index.html"; 
         }
     };
 
@@ -137,7 +142,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // 🔹 Toggle Dropdown Menu
     profileIcon.addEventListener("click", (event) => {
         profileMenu.classList.toggle("active");
-        event.stopPropagation(); // Prevents immediate closure when clicking the icon
+        event.stopPropagation(); 
     });
 
     // 🔹 Close Dropdown When Clicking Outside
