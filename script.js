@@ -13,16 +13,15 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "movie3", title: "Movie 3", description: "A suspenseful mystery.", poster: "images/3-316-16-9-aspect-ratio-s-sfw-wallpaper-preview.jpg", downloadLink: "https://example.com/download/movie3" }
     ];
 
-    // 🔹 Fix: Force Refresh Data Across Browsers
+    // 🔹 Force Fresh Load and Store in Local Storage
     function fetchAndStoreMovies() {
-        localStorage.removeItem("movies"); // Clear old cache
-        localStorage.setItem("movies", JSON.stringify(movies)); // Store fresh data
+        localStorage.setItem("movies", JSON.stringify(movies));
         return JSON.parse(localStorage.getItem("movies"));
     }
 
     // 🔹 Retrieve Movies and Ensure Fresh Load
     const storedMovies = fetchAndStoreMovies();
-    
+
     // 🔹 Open Search Overlay
     function openSearch() {
         searchOverlay.classList.add("active");
