@@ -171,3 +171,64 @@ document.addEventListener("DOMContentLoaded", () => {
         lastScrollY = window.scrollY;
     });
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+    const authModal = document.getElementById("auth-modal");
+    const loginTab = document.getElementById("login-tab");
+    const signupTab = document.getElementById("signup-tab");
+    const loginForm = document.getElementById("login-form");
+    const signupForm = document.getElementById("signup-form");
+    const closeModal = document.querySelector(".close-modal");
+    const profileIcon = document.getElementById("profile-icon");
+
+    // 🔹 Show Modal
+    profileIcon.addEventListener("click", () => {
+        authModal.classList.add("active");
+    });
+
+    // 🔹 Close Modal
+    closeModal.addEventListener("click", () => {
+        authModal.classList.remove("active");
+    });
+
+    // 🔹 Toggle Between Login & Signup Tabs
+    loginTab.addEventListener("click", () => {
+        loginForm.classList.remove("hidden");
+        signupForm.classList.add("hidden");
+        loginTab.classList.add("active");
+        signupTab.classList.remove("active");
+    });
+
+    signupTab.addEventListener("click", () => {
+        signupForm.classList.remove("hidden");
+        loginForm.classList.add("hidden");
+        signupTab.classList.add("active");
+        loginTab.classList.remove("active");
+    });
+
+    // 🔹 Handle Form Validation (Basic)
+    document.getElementById("signup-button").addEventListener("click", () => {
+        const email = document.getElementById("signup-email").value.trim();
+        const password = document.getElementById("signup-password").value.trim();
+        const confirmPassword = document.getElementById("confirm-password").value.trim();
+        const terms = document.getElementById("terms").checked;
+
+        if (!email || !password || !confirmPassword) {
+            alert("Please fill in all fields.");
+            return;
+        }
+        if (password !== confirmPassword) {
+            alert("Passwords do not match.");
+            return;
+        }
+        if (!terms) {
+            alert("You must agree to the Terms & Conditions.");
+            return;
+        }
+        alert("Signup Successful!");
+    });
+
+    document.getElementById("login-button").addEventListener("click", () => {
+        alert("Login Successful! (Demo)");
+    });
+});
