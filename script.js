@@ -69,11 +69,16 @@ document.addEventListener("DOMContentLoaded", () => {
             const movieCard = document.createElement("article");
             movieCard.classList.add("movie-card");
             movieCard.innerHTML = `
-                <img src="${movie.poster}" alt="${movie.title} Poster" loading="lazy">
+                <img src="${movie.poster}" alt="${movie.title} Poster" loading="lazy" class="lazy-load">
                 <h3>${movie.title}</h3>
             `;
             movieCard.addEventListener("click", () => openMovieDetails(movie.id));
             movieGrid.appendChild(movieCard);
+        });
+
+        // Ensure lazy loading works
+        document.querySelectorAll(".lazy-load").forEach(img => {
+            img.onload = () => img.classList.add("loaded");
         });
     }
 
@@ -152,5 +157,14 @@ document.addEventListener("DOMContentLoaded", () => {
             dropdownActive = false;
         }
         lastScrollY = window.scrollY;
+    });
+
+    // 🔹 Fix Dropdown Animation
+    profileMenu.addEventListener("transitionend", () => {
+        if (!profileMenu.classList.contains("active")) {
+            profileMenu.style.visibility = "hidden";
+        } else {
+            profileMenu.style.visibility = "visible";
+        }
     });
 });
