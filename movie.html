@@ -21,23 +21,17 @@
         <h1 class="logo">Movie Details</h1>
     </header>
 
-    <!-- 🔹 Movie Details Section -->
-    <main id="movie-details">
+    <!-- 🔹 Movie Details Section (Updated UI) -->
+    <main id="movie-details" class="modern-movie-details">
         <div class="details-container">
             <img id="movie-poster" src="" alt="Movie Poster" class="poster" loading="lazy">
-            <h2 id="movie-title"></h2>
-            <p id="movie-description"></p>
-            <a id="download-button" href="#" target="_blank" rel="noopener noreferrer" class="download-btn">Download</a>
+            <div class="movie-info">
+                <h2 id="movie-title"></h2>
+                <p id="movie-description"></p>
+                <a id="download-button" href="#" target="_blank" rel="noopener noreferrer" class="download-btn">Download</a>
+            </div>
         </div>
     </main>
-
-    <!-- 🔹 Recommended Movies -->
-    <section id="recommended-movies">
-        <h3>Recommended Movies</h3>
-        <div class="recommended-grid">
-            <!-- Movies will be dynamically loaded via JavaScript -->
-        </div>
-    </section>
 
     <!-- 🔹 Footer -->
     <footer class="footer">
@@ -96,31 +90,7 @@
             } else {
                 downloadButton.style.display = "none";
             }
-
-            // Load Recommended Movies
-            loadRecommendedMovies(movieId, movies);
         });
-
-        function loadRecommendedMovies(currentMovieId, allMovies) {
-            const recommendedGrid = document.querySelector(".recommended-grid");
-            recommendedGrid.innerHTML = "";
-
-            Object.keys(allMovies).forEach(movieId => {
-                if (movieId !== currentMovieId) { // Exclude current movie
-                    const movie = allMovies[movieId];
-                    const movieCard = document.createElement("div");
-                    movieCard.classList.add("recommended-card");
-                    movieCard.innerHTML = `
-                        <img src="${movie.poster}" alt="${movie.title}">
-                        <p>${movie.title}</p>
-                    `;
-                    movieCard.addEventListener("click", () => {
-                        window.location.href = `movie.html?id=${movieId}`;
-                    });
-                    recommendedGrid.appendChild(movieCard);
-                }
-            });
-        }
 
         function goBack() {
             if (document.referrer) {
