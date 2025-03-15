@@ -59,6 +59,41 @@
         </div>
     </main>
 
+    <!-- 🔹 Login/Signup Modal -->
+<div id="auth-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        
+        <!-- 🔹 Tabs (Login / Signup) -->
+        <div class="modal-tabs">
+            <button id="login-tab" class="active">Login</button>
+            <button id="signup-tab">Sign Up</button>
+        </div>
+
+        <!-- 🔹 Login Form -->
+        <div id="login-form" class="form-container">
+            <h2>Login</h2>
+            <input type="email" id="login-email" placeholder="Email" required>
+            <input type="password" id="login-password" placeholder="Password" required>
+            <div class="options">
+                <label><input type="checkbox" id="remember-me"> Remember Me</label>
+                <a href="#" id="forgot-password">Forgot Password?</a>
+            </div>
+            <button id="login-button">Login</button>
+        </div>
+
+        <!-- 🔹 Signup Form -->
+        <div id="signup-form" class="form-container hidden">
+            <h2>Sign Up</h2>
+            <input type="email" id="signup-email" placeholder="Email" required>
+            <input type="password" id="signup-password" placeholder="Password" required>
+            <input type="password" id="confirm-password" placeholder="Confirm Password" required>
+            <label><input type="checkbox" id="terms"> I agree to the <a href="#">Terms & Conditions</a></label>
+            <button id="signup-button">Sign Up</button>
+        </div>
+    </div>
+</div>
+
     <!-- 🔹 Footer -->
     <footer class="footer">
         <p>© 2025 Movie Download Hub. All Rights Reserved.</p>
