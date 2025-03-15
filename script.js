@@ -6,20 +6,21 @@ document.addEventListener("DOMContentLoaded", () => {
     const movieGrid = document.getElementById("movie-grid");
     const body = document.body;
 
-    // 🔹 Movie Data (Dynamic)
-    const movies = [
-        { id: "movie1", title: "Movie 1", description: "A thrilling movie experience.", poster: "images/3-316-16-9-aspect-ratio-s-sfw-wallpaper-preview.jpg", downloadLink: "https://example.com/download/movie1" },
-        { id: "movie2", title: "Movie 2", description: "A breathtaking adventure.", poster: "images/447d76a8817d3804243cd2bac16ac7be.jpg", downloadLink: "https://example.com/download/movie2" },
-        { id: "movie3", title: "Movie 3", description: "A suspenseful mystery.", poster: "images/3-316-16-9-aspect-ratio-s-sfw-wallpaper-preview.jpg", downloadLink: "https://example.com/download/movie3" }
-    ];
-
-    // 🔹 Force Fresh Load and Store in Local Storage
+    // 🔹 Store Movies in Local Storage (Only if not already stored)
     function fetchAndStoreMovies() {
+        const existingMovies = localStorage.getItem("movies");
+        if (existingMovies) return JSON.parse(existingMovies);
+
+        const movies = [
+            { id: "movie1", title: "Movie 1", description: "A thrilling movie experience.", poster: "images/3-316-16-9-aspect-ratio-s-sfw-wallpaper-preview.jpg", downloadLink: "https://example.com/download/movie1" },
+            { id: "movie2", title: "Movie 2", description: "A breathtaking adventure.", poster: "images/447d76a8817d3804243cd2bac16ac7be.jpg", downloadLink: "https://example.com/download/movie2" },
+            { id: "movie3", title: "Movie 3", description: "A suspenseful mystery.", poster: "images/3-316-16-9-aspect-ratio-s-sfw-wallpaper-preview.jpg", downloadLink: "https://example.com/download/movie3" }
+        ];
+
         localStorage.setItem("movies", JSON.stringify(movies));
-        return JSON.parse(localStorage.getItem("movies"));
+        return movies;
     }
 
-    // 🔹 Retrieve Movies and Ensure Fresh Load
     const storedMovies = fetchAndStoreMovies();
 
     // 🔹 Open Search Overlay
@@ -34,15 +35,15 @@ document.addEventListener("DOMContentLoaded", () => {
         searchOverlay.classList.remove("active");
         body.classList.remove("search-active"); 
         searchInput.value = "";
-        renderMovies(storedMovies); 
+        renderMovies(storedMovies);
     }
 
-    // 🔹 Debounce Function (Optimize Search Performance)
+    // 🔹 Debounce Function with requestAnimationFrame (Optimized for performance)
     function debounce(func, delay) {
         let timer;
         return function (...args) {
             clearTimeout(timer);
-            timer = setTimeout(() => func.apply(this, args), delay);
+            timer = setTimeout(() => requestAnimationFrame(() => func.apply(this, args)), delay);
         };
     }
 
@@ -50,14 +51,14 @@ document.addEventListener("DOMContentLoaded", () => {
     function searchMovies() {
         let query = searchInput.value.trim().toLowerCase();
         if (!query) {
-            renderMovies(storedMovies); // Show all movies if empty
+            renderMovies(storedMovies);
             return;
         }
         let filteredMovies = storedMovies.filter(movie => movie.title.toLowerCase().includes(query));
         renderMovies(filteredMovies);
     }
 
-    const debouncedSearch = debounce(searchMovies, 300); 
+    const debouncedSearch = debounce(searchMovies, 250);
 
     // 🔹 Render Movies in the Grid
     function renderMovies(movieList) {
@@ -89,28 +90,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 🔹 Load Movie Details on `movie.html`
     if (window.location.pathname.includes("movie.html")) {
-        const urlParams = new URLSearchParams(window.location.search);
-        const movieId = urlParams.get("id");
+        document.addEventListener("DOMContentLoaded", () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const movieId = urlParams.get("id");
 
-        // Retrieve Movie Data from Local Storage
-        const movie = storedMovies.find(m => m.id === movieId);
+            // Retrieve Movie Data (Re-fetch if missing)
+            let movies = localStorage.getItem("movies");
+            movies = movies ? JSON.parse(movies) : fetchAndStoreMovies();
+            const movie = movies.find(m => m.id === movieId);
 
-        if (movie) {
-            document.getElementById("movie-title").textContent = movie.title;
-            document.getElementById("movie-description").textContent = movie.description;
-            document.getElementById("movie-poster").src = movie.poster;
+            if (movie) {
+                document.getElementById("movie-title").textContent = movie.title;
+                document.getElementById("movie-description").textContent = movie.description;
+                document.getElementById("movie-poster").src = movie.poster;
 
-            // Handle download button
-            const downloadButton = document.getElementById("download-button");
-            if (movie.downloadLink) {
-                downloadButton.href = movie.downloadLink;
-                downloadButton.style.display = "inline-block";
+                // Handle download button
+                const downloadButton = document.getElementById("download-button");
+                if (movie.downloadLink) {
+                    downloadButton.href = movie.downloadLink;
+                    downloadButton.style.display = "inline-block";
+                } else {
+                    downloadButton.style.display = "none";
+                }
             } else {
-                downloadButton.style.display = "none";
+                document.getElementById("movie-details").innerHTML = `<p class="loading-text">Movie not found.</p>`;
+                setTimeout(() => window.location.href = "index.html", 3000);
             }
-        } else {
-            document.getElementById("movie-details").innerHTML = `<p class="loading-text">Movie not found.</p>`;
-        }
+        });
     }
 
     // 🔹 Go Back Function
@@ -138,9 +144,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const profileIcon = document.getElementById("profile-icon");
     const profileMenu = document.getElementById("profile-menu");
 
+    let dropdownActive = false;
+
     // 🔹 Toggle Dropdown Menu
     profileIcon.addEventListener("click", (event) => {
-        profileMenu.classList.toggle("active");
+        dropdownActive = !dropdownActive;
+        profileMenu.classList.toggle("active", dropdownActive);
         event.stopPropagation(); 
     });
 
@@ -148,11 +157,17 @@ document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener("click", (event) => {
         if (!profileIcon.contains(event.target) && !profileMenu.contains(event.target)) {
             profileMenu.classList.remove("active");
+            dropdownActive = false;
         }
     });
 
-    // 🔹 Close Dropdown on Scroll
+    // 🔹 Close Dropdown on Scroll (Only if Significant Scroll)
+    let lastScrollY = window.scrollY;
     window.addEventListener("scroll", () => {
-        profileMenu.classList.remove("active");
+        if (Math.abs(window.scrollY - lastScrollY) > 30) {
+            profileMenu.classList.remove("active");
+            dropdownActive = false;
+        }
+        lastScrollY = window.scrollY;
     });
 });
