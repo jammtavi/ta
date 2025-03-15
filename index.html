@@ -21,17 +21,17 @@
 <body>
 
     <!-- 🔹 Header (Navigation Bar) -->
-    <header class="top-nav">
+    <nav class="top-nav">
         <button id="menu-icon" aria-label="Open Menu">
             <i class="fas fa-bars"></i>
         </button>
-        <h1 class="logo">MovieHub</h1>
+        <span class="logo">MovieHub</span>
         <div class="nav-icons">
             <button id="search-icon" aria-label="Search Movies">
                 <i class="fas fa-search"></i>
             </button>
             <div class="profile-dropdown">
-                <button id="profile-icon" aria-label="User Profile">
+                <button id="profile-icon" aria-label="User Profile" data-dropdown>
                     <i class="fas fa-user"></i>
                 </button>
                 <div class="dropdown-menu" id="profile-menu">
@@ -41,7 +41,7 @@
                 </div>
             </div>
         </div>
-    </header>
+    </nav>
 
     <!-- 🔹 Search Overlay -->
     <div id="search-overlay">
