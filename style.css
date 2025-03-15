@@ -72,16 +72,15 @@ body.search-active {
     height: 100vh;
     background: rgba(0, 0, 0, 0.95);
     display: flex;
-    align-items: flex-start; /* Changed from center to flex-start */
+    align-items: flex-start;
     justify-content: center;
-    padding-top: 20px; /* Adjust as desired for spacing from the top */
+    padding-top: 20px;
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-15%);
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    transform: translateY(-10%);
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
     z-index: 2000;
 }
-
 
 /* 🔹 Show Search Overlay */
 #search-overlay.active {
@@ -176,7 +175,6 @@ body.search-active {
     box-shadow: 0px 0px 15px rgba(122, 0, 255, 0.3);
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
     object-fit: cover;
-    will-change: transform, box-shadow;
 }
 
 .movie-card:hover img {
@@ -224,10 +222,10 @@ body.search-active {
     text-align: center;
     padding: 15px;
     background: #1a1a1a;
-    font-size: 13px;
-    color: #ccc;
+    font-size: 14px;
+    color: #aaa;
     margin-top: 20px;
-    border-top: 1px solid rgba(255,255,255,0.1);
+    border-top: 1px solid rgba(255,255,255,0.15);
 }
 
 /* 🔹 Animations */
@@ -282,21 +280,11 @@ body.search-active {
 
 .dropdown-menu a:hover {
     background: rgba(255, 255, 255, 0.1);
+    text-shadow: 0px 0px 5px rgba(122, 0, 255, 0.5);
 }
 
 /* 🔹 Responsive Design */
-@media (max-width: 768px) {
-    .top-nav { padding: 8px 10px; }
-    .logo { font-size: 16px; }
-    .nav-icons { gap: 10px; }
-}
-
 @media (max-width: 480px) {
-    .movie-card img {
-        max-width: 100%;
-        box-shadow: 0 0 8px rgba(122, 0, 255, 0.2);
-    }
-
     .movie-card:hover img {
         transform: scale(1.03);
         box-shadow: 0 0 12px rgba(122, 0, 255, 0.4);
