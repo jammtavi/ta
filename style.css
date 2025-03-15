@@ -33,33 +33,6 @@ body.search-active {
     opacity: 0;
 }
 
-/* 🔹 Ensure Lazy Loading Works */
-img[loading="lazy"] {
-    opacity: 0;
-    transition: opacity 0.4s ease-in-out;
-}
-
-img[loading="lazy"].loaded {
-    opacity: 1;
-}
-
-/* 🔹 Fix Search Overlay Animation */
-#search-overlay {
-    transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out, transform 0.4s ease-in-out;
-}
-
-/* 🔹 Fix Dropdown Menu Animation */
-.dropdown-menu {
-    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-}
-
-/* 🔹 Improve Mobile Movie Grid */
-@media (max-width: 480px) {
-    #movie-grid {
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    }
-}
-
 /* 🔹 Center Logo */
 .logo {
     font-size: 18px;
@@ -75,33 +48,19 @@ img[loading="lazy"].loaded {
     justify-content: flex-end;
 }
 
-/* 🔹 Profile Dropdown */
-.profile-dropdown {
-    position: relative;
-    display: inline-block;
+/* 🔹 Menu, Search & Profile Icons */
+.top-nav button {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #fff;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
-.dropdown-menu {
-    position: absolute;
-    right: 0;
-    top: 40px;
-    background: rgba(26, 26, 26, 0.95);
-    backdrop-filter: blur(8px);
-    border-radius: 8px;
-    width: 150px;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-10px);
-    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-    box-shadow: 0px 0px 10px rgba(122, 0, 255, 0.2);
-    pointer-events: none;
-}
-
-.dropdown-menu.active {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-    pointer-events: auto;
+.top-nav button:hover {
+    transform: scale(1.1);
+    color: #ccc;
 }
 
 /* 🔹 Search Overlay */
@@ -161,6 +120,10 @@ img[loading="lazy"].loaded {
     outline: none;
 }
 
+#search::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
 /* 🔹 Cancel Button */
 #cancel-search {
     background: none;
@@ -210,9 +173,14 @@ img[loading="lazy"].loaded {
     object-fit: cover;
 }
 
-.movie-card:hover img {
-    transform: scale(1.05);
-    box-shadow: 0px 0px 25px rgba(122, 0, 255, 0.6);
+/* 🔹 Fixed Thumbnail Display */
+img[loading="lazy"] {
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out;
+}
+
+img[loading="lazy"].loaded {
+    opacity: 1;
 }
 
 /* 🔹 Movie Details Page */
@@ -222,14 +190,6 @@ img[loading="lazy"].loaded {
     align-items: center;
     padding: 20px;
     text-align: center;
-}
-
-.details-container {
-    max-width: 500px;
-    width: 100%;
-    padding: 20px;
-    text-align: center;
-    animation: fadeIn 0.5s ease-in-out;
 }
 
 /* 🔹 Download Button */
@@ -271,5 +231,41 @@ img[loading="lazy"].loaded {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+/* 🔹 Profile Dropdown */
+.profile-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-menu {
+    position: absolute;
+    right: 0;
+    top: 40px;
+    background: rgba(26, 26, 26, 0.95);
+    backdrop-filter: blur(8px);
+    border-radius: 8px;
+    width: 150px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    box-shadow: 0px 0px 10px rgba(122, 0, 255, 0.2);
+    pointer-events: none;
+}
+
+.dropdown-menu.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+/* 🔹 Responsive Design */
+@media (max-width: 480px) {
+    .movie-card:hover img {
+        transform: scale(1.03);
+        box-shadow: 0 0 12px rgba(122, 0, 255, 0.4);
     }
-    
+}
