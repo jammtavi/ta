@@ -33,6 +33,33 @@ body.search-active {
     opacity: 0;
 }
 
+/* 🔹 Ensure Lazy Loading Works */
+img[loading="lazy"] {
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out;
+}
+
+img[loading="lazy"].loaded {
+    opacity: 1;
+}
+
+/* 🔹 Fix Search Overlay Animation */
+#search-overlay {
+    transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out, transform 0.4s ease-in-out;
+}
+
+/* 🔹 Fix Dropdown Menu Animation */
+.dropdown-menu {
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+/* 🔹 Improve Mobile Movie Grid */
+@media (max-width: 480px) {
+    #movie-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    }
+}
+
 /* 🔹 Center Logo */
 .logo {
     font-size: 18px;
@@ -48,19 +75,33 @@ body.search-active {
     justify-content: flex-end;
 }
 
-/* 🔹 Menu, Search & Profile Icons */
-.top-nav button {
-    background: none;
-    border: none;
-    font-size: 20px;
-    color: #fff;
-    cursor: pointer;
-    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+/* 🔹 Profile Dropdown */
+.profile-dropdown {
+    position: relative;
+    display: inline-block;
 }
 
-.top-nav button:hover {
-    transform: scale(1.1);
-    color: #ccc;
+.dropdown-menu {
+    position: absolute;
+    right: 0;
+    top: 40px;
+    background: rgba(26, 26, 26, 0.95);
+    backdrop-filter: blur(8px);
+    border-radius: 8px;
+    width: 150px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    box-shadow: 0px 0px 10px rgba(122, 0, 255, 0.2);
+    pointer-events: none;
+}
+
+.dropdown-menu.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
 }
 
 /* 🔹 Search Overlay */
@@ -118,14 +159,6 @@ body.search-active {
     background: transparent;
     color: #fff;
     outline: none;
-}
-
-#search::placeholder {
-    color: rgba(255, 255, 255, 0.5);
-}
-
-#search:focus {
-    border-bottom: 1px solid rgba(122, 0, 255, 0.5);
 }
 
 /* 🔹 Cancel Button */
@@ -238,55 +271,5 @@ body.search-active {
         opacity: 1;
         transform: translateY(0);
     }
-}
-
-/* 🔹 Profile Dropdown */
-.profile-dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.dropdown-menu {
-    position: absolute;
-    right: 0;
-    top: 40px;
-    background: rgba(26, 26, 26, 0.95);
-    backdrop-filter: blur(8px);
-    border-radius: 8px;
-    width: 150px;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-10px);
-    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-    box-shadow: 0px 0px 10px rgba(122, 0, 255, 0.2);
-    pointer-events: none;
-}
-
-.dropdown-menu.active {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-    pointer-events: auto;
-}
-
-.dropdown-menu a {
-    display: block;
-    padding: 10px 15px;
-    color: #fff;
-    font-size: 14px;
-    text-decoration: none;
-    transition: background 0.2s ease-in-out;
-}
-
-.dropdown-menu a:hover {
-    background: rgba(255, 255, 255, 0.1);
-    text-shadow: 0px 0px 5px rgba(122, 0, 255, 0.5);
-}
-
-/* 🔹 Responsive Design */
-@media (max-width: 480px) {
-    .movie-card:hover img {
-        transform: scale(1.03);
-        box-shadow: 0 0 12px rgba(122, 0, 255, 0.4);
     }
-}
+    
