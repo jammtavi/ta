@@ -11,9 +11,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (existingMovies) return JSON.parse(existingMovies);
 
         const movies = [
-            { id: "movie1", title: "Movie 1", description: "A thrilling experience.", poster: "images/movie1.jpg", downloadLink: "https://example.com/download/movie1" },
-            { id: "movie2", title: "Movie 2", description: "Adventure awaits.", poster: "images/movie2.jpg", downloadLink: "https://example.com/download/movie2" },
-            { id: "movie3", title: "Movie 3", description: "Mystery and suspense.", poster: "images/movie3.jpg", downloadLink: "https://example.com/download/movie3" }
+            { id: "movie1", title: "Movie 1", description: "A thrilling experience.", poster: "images/3-316-16-9-aspect-ratio-s-sfw-wallpaper-preview.jpg", downloadLink: "https://example.com/download/movie1" },
+            { id: "movie2", title: "Movie 2", description: "Adventure awaits.", poster: "images/447d76a8817d3804243cd2bac16ac7be.jpg", downloadLink: "https://example.com/download/movie2" },
+            { id: "movie3", title: "Movie 3", description: "Mystery and suspense.", poster: "images/3-316-16-9-aspect-ratio-s-sfw-wallpaper-preview.jpg", downloadLink: "https://example.com/download/movie3" }
         ];
 
         localStorage.setItem("movies", JSON.stringify(movies));
