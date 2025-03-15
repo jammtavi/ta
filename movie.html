@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description" content="Movie Details - Watch and Download Your Favorite Movies">
     
-    <title>Loading...</title> <!-- Will be dynamically updated -->
-
+    <title>Movie Details</title>
+    
     <link rel="stylesheet" href="style.css">
     <script defer src="script.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -25,8 +25,8 @@
     <main id="movie-details">
         <div class="details-container">
             <img id="movie-poster" src="" alt="Movie Poster" class="poster" loading="lazy">
-            <h2 id="movie-title">Loading...</h2>
-            <p id="movie-description">Please wait while we load the movie details.</p>
+            <h2 id="movie-title"></h2>
+            <p id="movie-description"></p>
             <a id="download-button" href="#" target="_blank" rel="noopener noreferrer" class="download-btn">Download</a>
         </div>
     </main>
@@ -49,63 +49,69 @@
             const urlParams = new URLSearchParams(window.location.search);
             const movieId = urlParams.get("id");
 
-            // 🔹 Retrieve Movies from Local Storage (If Available)
-            let storedMovies = JSON.parse(localStorage.getItem("movies"));
-            
-            // 🔹 Fallback in case movies are missing in storage
-            if (!storedMovies) {
-                storedMovies = {
-                    "movie1": { title: "Movie 1", description: "An action-packed thriller.", poster: "images/3-316-16-9-aspect-ratio-s-sfw-wallpaper-preview.jpg", downloadLink: "https://example.com/download/movie1" },
-                    "movie2": { title: "Movie 2", description: "A breathtaking adventure.", poster: "images/447d76a8817d3804243cd2bac16ac7be.jpg", downloadLink: "https://example.com/download/movie2" },
-                    "movie3": { title: "Movie 3", description: "A suspenseful mystery.", poster: "images/3-316-16-9-aspect-ratio-s-sfw-wallpaper-preview.jpg", downloadLink: "https://example.com/download/movie3" }
-                };
-            }
+            // Movie Database (Mock Data)
+            const movies = {
+                "movie1": {
+                    title: "Movie 1",
+                    description: "An action-packed thriller that keeps you on the edge.",
+                    poster: "images/3-316-16-9-aspect-ratio-s-sfw-wallpaper-preview.jpg",
+                    downloadLink: "https://example.com/download/movie1"
+                },
+                "movie2": {
+                    title: "Movie 2",
+                    description: "A breathtaking adventure that takes you into another world.",
+                    poster: "images/447d76a8817d3804243cd2bac16ac7be.jpg",
+                    downloadLink: "https://example.com/download/movie2"
+                },
+                "movie3": {
+                    title: "Movie 3",
+                    description: "A suspenseful mystery with unexpected twists and turns.",
+                    poster: "images/3-316-16-9-aspect-ratio-s-sfw-wallpaper-preview.jpg",
+                    downloadLink: "https://example.com/download/movie3"
+                }
+            };
 
-            // 🔹 Validate Movie ID
-            if (!storedMovies[movieId]) {
+            // If movie ID is invalid, redirect to homepage
+            if (!movies[movieId]) {
                 window.location.href = "index.html"; 
                 return;
             }
 
-            // 🔹 Load Movie Data
-            const movie = storedMovies[movieId];
-
-            document.getElementById("movie-title").textContent = movie.title;
-            document.getElementById("movie-description").textContent = movie.description;
+            // Set Movie Details
+            document.getElementById("movie-title").textContent = movies[movieId].title;
+            document.getElementById("movie-description").textContent = movies[movieId].description;
 
             const moviePoster = document.getElementById("movie-poster");
-            moviePoster.src = movie.poster;
-            moviePoster.alt = `${movie.title} Poster`;
+            moviePoster.src = movies[movieId].poster;
+            moviePoster.alt = movies[movieId].title + " Poster"; 
 
-            // 🔹 Set Page Title & Meta Description Dynamically
-            document.title = `${movie.title} - Movie Details`;
-            document.querySelector("meta[name='description']").setAttribute("content", `${movie.title} - ${movie.description}`);
+            // Set Page Title Dynamically
+            document.title = `${movies[movieId].title} - Movie Details`;
 
-            // 🔹 Handle Download Button Visibility
+            // Handle Download Button Visibility
             const downloadButton = document.getElementById("download-button");
-            if (movie.downloadLink) {
-                downloadButton.href = movie.downloadLink;
+            if (movies[movieId].downloadLink) {
+                downloadButton.href = movies[movieId].downloadLink;
                 downloadButton.style.display = "inline-block";
             } else {
                 downloadButton.style.display = "none";
             }
 
-            // 🔹 Load Recommended Movies
-            loadRecommendedMovies(movieId, storedMovies);
+            // Load Recommended Movies
+            loadRecommendedMovies(movieId, movies);
         });
 
-        // 🔹 Recommended Movies Function
         function loadRecommendedMovies(currentMovieId, allMovies) {
             const recommendedGrid = document.querySelector(".recommended-grid");
             recommendedGrid.innerHTML = "";
 
             Object.keys(allMovies).forEach(movieId => {
-                if (movieId !== currentMovieId) { // Exclude the current movie
+                if (movieId !== currentMovieId) { // Exclude current movie
                     const movie = allMovies[movieId];
                     const movieCard = document.createElement("div");
                     movieCard.classList.add("recommended-card");
                     movieCard.innerHTML = `
-                        <img src="${movie.poster}" alt="${movie.title}" loading="lazy">
+                        <img src="${movie.poster}" alt="${movie.title}">
                         <p>${movie.title}</p>
                     `;
                     movieCard.addEventListener("click", () => {
@@ -116,7 +122,6 @@
             });
         }
 
-        // 🔹 Go Back Function
         function goBack() {
             if (document.referrer) {
                 window.history.back();
