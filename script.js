@@ -5,6 +5,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const searchInput = document.getElementById("search");
     const movieGrid = document.getElementById("movie-grid");
     const body = document.body;
+    const authModal = document.getElementById("auth-modal");
+    const closeModal = document.querySelector(".close-modal");
+    const profileIcon = document.getElementById("profile-icon");
+    const profileMenu = document.getElementById("profile-menu");
 
     // 🔹 Store Movies in Local Storage (Only if not already stored)
     function fetchAndStoreMovies() {
@@ -24,21 +28,21 @@ document.addEventListener("DOMContentLoaded", () => {
     const storedMovies = fetchAndStoreMovies();
 
     // 🔹 Open Search Overlay
-    function openSearch() {
+    searchIcon.addEventListener("click", () => {
         searchOverlay.classList.add("active");
         body.classList.add("search-active"); 
         setTimeout(() => searchInput.focus(), 150);
-    }
+    });
 
     // 🔹 Close Search Overlay
-    function closeSearch() {
+    cancelSearch.addEventListener("click", () => {
         searchOverlay.classList.remove("active");
         body.classList.remove("search-active"); 
         searchInput.value = "";
         renderMovies(storedMovies);
-    }
+    });
 
-    // 🔹 Debounce Function with requestAnimationFrame (Optimized for performance)
+    // 🔹 Debounce Function (Optimized Search Performance)
     function debounce(func, delay) {
         let timer;
         return function (...args) {
@@ -59,6 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const debouncedSearch = debounce(searchMovies, 250);
+    searchInput.addEventListener("input", debouncedSearch);
 
     // 🔹 Render Movies in the Grid
     function renderMovies(movieList) {
@@ -90,33 +95,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 🔹 Load Movie Details on `movie.html`
     if (window.location.pathname.includes("movie.html")) {
-        document.addEventListener("DOMContentLoaded", () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const movieId = urlParams.get("id");
+        const urlParams = new URLSearchParams(window.location.search);
+        const movieId = urlParams.get("id");
 
-            // Retrieve Movie Data (Re-fetch if missing)
-            let movies = localStorage.getItem("movies");
-            movies = movies ? JSON.parse(movies) : fetchAndStoreMovies();
-            const movie = movies.find(m => m.id === movieId);
+        let movies = localStorage.getItem("movies");
+        movies = movies ? JSON.parse(movies) : fetchAndStoreMovies();
+        const movie = movies.find(m => m.id === movieId);
 
-            if (movie) {
-                document.getElementById("movie-title").textContent = movie.title;
-                document.getElementById("movie-description").textContent = movie.description;
-                document.getElementById("movie-poster").src = movie.poster;
+        if (movie) {
+            document.getElementById("movie-title").textContent = movie.title;
+            document.getElementById("movie-description").textContent = movie.description;
+            document.getElementById("movie-poster").src = movie.poster;
 
-                // Handle download button
-                const downloadButton = document.getElementById("download-button");
-                if (movie.downloadLink) {
-                    downloadButton.href = movie.downloadLink;
-                    downloadButton.style.display = "inline-block";
-                } else {
-                    downloadButton.style.display = "none";
-                }
+            const downloadButton = document.getElementById("download-button");
+            if (movie.downloadLink) {
+                downloadButton.href = movie.downloadLink;
+                downloadButton.style.display = "inline-block";
             } else {
-                document.getElementById("movie-details").innerHTML = `<p class="loading-text">Movie not found.</p>`;
-                setTimeout(() => window.location.href = "index.html", 3000);
+                downloadButton.style.display = "none";
             }
-        });
+        } else {
+            document.getElementById("movie-details").innerHTML = `<p class="loading-text">Movie not found.</p>`;
+            setTimeout(() => window.location.href = "index.html", 3000);
+        }
     }
 
     // 🔹 Go Back Function
@@ -128,32 +129,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    // 🔹 Event Listeners
-    searchIcon.addEventListener("click", openSearch);
-    cancelSearch.addEventListener("click", closeSearch);
-    searchInput.addEventListener("input", debouncedSearch);
-
-    // 🔹 Initialize Movies on Home Page
-    if (movieGrid) {
-        renderMovies(storedMovies);
-    }
-});
-
-/* 🔹 Profile Dropdown Handling */
-document.addEventListener("DOMContentLoaded", () => {
-    const profileIcon = document.getElementById("profile-icon");
-    const profileMenu = document.getElementById("profile-menu");
-
+    // 🔹 Profile Dropdown Handling
     let dropdownActive = false;
-
-    // 🔹 Toggle Dropdown Menu
     profileIcon.addEventListener("click", (event) => {
         dropdownActive = !dropdownActive;
         profileMenu.classList.toggle("active", dropdownActive);
         event.stopPropagation(); 
     });
 
-    // 🔹 Close Dropdown When Clicking Outside
     document.addEventListener("click", (event) => {
         if (!profileIcon.contains(event.target) && !profileMenu.contains(event.target)) {
             profileMenu.classList.remove("active");
@@ -161,7 +144,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // 🔹 Close Dropdown on Scroll (Only if Significant Scroll)
     let lastScrollY = window.scrollY;
     window.addEventListener("scroll", () => {
         if (Math.abs(window.scrollY - lastScrollY) > 30) {
@@ -170,28 +152,22 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         lastScrollY = window.scrollY;
     });
-});
 
-document.addEventListener("DOMContentLoaded", () => {
-    const authModal = document.getElementById("auth-modal");
+    // 🔹 Login/Signup Modal Handling
     const loginTab = document.getElementById("login-tab");
     const signupTab = document.getElementById("signup-tab");
     const loginForm = document.getElementById("login-form");
     const signupForm = document.getElementById("signup-form");
-    const closeModal = document.querySelector(".close-modal");
-    const profileIcon = document.getElementById("profile-icon");
 
-    // 🔹 Show Modal
-    profileIcon.addEventListener("click", () => {
+    profileIcon.addEventListener("click", (event) => {
         authModal.classList.add("active");
+        event.stopPropagation();
     });
 
-    // 🔹 Close Modal
     closeModal.addEventListener("click", () => {
         authModal.classList.remove("active");
     });
 
-    // 🔹 Toggle Between Login & Signup Tabs
     loginTab.addEventListener("click", () => {
         loginForm.classList.remove("hidden");
         signupForm.classList.add("hidden");
@@ -206,29 +182,15 @@ document.addEventListener("DOMContentLoaded", () => {
         loginTab.classList.remove("active");
     });
 
-    // 🔹 Handle Form Validation (Basic)
     document.getElementById("signup-button").addEventListener("click", () => {
-        const email = document.getElementById("signup-email").value.trim();
-        const password = document.getElementById("signup-password").value.trim();
-        const confirmPassword = document.getElementById("confirm-password").value.trim();
-        const terms = document.getElementById("terms").checked;
-
-        if (!email || !password || !confirmPassword) {
-            alert("Please fill in all fields.");
-            return;
-        }
-        if (password !== confirmPassword) {
-            alert("Passwords do not match.");
-            return;
-        }
-        if (!terms) {
-            alert("You must agree to the Terms & Conditions.");
-            return;
-        }
         alert("Signup Successful!");
     });
 
     document.getElementById("login-button").addEventListener("click", () => {
-        alert("Login Successful! (Demo)");
+        alert("Login Successful!");
     });
+
+    if (movieGrid) {
+        renderMovies(storedMovies);
+    }
 });
