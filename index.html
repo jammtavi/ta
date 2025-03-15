@@ -3,17 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="Download and stream your favorite movies on Movie Download Hub. Get the latest releases in high quality.">
-
-    <!-- 🔹 SEO & Open Graph Tags -->
-    <meta property="og:title" content="Movie Download Hub - Download & Stream Movies">
-    <meta property="og:description" content="Get the latest movie releases in high quality. Download or stream instantly.">
-    <meta property="og:image" content="thumbnail.jpg">
-    <meta property="og:url" content="https://moviedownloadhub.com">
+    <meta name="description" content="Download and stream your favorite movies on Movie Download Hub.">
     
     <title>Movie Download Hub</title>
 
-    <!-- 🔹 Styles & Scripts -->
     <link rel="stylesheet" href="style.css">
     <script defer src="script.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -31,12 +24,12 @@
                 <i class="fas fa-search"></i>
             </button>
             <div class="profile-dropdown">
-                <button id="profile-icon" aria-label="User Profile" data-dropdown>
+                <button id="profile-icon" aria-label="User Profile">
                     <i class="fas fa-user"></i>
                 </button>
                 <div class="dropdown-menu" id="profile-menu">
-                    <a href="#">Login</a>
-                    <a href="#">Sign Up</a>
+                    <a href="#" id="login-open">Login</a>
+                    <a href="#" id="signup-open">Sign Up</a>
                     <a href="#">Settings</a>
                 </div>
             </div>
@@ -51,7 +44,7 @@
         </div>
     </div>
 
-    <!-- 🔹 Main Content -->
+    <!-- 🔹 Movie Grid -->
     <main id="movie-section">
         <h2>Latest Movies</h2>
         <div id="movie-grid" class="optimized-grid">
@@ -59,45 +52,45 @@
         </div>
     </main>
 
-    <!-- 🔹 Login/Signup Modal -->
-<div id="auth-modal" class="modal">
-    <div class="modal-content">
-        <span class="close-modal">&times;</span>
-        
-        <!-- 🔹 Tabs (Login / Signup) -->
-        <div class="modal-tabs">
-            <button id="login-tab" class="active">Login</button>
-            <button id="signup-tab">Sign Up</button>
-        </div>
-
-        <!-- 🔹 Login Form -->
-        <div id="login-form" class="form-container">
-            <h2>Login</h2>
-            <input type="email" id="login-email" placeholder="Email" required>
-            <input type="password" id="login-password" placeholder="Password" required>
-            <div class="options">
-                <label><input type="checkbox" id="remember-me"> Remember Me</label>
-                <a href="#" id="forgot-password">Forgot Password?</a>
-            </div>
-            <button id="login-button">Login</button>
-        </div>
-
-        <!-- 🔹 Signup Form -->
-        <div id="signup-form" class="form-container hidden">
-            <h2>Sign Up</h2>
-            <input type="email" id="signup-email" placeholder="Email" required>
-            <input type="password" id="signup-password" placeholder="Password" required>
-            <input type="password" id="confirm-password" placeholder="Confirm Password" required>
-            <label><input type="checkbox" id="terms"> I agree to the <a href="#">Terms & Conditions</a></label>
-            <button id="signup-button">Sign Up</button>
-        </div>
-    </div>
-</div>
-
     <!-- 🔹 Footer -->
     <footer class="footer">
         <p>© 2025 Movie Download Hub. All Rights Reserved.</p>
     </footer>
+
+    <!-- 🔹 Login/Signup Modal -->
+    <div id="auth-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            
+            <!-- 🔹 Tabs (Login / Signup) -->
+            <div class="modal-tabs">
+                <button id="login-tab" class="active">Login</button>
+                <button id="signup-tab">Sign Up</button>
+            </div>
+
+            <!-- 🔹 Login Form -->
+            <div id="login-form" class="form-container">
+                <h2>Login</h2>
+                <input type="email" id="login-email" placeholder="Email" required>
+                <input type="password" id="login-password" placeholder="Password" required>
+                <div class="options">
+                    <label><input type="checkbox" id="remember-me"> Remember Me</label>
+                    <a href="#" id="forgot-password">Forgot Password?</a>
+                </div>
+                <button id="login-button">Login</button>
+            </div>
+
+            <!-- 🔹 Signup Form -->
+            <div id="signup-form" class="form-container hidden">
+                <h2>Sign Up</h2>
+                <input type="email" id="signup-email" placeholder="Email" required>
+                <input type="password" id="signup-password" placeholder="Password" required>
+                <input type="password" id="confirm-password" placeholder="Confirm Password" required>
+                <label><input type="checkbox" id="terms"> I agree to the <a href="#">Terms & Conditions</a></label>
+                <button id="signup-button">Sign Up</button>
+            </div>
+        </div>
+    </div>
 
 </body>
 </html>
