@@ -158,6 +158,23 @@ body.search-active {
     text-align: center;
 }
 
+/* 🔹 Movie Grid (Responsive for Desktop & Mobile) */
+#movie-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); /* Default for mobile */
+    gap: 15px;
+    justify-content: center;
+    text-align: center;
+}
+
+/* 🔹 Ensure movie cards are next to each other on larger screens */
+@media (min-width: 1024px) {  /* For desktop and laptops */
+    #movie-grid {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* More movie cards in a row */
+        gap: 10px; /* Reduce gap to fit more cards */
+    }
+}
+
 /* 🔹 Movie Cards */
 .movie-card {
     display: flex;
@@ -181,6 +198,7 @@ body.search-active {
     transform: scale(1.05);
     box-shadow: 0px 0px 25px rgba(122, 0, 255, 0.6);
 }
+
 
 /* 🔹 Movie Details Page */
 #movie-details {
