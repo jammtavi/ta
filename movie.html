@@ -3,20 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="Movie Details - Watch and Download Your Favorite Movies">
-    
+    <meta name="description" content="Movie Details - Watch and Download Your Favorite Movies in High Quality.">
+
+    <!-- 🔹 Open Graph for SEO & Social Sharing -->
+    <meta property="og:title" content="Movie Details - Watch & Download">
+    <meta property="og:description" content="Stream and download high-quality movies instantly.">
+    <meta property="og:image" content="thumbnail.jpg">
+    <meta property="og:url" content="https://moviedownloadhub.com/movie.html">
+    <meta property="og:type" content="website">
+
+    <!-- 🔹 Twitter Card for Social Media -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Movie Details - Download & Stream">
+    <meta name="twitter:description" content="Get the latest movies in high quality.">
+    <meta name="twitter:image" content="thumbnail.jpg">
+
     <title>Movie Details</title>
-    
+
+    <!-- 🔹 Preload FontAwesome for Better Performance -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"></noscript>
+
     <link rel="stylesheet" href="style.css">
     <script defer src="script.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
 
     <!-- 🔹 Header (Navigation Bar) -->
     <header class="top-nav">
         <button onclick="goBack()" aria-label="Go Back" class="back-button">
-            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-left" aria-hidden="true"></i>
         </button>
         <h1 class="logo">Movie Details</h1>
     </header>
@@ -86,7 +102,7 @@
                             downloadLink: "https://example.com/download/movie3"
                         }
                     });
-                }, 500); // Simulate network delay
+                }, 400); // Simulated network delay
             });
         }
 
@@ -97,7 +113,7 @@
 
             const moviePoster = document.getElementById("movie-poster");
             moviePoster.src = movie.poster;
-            moviePoster.alt = movie.title + " Poster"; 
+            moviePoster.alt = `${movie.title} Poster`;
 
             document.title = `${movie.title} - Movie Details`;
 
@@ -115,12 +131,12 @@
             document.getElementById("error-message").style.display = "block";
             setTimeout(() => {
                 window.location.href = "index.html"; 
-            }, 3000); // Redirect after 3 seconds
+            }, 3000);
         }
 
         // 🔹 Go Back Function
         function goBack() {
-            if (document.referrer) {
+            if (document.referrer && document.referrer.includes(window.location.hostname)) {
                 window.history.back();
             } else {
                 window.location.href = "index.html"; 
