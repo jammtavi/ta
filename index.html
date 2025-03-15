@@ -21,7 +21,7 @@
 <body>
 
     <!-- 🔹 Header (Navigation Bar) -->
-    <header class="top-nav" role="navigation">
+    <header class="top-nav">
         <button id="menu-icon" aria-label="Open Menu">
             <i class="fas fa-bars"></i>
         </button>
@@ -31,7 +31,7 @@
                 <i class="fas fa-search"></i>
             </button>
             <div class="profile-dropdown">
-                <button id="profile-icon" aria-label="User Profile" aria-haspopup="true" aria-expanded="false">
+                <button id="profile-icon" aria-label="User Profile">
                     <i class="fas fa-user"></i>
                 </button>
                 <div class="dropdown-menu" id="profile-menu">
@@ -44,10 +44,10 @@
     </header>
 
     <!-- 🔹 Search Overlay -->
-    <div id="search-overlay" aria-hidden="true" role="dialog">
+    <div id="search-overlay">
         <div class="search-container">
-            <input type="text" id="search" placeholder="Search for movies..." aria-label="Search movies">
-            <button id="cancel-search" aria-label="Close Search">Cancel</button>
+            <input type="text" id="search" placeholder="Search for movies...">
+            <button id="cancel-search">Cancel</button>
         </div>
     </div>
 
