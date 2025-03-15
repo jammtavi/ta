@@ -24,13 +24,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function openSearch() {
         searchOverlay.classList.add("active");
-        body.classList.add("search-active"); 
-        setTimeout(() => searchInput.focus(), 150);
+        body.classList.add("search-active");
+        setTimeout(() => searchInput.focus(), 100);
     }
 
     function closeSearch() {
         searchOverlay.classList.remove("active");
-        body.classList.remove("search-active"); 
+        body.classList.remove("search-active");
         searchInput.value = "";
         renderMovies(storedMovies);
     }
@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (document.referrer && document.referrer.includes(window.location.hostname)) {
             window.history.back();
         } else {
-            window.location.href = "index.html"; 
+            window.location.href = "index.html";
         }
     };
 
@@ -135,7 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
     profileIcon.addEventListener("click", (event) => {
         dropdownActive = !dropdownActive;
         profileMenu.classList.toggle("active", dropdownActive);
-        event.stopPropagation(); 
+        event.stopPropagation();
     });
 
     document.addEventListener("click", (event) => {
@@ -147,7 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let lastScrollY = window.scrollY;
     window.addEventListener("scroll", () => {
-        if (Math.abs(window.scrollY - lastScrollY) > 30) {
+        if (dropdownActive && Math.abs(window.scrollY - lastScrollY) > 30) {
             profileMenu.classList.remove("active");
             dropdownActive = false;
         }
