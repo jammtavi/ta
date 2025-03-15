@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const movieGrid = document.getElementById("movie-grid");
     const body = document.body;
 
-    // 🔹 Store Movies in Local Storage (Only if not already stored)
     function fetchAndStoreMovies() {
         const existingMovies = localStorage.getItem("movies");
         if (existingMovies) return JSON.parse(existingMovies);
@@ -23,14 +22,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const storedMovies = fetchAndStoreMovies();
 
-    // 🔹 Open Search Overlay
     function openSearch() {
         searchOverlay.classList.add("active");
         body.classList.add("search-active"); 
         setTimeout(() => searchInput.focus(), 150);
     }
 
-    // 🔹 Close Search Overlay
     function closeSearch() {
         searchOverlay.classList.remove("active");
         body.classList.remove("search-active"); 
@@ -38,7 +35,6 @@ document.addEventListener("DOMContentLoaded", () => {
         renderMovies(storedMovies);
     }
 
-    // 🔹 Debounce Function with requestAnimationFrame (Optimized for performance)
     function debounce(func, delay) {
         let timer;
         return function (...args) {
@@ -47,20 +43,22 @@ document.addEventListener("DOMContentLoaded", () => {
         };
     }
 
-    // 🔹 Filter Movies Based on Search Query
+    function normalizeString(str) {
+        return str.normalize("NFD").replace(/[^a-zA-Z0-9 ]/g, "").toLowerCase();
+    }
+
     function searchMovies() {
-        let query = searchInput.value.trim().toLowerCase();
+        let query = normalizeString(searchInput.value.trim());
         if (!query) {
             renderMovies(storedMovies);
             return;
         }
-        let filteredMovies = storedMovies.filter(movie => movie.title.toLowerCase().includes(query));
+        let filteredMovies = storedMovies.filter(movie => normalizeString(movie.title).includes(query));
         renderMovies(filteredMovies);
     }
 
     const debouncedSearch = debounce(searchMovies, 250);
 
-    // 🔹 Render Movies in the Grid
     function renderMovies(movieList) {
         movieGrid.innerHTML = "";
         if (movieList.length === 0) {
@@ -70,12 +68,8 @@ document.addEventListener("DOMContentLoaded", () => {
         movieList.forEach(movie => {
             const movieCard = document.createElement("article");
             movieCard.classList.add("movie-card");
-
-            // 🔹 Append a timestamp to prevent caching issues
-            const imgSrc = `${movie.poster}?t=${new Date().getTime()}`;
-
             movieCard.innerHTML = `
-                <img src="${imgSrc}" alt="${movie.title} Poster" loading="lazy">
+                <img src="${movie.poster}" alt="${movie.title} Poster" loading="lazy">
                 <h3>${movie.title}</h3>
             `;
             movieCard.addEventListener("click", () => openMovieDetails(movie.id));
@@ -83,20 +77,16 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 🔹 Open Movie Details Page
     window.openMovieDetails = function (movieId) {
         window.location.href = `movie.html?id=${movieId}`;
     };
 
-    // 🔹 Load Movie Details on `movie.html`
     if (window.location.pathname.includes("movie.html")) {
         document.addEventListener("DOMContentLoaded", () => {
             const urlParams = new URLSearchParams(window.location.search);
             const movieId = urlParams.get("id");
 
-            // Retrieve Movie Data (Re-fetch if missing)
-            let movies = localStorage.getItem("movies");
-            movies = movies ? JSON.parse(movies) : fetchAndStoreMovies();
+            let movies = JSON.parse(localStorage.getItem("movies") || "[]");
             const movie = movies.find(m => m.id === movieId);
 
             if (movie) {
@@ -104,7 +94,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 document.getElementById("movie-description").textContent = movie.description;
                 document.getElementById("movie-poster").src = movie.poster;
 
-                // Handle download button
                 const downloadButton = document.getElementById("download-button");
                 if (movie.downloadLink) {
                     downloadButton.href = movie.downloadLink;
@@ -119,21 +108,18 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 🔹 Go Back Function
     window.goBack = function () {
-        if (document.referrer) {
+        if (document.referrer && document.referrer.includes(window.location.hostname)) {
             window.history.back();
         } else {
             window.location.href = "index.html"; 
         }
     };
 
-    // 🔹 Event Listeners
     searchIcon.addEventListener("click", openSearch);
     cancelSearch.addEventListener("click", closeSearch);
     searchInput.addEventListener("input", debouncedSearch);
 
-    // 🔹 Initialize Movies on Home Page
     if (movieGrid) {
         renderMovies(storedMovies);
     }
@@ -146,14 +132,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let dropdownActive = false;
 
-    // 🔹 Toggle Dropdown Menu
     profileIcon.addEventListener("click", (event) => {
         dropdownActive = !dropdownActive;
         profileMenu.classList.toggle("active", dropdownActive);
         event.stopPropagation(); 
     });
 
-    // 🔹 Close Dropdown When Clicking Outside
     document.addEventListener("click", (event) => {
         if (!profileIcon.contains(event.target) && !profileMenu.contains(event.target)) {
             profileMenu.classList.remove("active");
@@ -161,7 +145,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // 🔹 Close Dropdown on Scroll (Only if Significant Scroll)
     let lastScrollY = window.scrollY;
     window.addEventListener("scroll", () => {
         if (Math.abs(window.scrollY - lastScrollY) > 30) {
