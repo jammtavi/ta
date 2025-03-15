@@ -72,14 +72,16 @@ body.search-active {
     height: 100vh;
     background: rgba(0, 0, 0, 0.95);
     display: flex;
-    align-items: center;
+    align-items: flex-start; /* Changed from center to flex-start */
     justify-content: center;
+    padding-top: 20px; /* Adjust as desired for spacing from the top */
     opacity: 0;
     visibility: hidden;
     transform: translateY(-15%);
     transition: opacity 0.5s ease, transform 0.5s ease;
     z-index: 2000;
 }
+
 
 /* 🔹 Show Search Overlay */
 #search-overlay.active {
