@@ -18,7 +18,7 @@ body.search-active {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: rgba(26, 26, 26, 0.9); /* Slight transparency */
+    background: rgba(26, 26, 26, 0.9);
     backdrop-filter: blur(15px);
     padding: 12px 15px;
     position: sticky;
@@ -72,8 +72,8 @@ body.search-active {
     padding-top: 20px;
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-10%);
-    transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+    transform: translateY(-15%);
+    transition: opacity 0.5s ease, transform 0.5s ease;
     z-index: 2000;
 }
 
@@ -124,14 +124,14 @@ body.search-active {
     background: none;
     border: none;
     font-size: 16px;
-    color: #ff4d4d;
+    color: #7a00ff;
     cursor: pointer;
     padding: 12px 20px;
     transition: color 0.2s ease-in-out;
 }
 
 #cancel-search:hover {
-    color: #ff6666;
+    color: #b266ff;
 }
 
 /* 🔹 Movie Grid */
@@ -161,7 +161,7 @@ body.search-active {
     max-width: 180px;
     height: auto;
     border-radius: 8px;
-    box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.1);
+    box-shadow: 0px 0px 15px rgba(122, 0, 255, 0.3);
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
     object-fit: cover;
     will-change: transform, box-shadow;
@@ -169,7 +169,7 @@ body.search-active {
 
 .movie-card:hover img {
     transform: scale(1.05);
-    box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.3);
+    box-shadow: 0px 0px 25px rgba(122, 0, 255, 0.6);
 }
 
 /* 🔹 Movie Details Page */
@@ -192,7 +192,7 @@ body.search-active {
 /* 🔹 Download Button */
 #download-button {
     display: inline-block;
-    background: linear-gradient(135deg, #ff4d4d, #ff6666);
+    background: linear-gradient(135deg, #7a00ff, #b266ff);
     color: #fff;
     padding: 12px 20px;
     font-size: 18px;
@@ -203,7 +203,7 @@ body.search-active {
 }
 
 #download-button:hover {
-    background: linear-gradient(135deg, #ff6666, #ff4d4d);
+    background: linear-gradient(135deg, #b266ff, #7a00ff);
     transform: scale(1.05);
 }
 
@@ -249,6 +249,27 @@ body.search-active {
     }
 }
 
+@media (max-width: 480px) {
+    .top-nav {
+        padding: 8px 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .logo {
+        flex: 1;
+        text-align: center;
+        font-size: 14px;
+    }
+
+    .nav-icons {
+        flex: 1;
+        display: flex;
+        justify-content: flex-end;
+    }
+}
+
 /* 🔹 Profile Dropdown */
 .profile-dropdown {
     position: relative;
@@ -267,7 +288,7 @@ body.search-active {
     visibility: hidden;
     transform: translateY(-10px);
     transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-    will-change: opacity, transform;
+    box-shadow: 0px 0px 10px rgba(122, 0, 255, 0.2);
 }
 
 .dropdown-menu.active {
