@@ -207,7 +207,7 @@ body.search-active {
 #movie-poster {
     display: block;
     visibility: visible;
-    align-items: center;
+    text-align: center;
     opacity: 1;
     position: relative;
     z-index: 10;
