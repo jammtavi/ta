@@ -51,11 +51,7 @@ body.search-active {
 /* 🔹 Adjust Navigation Icons for Mobile */
 @media (max-width: 768px) {
     .nav-icons {
-        gap: 10px; /* Reduce gap for smaller screens */
-    }
-    
-    .top-nav button {
-        font-size: 18px; /* Slightly smaller buttons */
+        gap: 10px;
     }
 }
 
@@ -63,7 +59,7 @@ body.search-active {
 .top-nav button {
     background: none;
     border: none;
-    font-size: 20px;
+    font-size: 18px;
     color: #fff;
     cursor: pointer;
     transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
@@ -93,7 +89,6 @@ body.search-active {
     z-index: 2000;
 }
 
-/* 🔹 Show Search Overlay */
 #search-overlay.active {
     opacity: 1;
     visibility: visible;
@@ -106,11 +101,11 @@ body.search-active {
     align-items: center;
     width: 90%;
     max-width: 500px;
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.12);
     border-radius: 25px;
     padding: 14px;
     backdrop-filter: blur(10px);
-    box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
     transform: scale(0.9);
     transition: transform 0.3s ease-in-out;
 }
@@ -165,10 +160,9 @@ body.search-active {
     text-align: center;
 }
 
-/* 🔹 Adjust Movie Grid for Mobile */
 @media (max-width: 480px) {
     #movie-grid {
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Smaller thumbnails */
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
         gap: 10px;
     }
 }
@@ -187,46 +181,31 @@ body.search-active {
     max-width: 180px;
     height: auto;
     border-radius: 8px;
-    box-shadow: 0px 0px 15px rgba(122, 0, 255, 0.3);
+    box-shadow: 0 0 15px rgba(122, 0, 255, 0.3);
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
     object-fit: cover;
 }
 
-/* 🔹 Hover Effect for Desktop */
 @media (min-width: 769px) {
     .movie-card:hover img {
         transform: scale(1.08);
-        box-shadow: 0px 0px 20px rgba(122, 0, 255, 0.5);
+        box-shadow: 0 0 20px rgba(122, 0, 255, 0.5);
     }
 }
 
-/* 🔹 Fixed Thumbnail Display */
-img[loading="lazy"] {
-    opacity: 0;
-    transition: opacity 0.4s ease-in-out;
-}
-
-img[loading="lazy"].loaded {
-    opacity: 1;
-}
-
-/* 🔹 Movie Details Page */
+/* 🔹 Movie Details */
 #movie-details {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 15px;
     text-align: center;
-    max-width: 100%;
-    overflow: hidden;
-    min-height: 100vh; /* Ensures proper centering */
+    padding: 15px;
+    min-height: 100vh;
 }
 
 /* 🔹 Download Button */
 #download-button {
     display: inline-block;
-    max-width: 220px;
     padding: 10px 15px;
     font-size: 16px;
     text-align: center;
@@ -243,21 +222,9 @@ img[loading="lazy"].loaded {
     transform: scale(1.05);
 }
 
-/* 🔹 Footer */
-.footer {
-    text-align: center;
-    padding: 15px;
-    background: #1a1a1a;
-    font-size: 14px;
-    color: #aaa;
-    margin-top: 20px;
-    border-top: 1px solid rgba(255,255,255,0.15);
-}
-
 /* 🔹 Profile Dropdown */
 .profile-dropdown {
     position: relative;
-    display: inline-block;
 }
 
 .dropdown-menu {
@@ -272,7 +239,7 @@ img[loading="lazy"].loaded {
     visibility: hidden;
     transform: translateY(-10px);
     transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
-    box-shadow: 0px 0px 10px rgba(122, 0, 255, 0.2);
+    box-shadow: 0 0 10px rgba(122, 0, 255, 0.2);
     pointer-events: none;
 }
 
@@ -283,7 +250,6 @@ img[loading="lazy"].loaded {
     pointer-events: auto;
 }
 
-/* 🔹 Dropdown Menu Links */
 .dropdown-menu a {
     display: block;
     padding: 10px 15px;
@@ -295,43 +261,12 @@ img[loading="lazy"].loaded {
 
 .dropdown-menu a:hover {
     background: rgba(255, 255, 255, 0.1);
-    text-shadow: 0px 0px 5px rgba(122, 0, 255, 0.5);
-    }
-
-#movie-poster {
-     display: block !important;
-     visibility: visible !important;
-     opacity: 1 !important;
-     position: relative !important;
-     z-index: 10 !important;
-    }
-
-#movie-title {
-    font-size: 20px;
-    font-weight: bold;
-    max-width: 90%;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    margin-top: 10px;
-}
-
-#movie-description {
-    font-size: 16px;
-    max-width: 90%;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    margin: 10px 0;
-    line-height: 1.4;
 }
 
 /* 🔹 Ensure Movie Details Fit on Mobile Screens */
 @media (max-width: 480px) {
     #movie-details {
         padding: 10px;
-    }
-
-    #movie-poster {
-        max-width: 250px; /* Smaller poster for mobile */
     }
 
     #movie-title {
@@ -353,6 +288,6 @@ img[loading="lazy"].loaded {
 /* 🔹 Prevent Poster From Being Too Large */
 @media (min-width: 768px) {
     #movie-poster {
-        max-width: 350px; /* Bigger poster on tablets/desktops */
+        max-width: 350px;
     }
 }
