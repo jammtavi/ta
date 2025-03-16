@@ -6,6 +6,10 @@
     <meta name="description" content="Movie Details - Watch and Download Your Favorite Movies in High Quality.">
 
     <title>Movie Details</title>
+
+    <!-- 🔹 FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
     <link rel="stylesheet" href="style.css">
     <script defer src="script.js"></script>
 </head>
@@ -13,7 +17,7 @@
 
     <!-- 🔹 Header -->
     <header class="top-nav">
-        <button onclick="goBack()" aria-label="Go Back" class="back-button">
+        <button class="back-button" onclick="goBack()" aria-label="Go Back">
             <i class="fas fa-arrow-left"></i>
         </button>
         <h1 class="logo">Movie Details</h1>
@@ -21,13 +25,7 @@
 
     <!-- 🔹 Loading Animation -->
     <div id="preloader" class="preloader">Loading movie details...</div>
-    
-<header class="top-nav">
-    <button class="back-button" onclick="goBack()" aria-label="Go Back">
-        <i class="fas fa-arrow-left"></i>
-    </button>
-    <h1 class="logo">Movie Details</h1>
-</header>
+
     <!-- 🔹 Movie Details Section -->
     <main id="movie-details" class="modern-movie-details" style="display: none;">
         <div class="details-container">
