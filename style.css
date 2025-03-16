@@ -215,17 +215,23 @@ img[loading="lazy"].loaded {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
+    justify-content: center;
+    padding: 15px;
     text-align: center;
+    max-width: 100%;
+    overflow: hidden;
+    min-height: 100vh; /* Ensures proper centering */
 }
 
 /* 🔹 Download Button */
 #download-button {
     display: inline-block;
+    max-width: 220px;
+    padding: 10px 15px;
+    font-size: 16px;
+    text-align: center;
     background: linear-gradient(135deg, #7a00ff, #b266ff);
     color: #fff;
-    padding: 12px 20px;
-    font-size: 18px;
     border-radius: 5px;
     text-decoration: none;
     transition: transform 0.3s ease-in-out, background 0.3s ease-in-out;
@@ -293,9 +299,62 @@ img[loading="lazy"].loaded {
     }
 
 #movie-poster {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    position: relative !important;
-    z-index: 10 !important;
+    width: 90%;  /* Ensures proper scaling */
+    max-width: 280px; /* Prevents poster from being too large */
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0px 0px 15px rgba(122, 0, 255, 0.3);
+    object-fit: contain;
+    transition: transform 0.3s ease-in-out;
+}
+
+#movie-title {
+    font-size: 20px;
+    font-weight: bold;
+    max-width: 90%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    margin-top: 10px;
+}
+
+#movie-description {
+    font-size: 16px;
+    max-width: 90%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    margin: 10px 0;
+    line-height: 1.4;
+}
+
+/* 🔹 Ensure Movie Details Fit on Mobile Screens */
+@media (max-width: 480px) {
+    #movie-details {
+        padding: 10px;
+    }
+
+    #movie-poster {
+        max-width: 250px; /* Smaller poster for mobile */
+    }
+
+    #movie-title {
+        font-size: 18px;
+    }
+
+    #movie-description {
+        font-size: 14px;
+        line-height: 1.3;
+    }
+
+    #download-button {
+        font-size: 14px;
+        padding: 8px 12px;
+        max-width: 200px;
+    }
+}
+
+/* 🔹 Prevent Poster From Being Too Large */
+@media (min-width: 768px) {
+    #movie-poster {
+        max-width: 350px; /* Bigger poster on tablets/desktops */
+    }
 }
