@@ -311,9 +311,7 @@ img[loading="lazy"].loaded {
     object-fit: cover;
     position: relative !important;
     z-index: 10 !important;
-    transition: transform 0.3s ease-in-out;
     }
-}
 
 #movie-title {
     font-size: 20px;
