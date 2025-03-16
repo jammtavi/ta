@@ -105,13 +105,7 @@ body.search-active {
     padding: 12px;
     backdrop-filter: blur(10px);
     box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.1);
-    transform: scale(0.9);
-    transition: transform 0.3s ease-in-out;
     border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-#search-overlay.active .search-container {
-    transform: scale(1);
 }
 
 /* 🔹 Search Input */
@@ -258,6 +252,17 @@ img[loading="lazy"].loaded {
 .dropdown-menu a:hover {
     background: rgba(255, 255, 255, 0.1);
     text-shadow: 0px 0px 5px rgba(122, 0, 255, 0.5);
+}
+
+/* 🔹 Footer */
+.footer {
+    text-align: center;
+    padding: 15px;
+    background: #1a1a1a;
+    font-size: 14px;
+    color: #aaa;
+    margin-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.15);
 }
 
 /* 🔹 Preloader Animation */
