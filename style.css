@@ -48,6 +48,17 @@ body.search-active {
     justify-content: flex-end;
 }
 
+/* 🔹 Adjust Navigation Icons for Mobile */
+@media (max-width: 768px) {
+    .nav-icons {
+        gap: 10px; /* Reduce gap for smaller screens */
+    }
+    
+    .top-nav button {
+        font-size: 18px; /* Slightly smaller buttons */
+    }
+}
+
 /* 🔹 Menu, Search & Profile Icons */
 .top-nav button {
     background: none;
@@ -95,9 +106,9 @@ body.search-active {
     align-items: center;
     width: 90%;
     max-width: 500px;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.15);
     border-radius: 25px;
-    padding: 12px;
+    padding: 14px;
     backdrop-filter: blur(10px);
     box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.1);
     transform: scale(0.9);
@@ -137,7 +148,7 @@ body.search-active {
 }
 
 #cancel-search:hover {
-    background: rgba(122, 0, 255, 0.2);
+    background: rgba(122, 0, 255, 0.3);
     transform: scale(1.05);
 }
 
@@ -152,6 +163,14 @@ body.search-active {
     gap: 15px;
     justify-content: center;
     text-align: center;
+}
+
+/* 🔹 Adjust Movie Grid for Mobile */
+@media (max-width: 480px) {
+    #movie-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Smaller thumbnails */
+        gap: 10px;
+    }
 }
 
 /* 🔹 Movie Cards */
@@ -171,6 +190,14 @@ body.search-active {
     box-shadow: 0px 0px 15px rgba(122, 0, 255, 0.3);
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
     object-fit: cover;
+}
+
+/* 🔹 Hover Effect for Desktop */
+@media (min-width: 769px) {
+    .movie-card:hover img {
+        transform: scale(1.08);
+        box-shadow: 0px 0px 20px rgba(122, 0, 255, 0.5);
+    }
 }
 
 /* 🔹 Fixed Thumbnail Display */
@@ -221,18 +248,6 @@ img[loading="lazy"].loaded {
     border-top: 1px solid rgba(255,255,255,0.15);
 }
 
-/* 🔹 Animations */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
 /* 🔹 Profile Dropdown */
 .profile-dropdown {
     position: relative;
@@ -250,7 +265,7 @@ img[loading="lazy"].loaded {
     opacity: 0;
     visibility: hidden;
     transform: translateY(-10px);
-    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
     box-shadow: 0px 0px 10px rgba(122, 0, 255, 0.2);
     pointer-events: none;
 }
@@ -275,12 +290,4 @@ img[loading="lazy"].loaded {
 .dropdown-menu a:hover {
     background: rgba(255, 255, 255, 0.1);
     text-shadow: 0px 0px 5px rgba(122, 0, 255, 0.5);
-}
-
-/* 🔹 Responsive Design */
-@media (max-width: 480px) {
-    .movie-card:hover img {
-        transform: scale(1.03);
-        box-shadow: 0 0 12px rgba(122, 0, 255, 0.4);
     }
-}
