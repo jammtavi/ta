@@ -8,6 +8,11 @@ html, body {
     font-family: 'Poppins', sans-serif;
 }
 
+/* 🔹 Smooth Scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
 /* 🔹 Prevent Scrolling When Search is Active */
 body.search-active {
     overflow: hidden;
@@ -102,6 +107,7 @@ body.search-active {
     box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.1);
     transform: scale(0.9);
     transition: transform 0.3s ease-in-out;
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 #search-overlay.active .search-container {
@@ -173,7 +179,7 @@ body.search-active {
     object-fit: cover;
 }
 
-/* 🔹 Fixed Thumbnail Display */
+/* 🔹 Lazy Loading & Shimmer Effect */
 img[loading="lazy"] {
     opacity: 0;
     transition: opacity 0.4s ease-in-out;
@@ -208,29 +214,6 @@ img[loading="lazy"].loaded {
 #download-button:hover {
     background: linear-gradient(135deg, #b266ff, #7a00ff);
     transform: scale(1.05);
-}
-
-/* 🔹 Footer */
-.footer {
-    text-align: center;
-    padding: 15px;
-    background: #1a1a1a;
-    font-size: 14px;
-    color: #aaa;
-    margin-top: 20px;
-    border-top: 1px solid rgba(255,255,255,0.15);
-}
-
-/* 🔹 Animations */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
 }
 
 /* 🔹 Profile Dropdown */
@@ -275,6 +258,13 @@ img[loading="lazy"].loaded {
 .dropdown-menu a:hover {
     background: rgba(255, 255, 255, 0.1);
     text-shadow: 0px 0px 5px rgba(122, 0, 255, 0.5);
+}
+
+/* 🔹 Preloader Animation */
+.preloader {
+    text-align: center;
+    font-size: 18px;
+    padding: 20px;
 }
 
 /* 🔹 Responsive Design */
