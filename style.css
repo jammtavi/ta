@@ -197,8 +197,7 @@ body.search-active {
 #movie-details {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center content horizontally */
-    justify-content: center; /* Center content vertically */
+    align-items: center; /* Centers horizontally */
     text-align: center;
     padding: 15px;
     min-height: 100vh;
@@ -207,16 +206,11 @@ body.search-active {
 /* 🔹 Movie Poster - Adjusted Size */
 #movie-poster {
     display: block;
-    margin: 0 auto; /* Center horizontally */
-    visibility: visible !important;
-    opacity: 1 !important;
-    position: relative !important;
-    z-index: 10 !important;
-    max-width: 100%;
+    margin: 20px auto 0; /* Adds margin at the top to push it below the navbar */
+    max-width: 90%; /* Prevents it from being too wide */
     height: auto;
     border-radius: 10px;
     box-shadow: 0px 0px 15px rgba(122, 0, 255, 0.3);
-    text-align: center;
 }
 
 /* 🔹 Movie Poster Size Adjustments */
