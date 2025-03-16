@@ -6,23 +6,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const movieGrid = document.getElementById("movie-grid");
     const body = document.body;
 
-    // ✅ Restore last search query when search bar is reopened
-    if (localStorage.getItem("searchQuery")) {
-        searchInput.value = localStorage.getItem("searchQuery");
-    }
-
-    searchInput.addEventListener("input", () => {
-        localStorage.setItem("searchQuery", searchInput.value);
-    });
-
     function fetchAndStoreMovies() {
         const existingMovies = localStorage.getItem("movies");
         if (existingMovies) return JSON.parse(existingMovies);
 
         const movies = [
-            { id: "movie1", title: "Movie 1", description: "A thrilling movie experience.", poster: "images/3-316-16-9-aspect-ratio-s-sfw-wallpaper-preview.jpg", downloadLink: "https://example.com/download/movie1" },
-            { id: "movie2", title: "Movie 2", description: "A breathtaking adventure.", poster: "images/447d76a8817d3804243cd2bac16ac7be.jpg", downloadLink: "https://example.com/download/movie2" },
-            { id: "movie3", title: "Movie 3", description: "A suspenseful mystery.", poster: "images/3-316-16-9-aspect-ratio-s-sfw-wallpaper-preview.jpg", downloadLink: "https://example.com/download/movie3" }
+            { id: "movie1", title: "Movie 1", description: "A thrilling movie experience.", poster: "images/movie1.jpg", downloadLink: "https://example.com/download/movie1" },
+            { id: "movie2", title: "Movie 2", description: "A breathtaking adventure.", poster: "images/movie2.jpg", downloadLink: "https://example.com/download/movie2" },
+            { id: "movie3", title: "Movie 3", description: "A suspenseful mystery.", poster: "images/movie3.jpg", downloadLink: "https://example.com/download/movie3" }
         ];
 
         localStorage.setItem("movies", JSON.stringify(movies));
@@ -85,7 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
             movieGrid.appendChild(movieCard);
         });
 
-        // ✅ Better Lazy Loading using IntersectionObserver
+        // ✅ Improved Lazy Loading using IntersectionObserver
         const lazyImages = document.querySelectorAll(".lazy-load");
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -107,15 +98,32 @@ document.addEventListener("DOMContentLoaded", () => {
             const urlParams = new URLSearchParams(window.location.search);
             const movieId = urlParams.get("id");
 
-            let movies = JSON.parse(localStorage.getItem("movies") || "[]");
-            const movie = movies.find(m => m.id === movieId);
+            const movieTitle = document.getElementById("movie-title");
+            const movieDescription = document.getElementById("movie-description");
+            const moviePoster = document.getElementById("movie-poster");
+            const downloadButton = document.getElementById("download-button");
+            const movieDetails = document.getElementById("movie-details");
+            const preloader = document.getElementById("preloader");
+            const errorMessage = document.getElementById("error-message");
+
+            if (!movieId) {
+                showErrorAndRedirect();
+                return;
+            }
+
+            // ✅ Fetch stored movies
+            const storedMovies = JSON.parse(localStorage.getItem("movies")) || [];
+
+            const movie = storedMovies.find(m => m.id === movieId);
 
             if (movie) {
-                document.getElementById("movie-title").textContent = movie.title;
-                document.getElementById("movie-description").textContent = movie.description;
-                document.getElementById("movie-poster").src = movie.poster;
+                // ✅ Display movie details
+                movieTitle.textContent = movie.title;
+                movieDescription.textContent = movie.description;
+                moviePoster.src = movie.poster;
+                moviePoster.alt = `${movie.title} Poster`;
 
-                const downloadButton = document.getElementById("download-button");
+                // ✅ Set download button link
                 if (movie.downloadLink) {
                     downloadButton.href = movie.downloadLink;
                     downloadButton.style.display = "inline-block";
@@ -123,18 +131,26 @@ document.addEventListener("DOMContentLoaded", () => {
                     downloadButton.style.display = "none";
                 }
 
-                // ✅ Hide Preloader when movie details are ready
+                // ✅ Show content after preloader disappears
                 setTimeout(() => {
-                    document.getElementById("preloader").style.display = "none";
-                    document.getElementById("movie-details").style.display = "block";
+                    preloader.style.display = "none";
+                    movieDetails.style.display = "block";
                 }, 1000);
             } else {
-                document.getElementById("movie-details").innerHTML = `<p class="loading-text">Movie not found.</p>`;
-                setTimeout(() => window.location.href = "index.html", 3000);
+                showErrorAndRedirect();
+            }
+
+            function showErrorAndRedirect() {
+                preloader.style.display = "none";
+                errorMessage.style.display = "block";
+                setTimeout(() => {
+                    window.location.href = "index.html";
+                }, 3000);
             }
         });
     }
 
+    /* ✅ Go Back Function */
     window.goBack = function () {
         if (document.referrer && document.referrer.includes(window.location.hostname)) {
             window.history.back();
