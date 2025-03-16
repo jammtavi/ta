@@ -73,27 +73,5 @@
         <p>© 2025 Movie Download Hub. All Rights Reserved.</p>
     </footer>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Ensure search overlay opens/closes properly
-            const searchOverlay = document.getElementById("search-overlay");
-            searchOverlay.addEventListener("transitionend", () => {
-                if (!searchOverlay.classList.contains("active")) {
-                    searchOverlay.style.visibility = "hidden";
-                }
-            });
-
-            // Ensure profile dropdown works smoothly
-            const profileMenu = document.getElementById("profile-menu");
-            profileMenu.addEventListener("transitionend", () => {
-                if (!profileMenu.classList.contains("active")) {
-                    profileMenu.style.visibility = "hidden";
-                } else {
-                    profileMenu.style.visibility = "visible";
-                }
-            });
-        });
-    </script>
-
 </body>
 </html>
