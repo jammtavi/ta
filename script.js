@@ -11,9 +11,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (existingMovies) return JSON.parse(existingMovies);
 
         const movies = [
-            { id: "movie1", title: "Movie 1", description: "A thrilling movie experience.", poster: "images/3-316-16-9-aspect-ratio-s-sfw-wallpaper-preview.jpg", downloadLink: "https://example.com/download/movie1" },
-            { id: "movie2", title: "Movie 2", description: "A breathtaking adventure.", poster: "images/447d76a8817d3804243cd2bac16ac7be.jpg", downloadLink: "https://example.com/download/movie2" },
-            { id: "movie3", title: "Movie 3", description: "A suspenseful mystery.", poster: "images/3-316-16-9-aspect-ratio-s-sfw-wallpaper-preview.jpg", downloadLink: "https://example.com/download/movie3" }
+            { id: "movie1", title: "Movie 1", description: "A thrilling movie experience.", poster: "images/movie1.jpg", downloadLink: "https://example.com/download/movie1" },
+            { id: "movie2", title: "Movie 2", description: "A breathtaking adventure.", poster: "images/movie2.jpg", downloadLink: "https://example.com/download/movie2" },
+            { id: "movie3", title: "Movie 3", description: "A suspenseful mystery.", poster: "images/movie3.jpg", downloadLink: "https://example.com/download/movie3" }
         ];
 
         localStorage.setItem("movies", JSON.stringify(movies));
@@ -93,6 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
         window.location.href = `movie.html?id=${movieId}`;
     };
 
+    /* ✅ Movie Details Page Logic */
     if (window.location.pathname.includes("movie.html")) {
         document.addEventListener("DOMContentLoaded", () => {
             const urlParams = new URLSearchParams(window.location.search);
