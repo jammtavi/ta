@@ -5,35 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description" content="Movie Details - Watch and Download Your Favorite Movies in High Quality.">
 
+    <!-- 🔹 Open Graph for SEO & Social Sharing -->
+    <meta property="og:title" content="Movie Details - Watch & Download">
+    <meta property="og:description" content="Stream and download high-quality movies instantly.">
+    <meta property="og:image" content="thumbnail.jpg">
+    <meta property="og:url" content="https://moviedownloadhub.com/movie.html">
+    <meta property="og:type" content="website">
+
+    <!-- 🔹 Twitter Card for Social Media -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Movie Details - Download & Stream">
+    <meta name="twitter:description" content="Get the latest movies in high quality.">
+    <meta name="twitter:image" content="thumbnail.jpg">
+
     <title>Movie Details</title>
 
-    <!-- 🔹 FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- 🔹 Preload FontAwesome for Better Performance -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"></noscript>
 
     <link rel="stylesheet" href="style.css">
     <script defer src="script.js"></script>
 </head>
 <body>
 
-    <!-- 🔹 Header -->
+    <!-- 🔹 Header (Navigation Bar) -->
     <header class="top-nav">
-        <button class="back-button" onclick="goBack()" aria-label="Go Back">
-            <i class="fas fa-arrow-left"></i>
+        <button onclick="goBack()" aria-label="Go Back" class="back-button">
+            <i class="fas fa-arrow-left" aria-hidden="true"></i>
         </button>
         <h1 class="logo">Movie Details</h1>
     </header>
 
-    <!-- 🔹 Loading Animation -->
-    <div id="preloader" class="preloader">Loading movie details...</div>
-
     <!-- 🔹 Movie Details Section -->
-    <main id="movie-details" class="modern-movie-details" style="display: none;">
+    <main id="movie-details" class="modern-movie-details">
         <div class="details-container">
             <img id="movie-poster" src="" alt="Movie Poster" class="poster" loading="lazy">
             <div class="movie-info">
                 <h2 id="movie-title"></h2>
                 <p id="movie-description"></p>
-                <a id="download-button" href="#" target="_blank" class="download-btn">Download</a>
+                <a id="download-button" href="#" target="_blank" rel="noopener noreferrer" class="download-btn">Download</a>
             </div>
         </div>
         <p id="error-message" class="error-message" style="display: none;">Movie not found. Redirecting...</p>
@@ -43,6 +54,95 @@
     <footer class="footer">
         <p>© 2025 Movie Download Hub. All Rights Reserved.</p>
     </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const movieId = urlParams.get("id");
+
+            try {
+                // 🔹 Fetch Movie Data (Simulated API Call)
+                const movies = await fetchMovies();
+
+                if (!movies[movieId]) {
+                    handleMovieNotFound();
+                    return;
+                }
+
+                // 🔹 Set Movie Details
+                setMovieDetails(movies[movieId]);
+
+            } catch (error) {
+                console.error("Error loading movie:", error);
+                handleMovieNotFound();
+            }
+        });
+
+        // 🔹 Simulated API Fetch Function
+        async function fetchMovies() {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve({
+                        "movie1": {
+                            title: "Movie 1",
+                            description: "An action-packed thriller that keeps you on the edge.",
+                            poster: "images/3-316-16-9-aspect-ratio-s-sfw-wallpaper-preview.jpg",
+                            downloadLink: "https://example.com/download/movie1"
+                        },
+                        "movie2": {
+                            title: "Movie 2",
+                            description: "A breathtaking adventure that takes you into another world.",
+                            poster: "images/447d76a8817d3804243cd2bac16ac7be.jpg",
+                            downloadLink: "https://example.com/download/movie2"
+                        },
+                        "movie3": {
+                            title: "Movie 3",
+                            description: "A suspenseful mystery with unexpected twists and turns.",
+                            poster: "images/3-316-16-9-aspect-ratio-s-sfw-wallpaper-preview.jpg",
+                            downloadLink: "https://example.com/download/movie3"
+                        }
+                    });
+                }, 400); // Simulated network delay
+            });
+        }
+
+        // 🔹 Function to Set Movie Details
+        function setMovieDetails(movie) {
+            document.getElementById("movie-title").textContent = movie.title;
+            document.getElementById("movie-description").textContent = movie.description;
+
+            const moviePoster = document.getElementById("movie-poster");
+            moviePoster.src = movie.poster;
+            moviePoster.alt = `${movie.title} Poster`;
+
+            document.title = `${movie.title} - Movie Details`;
+
+            const downloadButton = document.getElementById("download-button");
+            if (movie.downloadLink) {
+                downloadButton.href = movie.downloadLink;
+                downloadButton.style.display = "inline-block";
+            } else {
+                downloadButton.style.display = "none";
+            }
+        }
+
+        // 🔹 Handle Movie Not Found
+        function handleMovieNotFound() {
+            document.getElementById("error-message").style.display = "block";
+            setTimeout(() => {
+                window.location.href = "index.html"; 
+            }, 3000);
+        }
+
+        // 🔹 Go Back Function
+        function goBack() {
+            if (document.referrer && document.referrer.includes(window.location.hostname)) {
+                window.history.back();
+            } else {
+                window.location.href = "index.html"; 
+            }
+        }
+    </script>
 
 </body>
 </html>
