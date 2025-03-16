@@ -299,13 +299,20 @@ img[loading="lazy"].loaded {
     }
 
 #movie-poster {
-    width: 90%;  /* Ensures proper scaling */
-    max-width: 280px; /* Prevents poster from being too large */
+    #movie-poster {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 90%;
+    max-width: 280px;
     height: auto;
     border-radius: 8px;
     box-shadow: 0px 0px 15px rgba(122, 0, 255, 0.3);
-    object-fit: contain;
+    object-fit: cover;
+    position: relative !important;
+    z-index: 10 !important;
     transition: transform 0.3s ease-in-out;
+    }
 }
 
 #movie-title {
