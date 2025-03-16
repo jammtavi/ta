@@ -24,13 +24,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function openSearch() {
         searchOverlay.classList.add("active");
-        body.classList.add("search-active"); 
+        body.classList.add("search-active");
+        searchOverlay.setAttribute("aria-hidden", "false");
         setTimeout(() => searchInput.focus(), 150);
     }
 
     function closeSearch() {
         searchOverlay.classList.remove("active");
-        body.classList.remove("search-active"); 
+        body.classList.remove("search-active");
+        searchOverlay.setAttribute("aria-hidden", "true");
         searchInput.value = "";
         renderMovies(storedMovies);
     }
@@ -61,10 +63,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function renderMovies(movieList) {
         movieGrid.innerHTML = "";
+
         if (movieList.length === 0) {
             movieGrid.innerHTML = `<p class="loading-text">No movies found.</p>`;
             return;
         }
+
         movieList.forEach(movie => {
             const movieCard = document.createElement("article");
             movieCard.classList.add("movie-card");
@@ -76,7 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
             movieGrid.appendChild(movieCard);
         });
 
-        // Ensure lazy loading works
+        // Ensure lazy loading works smoothly
         document.querySelectorAll(".lazy-load").forEach(img => {
             img.onload = () => img.classList.add("loaded");
         });
@@ -140,12 +144,14 @@ document.addEventListener("DOMContentLoaded", () => {
     profileIcon.addEventListener("click", (event) => {
         dropdownActive = !dropdownActive;
         profileMenu.classList.toggle("active", dropdownActive);
-        event.stopPropagation(); 
+        profileMenu.setAttribute("aria-hidden", !dropdownActive);
+        event.stopPropagation();
     });
 
     document.addEventListener("click", (event) => {
         if (!profileIcon.contains(event.target) && !profileMenu.contains(event.target)) {
             profileMenu.classList.remove("active");
+            profileMenu.setAttribute("aria-hidden", "true");
             dropdownActive = false;
         }
     });
@@ -154,6 +160,7 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("scroll", () => {
         if (Math.abs(window.scrollY - lastScrollY) > 30) {
             profileMenu.classList.remove("active");
+            profileMenu.setAttribute("aria-hidden", "true");
             dropdownActive = false;
         }
         lastScrollY = window.scrollY;
