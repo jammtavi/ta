@@ -6,6 +6,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const movieGrid = document.getElementById("movie-grid");
     const body = document.body;
 
+    // ✅ Restore last search query when search bar is reopened
+    if (localStorage.getItem("searchQuery")) {
+        searchInput.value = localStorage.getItem("searchQuery");
+    }
+
+    searchInput.addEventListener("input", () => {
+        localStorage.setItem("searchQuery", searchInput.value);
+    });
+
     function fetchAndStoreMovies() {
         const existingMovies = localStorage.getItem("movies");
         if (existingMovies) return JSON.parse(existingMovies);
@@ -24,13 +33,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function openSearch() {
         searchOverlay.classList.add("active");
-        body.classList.add("search-active"); 
+        body.classList.add("search-active");
         setTimeout(() => searchInput.focus(), 150);
     }
 
     function closeSearch() {
         searchOverlay.classList.remove("active");
-        body.classList.remove("search-active"); 
+        body.classList.remove("search-active");
         searchInput.value = "";
         renderMovies(storedMovies);
     }
@@ -76,10 +85,17 @@ document.addEventListener("DOMContentLoaded", () => {
             movieGrid.appendChild(movieCard);
         });
 
-        // Ensure lazy loading works
-        document.querySelectorAll(".lazy-load").forEach(img => {
-            img.onload = () => img.classList.add("loaded");
-        });
+        // ✅ Better Lazy Loading using IntersectionObserver
+        const lazyImages = document.querySelectorAll(".lazy-load");
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("loaded");
+                }
+            });
+        }, { threshold: 0.1 });
+
+        lazyImages.forEach(img => observer.observe(img));
     }
 
     window.openMovieDetails = function (movieId) {
@@ -106,6 +122,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 } else {
                     downloadButton.style.display = "none";
                 }
+
+                // ✅ Hide Preloader when movie details are ready
+                setTimeout(() => {
+                    document.getElementById("preloader").style.display = "none";
+                    document.getElementById("movie-details").style.display = "block";
+                }, 1000);
             } else {
                 document.getElementById("movie-details").innerHTML = `<p class="loading-text">Movie not found.</p>`;
                 setTimeout(() => window.location.href = "index.html", 3000);
@@ -117,7 +139,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (document.referrer && document.referrer.includes(window.location.hostname)) {
             window.history.back();
         } else {
-            window.location.href = "index.html"; 
+            window.location.href = "index.html";
         }
     };
 
@@ -130,7 +152,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-/* 🔹 Profile Dropdown Handling */
+/* ✅ Improved Profile Dropdown Handling */
 document.addEventListener("DOMContentLoaded", () => {
     const profileIcon = document.getElementById("profile-icon");
     const profileMenu = document.getElementById("profile-menu");
@@ -140,7 +162,7 @@ document.addEventListener("DOMContentLoaded", () => {
     profileIcon.addEventListener("click", (event) => {
         dropdownActive = !dropdownActive;
         profileMenu.classList.toggle("active", dropdownActive);
-        event.stopPropagation(); 
+        event.stopPropagation();
     });
 
     document.addEventListener("click", (event) => {
@@ -159,7 +181,7 @@ document.addEventListener("DOMContentLoaded", () => {
         lastScrollY = window.scrollY;
     });
 
-    // 🔹 Fix Dropdown Animation
+    // ✅ Fix Dropdown Animation
     profileMenu.addEventListener("transitionend", () => {
         if (!profileMenu.classList.contains("active")) {
             profileMenu.style.visibility = "hidden";
