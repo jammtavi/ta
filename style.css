@@ -133,9 +133,11 @@ body.search-active {
 /* 🔹 Search & Profile Icons Spacing */
  #search-icon {
      margin-right: 10px;
+}
 
  #profile-icon {
      margin-right: 10px;
+}
 
 /* 🔹 Cancel Button */
 #cancel-search {
