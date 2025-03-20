@@ -47,7 +47,7 @@
                 <a id="download-button" href="#" target="_blank" rel="noopener noreferrer" class="download-btn">Download</a>
             </div>
         </div>
-        <p id="error-message" class="error-message" style="display: none;">Movie not found. Redirecting...</p>
+        <p id="error-message" class="error-message" aria-live="polite" style="display: none;">Movie not found. Redirecting...</p>
     </main>
 
     <!-- 🔹 Footer -->
@@ -56,55 +56,20 @@
     </footer>
 
     <script>
-        document.addEventListener("DOMContentLoaded", async () => {
+        document.addEventListener("DOMContentLoaded", () => {
             const urlParams = new URLSearchParams(window.location.search);
             const movieId = urlParams.get("id");
 
-            try {
-                // 🔹 Fetch Movie Data (Simulated API Call)
-                const movies = await fetchMovies();
+            // 🔹 Fetch movies from local storage
+            const movies = JSON.parse(localStorage.getItem("movies") || "{}");
 
-                if (!movies[movieId]) {
-                    handleMovieNotFound();
-                    return;
-                }
-
-                // 🔹 Set Movie Details
-                setMovieDetails(movies[movieId]);
-
-            } catch (error) {
-                console.error("Error loading movie:", error);
+            if (!movies || !movies[movieId]) {
                 handleMovieNotFound();
+                return;
             }
-        });
 
-        // 🔹 Simulated API Fetch Function
-        async function fetchMovies() {
-            return new Promise((resolve) => {
-                setTimeout(() => {
-                    resolve({
-                        "movie1": {
-                            title: "Movie 1",
-                            description: "An action-packed thriller that keeps you on the edge.",
-                            poster: "images/3-316-16-9-aspect-ratio-s-sfw-wallpaper-preview.jpg",
-                            downloadLink: "https://example.com/download/movie1"
-                        },
-                        "movie2": {
-                            title: "Movie 2",
-                            description: "A breathtaking adventure that takes you into another world.",
-                            poster: "images/447d76a8817d3804243cd2bac16ac7be.jpg",
-                            downloadLink: "https://example.com/download/movie2"
-                        },
-                        "movie3": {
-                            title: "Movie 3",
-                            description: "A suspenseful mystery with unexpected twists and turns.",
-                            poster: "images/3-316-16-9-aspect-ratio-s-sfw-wallpaper-preview.jpg",
-                            downloadLink: "https://example.com/download/movie3"
-                        }
-                    });
-                }, 400); // Simulated network delay
-            });
-        }
+            setMovieDetails(movies[movieId]);
+        });
 
         // 🔹 Function to Set Movie Details
         function setMovieDetails(movie) {
@@ -131,7 +96,7 @@
             document.getElementById("error-message").style.display = "block";
             setTimeout(() => {
                 window.location.href = "index.html"; 
-            }, 3000);
+            }, 2000);
         }
 
         // 🔹 Go Back Function
