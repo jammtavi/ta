@@ -130,13 +130,13 @@ body.search-active {
     color: rgba(255, 255, 255, 0.5);
 }
 
-/* 🔹 Search & Profile Icons Spacing */
- #search-icon {
-     margin-right: 10px;
+/* 🔹 Search & Profile Icons */
+#search-icon {
+    margin-right: 10px;
 }
 
- #profile-icon {
-     margin-right: 10px;
+#profile-icon {
+    margin-right: 10px;
 }
 
 /* 🔹 Cancel Button */
@@ -169,13 +169,6 @@ body.search-active {
     text-align: center;
 }
 
-@media (max-width: 480px) {
-    #movie-grid {
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-        gap: 10px;
-    }
-}
-
 /* 🔹 Movie Cards */
 .movie-card {
     display: flex;
@@ -202,37 +195,14 @@ body.search-active {
     }
 }
 
-/* 🔹 Movie Details */
-#movie-details {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Centers horizontally */
-    text-align: center;
-    padding: 15px;
-    min-height: 100vh;
-}
-
-/* 🔹 Movie Poster - Adjusted Size */
+/* 🔹 Movie Poster */
 #movie-poster {
     display: block;
-    margin: 20px auto 0; /* Adds margin at the top to push it below the navbar */
-    max-width: 90%; /* Prevents it from being too wide */
+    margin: 20px auto 0;
+    max-width: 90%;
     height: auto;
     border-radius: 10px;
     box-shadow: 0px 0px 15px rgba(122, 0, 255, 0.3);
-}
-
-/* 🔹 Movie Poster Size Adjustments */
-@media (max-width: 480px) {
-    #movie-poster {
-        max-width: 220px; /* Smaller for mobile */
-    }
-}
-
-@media (min-width: 768px) {
-    #movie-poster {
-        max-width: 300px; /* Bigger on larger screens */
-    }
 }
 
 /* 🔹 Download Button */
@@ -291,46 +261,4 @@ body.search-active {
     visibility: visible;
     transform: translateY(0);
     pointer-events: auto;
-}
-
-.dropdown-menu a {
-    display: block;
-    padding: 10px 15px;
-    color: #fff;
-    font-size: 14px;
-    text-decoration: none;
-    transition: background 0.2s ease-in-out;
-}
-
-.dropdown-menu a:hover {
-    background: rgba(255, 255, 255, 0.1);
-}
-
-/* 🔹 Ensure Movie Details Fit on Mobile Screens */
-@media (max-width: 480px) {
-    #movie-details {
-        padding: 10px;
-    }
-
-    #movie-title {
-        font-size: 18px;
-    }
-
-    #movie-description {
-        font-size: 14px;
-        line-height: 1.3;
-    }
-
-    #download-button {
-        font-size: 14px;
-        padding: 8px 12px;
-        max-width: 200px;
-    }
-}
-
-/* 🔹 Prevent Poster From Being Too Large */
-@media (min-width: 768px) {
-    #movie-poster {
-        max-width: 350px;
-    }
 }
