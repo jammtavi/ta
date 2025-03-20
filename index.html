@@ -30,38 +30,40 @@
 <body>
 
     <!-- 🔹 Header (Navigation Bar) -->
-    <nav class="top-nav">
-        <button id="menu-icon" aria-label="Open Menu">
-            <i class="fas fa-bars" aria-hidden="true"></i>
-        </button>
-        <span class="logo">MovieHub</span>
-        <div class="nav-icons">
-            <button id="search-icon" aria-label="Search Movies">
-                <i class="fas fa-search" aria-hidden="true"></i>
+    <header>
+        <nav class="top-nav">
+            <button id="menu-icon" aria-label="Open Menu">
+                <i class="fas fa-bars" aria-hidden="true"></i>
             </button>
-            <div class="profile-dropdown">
-                <button id="profile-icon" aria-label="User Profile" data-dropdown>
-                    <i class="fas fa-user" aria-hidden="true"></i>
+            <span class="logo">MovieHub</span>
+            <div class="nav-icons">
+                <button id="search-icon" aria-label="Search Movies">
+                    <i class="fas fa-search" aria-hidden="true"></i>
                 </button>
-                <div class="dropdown-menu" id="profile-menu" role="menu">
-                    <a href="#" role="menuitem">Login</a>
-                    <a href="#" role="menuitem">Sign Up</a>
-                    <a href="#" role="menuitem">Settings</a>
+                <div class="profile-dropdown">
+                    <button id="profile-icon" aria-label="User Profile">
+                        <i class="fas fa-user" aria-hidden="true"></i>
+                    </button>
+                    <div class="dropdown-menu" id="profile-menu" role="menu">
+                        <a href="#" role="menuitem">Login</a>
+                        <a href="#" role="menuitem">Sign Up</a>
+                        <a href="#" role="menuitem">Settings</a>
+                    </div>
                 </div>
             </div>
-        </div>
-    </nav>
-
-    <!-- 🔹 Search Overlay -->
-    <div id="search-overlay">
-        <div class="search-container">
-            <input type="text" id="search" placeholder="Search for movies..." aria-label="Search movies">
-            <button id="cancel-search">Cancel</button>
-        </div>
-    </div>
+        </nav>
+    </header>
 
     <!-- 🔹 Main Content -->
     <main id="movie-section">
+        <!-- 🔹 Search Overlay -->
+        <div id="search-overlay">
+            <div class="search-container">
+                <input type="text" id="search" placeholder="Search for movies..." aria-label="Search movies">
+                <button id="cancel-search">Cancel</button>
+            </div>
+        </div>
+
         <h2>Latest Movies</h2>
         <div id="movie-grid" class="optimized-grid">
             <!-- Movies dynamically inserted via JavaScript -->
