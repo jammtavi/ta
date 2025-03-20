@@ -262,3 +262,44 @@ body.search-active {
     transform: translateY(0);
     pointer-events: auto;
 }
+
+/* 🔹 Profile Dropdown */
+.profile-dropdown {
+    position: relative;
+}
+
+.dropdown-menu {
+    position: absolute;
+    right: 0;
+    top: 45px;
+    background: rgba(26, 26, 26, 0.95);
+    backdrop-filter: blur(8px);
+    border-radius: 8px;
+    width: 150px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+    box-shadow: 0 0 10px rgba(122, 0, 255, 0.2);
+    pointer-events: none;
+}
+
+.dropdown-menu.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.dropdown-menu a {
+    display: block;
+    padding: 10px 15px;
+    color: #fff;
+    font-size: 14px;
+    text-decoration: none;
+    transition: background 0.2s ease-in-out;
+}
+
+.dropdown-menu a:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
