@@ -91,30 +91,27 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     if (window.location.pathname.includes("movie.html")) {
-        document.addEventListener("DOMContentLoaded", () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const movieId = urlParams.get("id");
+        const urlParams = new URLSearchParams(window.location.search);
+        const movieId = urlParams.get("id");
 
-            let movies = JSON.parse(localStorage.getItem("movies") || "[]");
-            const movie = movies.find(m => m.id === movieId);
+        let movies = JSON.parse(localStorage.getItem("movies") || "[]");
+        const movie = movies.find(m => m.id === movieId);
 
-            if (movie) {
-                document.getElementById("movie-title").textContent = movie.title;
-                document.getElementById("movie-description").textContent = movie.description;
-                document.getElementById("movie-poster").src = movie.poster;
+        if (movie) {
+            document.getElementById("movie-title").textContent = movie.title;
+            document.getElementById("movie-description").textContent = movie.description;
+            document.getElementById("movie-poster").src = movie.poster;
 
-                const downloadButton = document.getElementById("download-button");
-                if (movie.downloadLink) {
-                    downloadButton.href = movie.downloadLink;
-                    downloadButton.style.display = "inline-block";
-                } else {
-                    downloadButton.style.display = "none";
-                }
+            const downloadButton = document.getElementById("download-button");
+            if (movie.downloadLink) {
+                downloadButton.href = movie.downloadLink;
+                downloadButton.style.display = "inline-block";
             } else {
-                document.getElementById("movie-details").innerHTML = `<p class="loading-text">Movie not found.</p>`;
-                setTimeout(() => window.location.href = "index.html", 3000);
+                downloadButton.style.display = "none";
             }
-        });
+        } else {
+            window.location.href = "index.html";  // Redirect immediately if movie not found
+        }
     }
 
     window.goBack = function () {
@@ -145,6 +142,7 @@ document.addEventListener("DOMContentLoaded", () => {
         dropdownActive = !dropdownActive;
         profileMenu.classList.toggle("active", dropdownActive);
         profileMenu.setAttribute("aria-hidden", !dropdownActive);
+        profileMenu.setAttribute("aria-expanded", dropdownActive);
         event.stopPropagation();
     });
 
@@ -152,6 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!profileIcon.contains(event.target) && !profileMenu.contains(event.target)) {
             profileMenu.classList.remove("active");
             profileMenu.setAttribute("aria-hidden", "true");
+            profileMenu.setAttribute("aria-expanded", "false");
             dropdownActive = false;
         }
     });
@@ -161,6 +160,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (Math.abs(window.scrollY - lastScrollY) > 30) {
             profileMenu.classList.remove("active");
             profileMenu.setAttribute("aria-hidden", "true");
+            profileMenu.setAttribute("aria-expanded", "false");
             dropdownActive = false;
         }
         lastScrollY = window.scrollY;
@@ -168,10 +168,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 🔹 Fix Dropdown Animation
     profileMenu.addEventListener("transitionend", () => {
-        if (!profileMenu.classList.contains("active")) {
-            profileMenu.style.visibility = "hidden";
-        } else {
-            profileMenu.style.visibility = "visible";
-        }
+        profileMenu.style.visibility = profileMenu.classList.contains("active") ? "visible" : "hidden";
     });
 });
