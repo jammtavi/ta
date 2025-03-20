@@ -80,7 +80,6 @@ document.addEventListener("DOMContentLoaded", () => {
             movieGrid.appendChild(movieCard);
         });
 
-        // Ensure lazy loading works smoothly
         document.querySelectorAll(".lazy-load").forEach(img => {
             img.onload = () => img.classList.add("loaded");
         });
@@ -95,23 +94,43 @@ document.addEventListener("DOMContentLoaded", () => {
         const movieId = urlParams.get("id");
 
         let movies = JSON.parse(localStorage.getItem("movies") || "[]");
+        if (!movies.length) {
+            movies = fetchAndStoreMovies();
+        }
+
         const movie = movies.find(m => m.id === movieId);
 
         if (movie) {
-            document.getElementById("movie-title").textContent = movie.title;
-            document.getElementById("movie-description").textContent = movie.description;
-            document.getElementById("movie-poster").src = movie.poster;
-
-            const downloadButton = document.getElementById("download-button");
-            if (movie.downloadLink) {
-                downloadButton.href = movie.downloadLink;
-                downloadButton.style.display = "inline-block";
-            } else {
-                downloadButton.style.display = "none";
-            }
+            setMovieDetails(movie);
         } else {
-            window.location.href = "index.html";  // Redirect immediately if movie not found
+            handleMovieNotFound();
         }
+    }
+
+    function setMovieDetails(movie) {
+        document.getElementById("movie-title").textContent = movie.title;
+        document.getElementById("movie-description").textContent = movie.description;
+
+        const moviePoster = document.getElementById("movie-poster");
+        moviePoster.src = movie.poster;
+        moviePoster.alt = `${movie.title} Poster`;
+
+        document.title = `${movie.title} - Movie Details`;
+
+        const downloadButton = document.getElementById("download-button");
+        if (movie.downloadLink) {
+            downloadButton.href = movie.downloadLink;
+            downloadButton.style.display = "inline-block";
+        } else {
+            downloadButton.style.display = "none";
+        }
+    }
+
+    function handleMovieNotFound() {
+        document.getElementById("error-message").style.display = "block";
+        setTimeout(() => {
+            window.location.href = "index.html"; 
+        }, 2000);
     }
 
     window.goBack = function () {
@@ -166,7 +185,6 @@ document.addEventListener("DOMContentLoaded", () => {
         lastScrollY = window.scrollY;
     });
 
-    // 🔹 Fix Dropdown Animation
     profileMenu.addEventListener("transitionend", () => {
         profileMenu.style.visibility = profileMenu.classList.contains("active") ? "visible" : "hidden";
     });
