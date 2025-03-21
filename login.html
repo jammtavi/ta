@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - MovieHub</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="auth-page">
+  <div class="auth-modal">
+    <h2>Login</h2>
+    <form id="login-form">
+      <input type="text" id="login-username" placeholder="Username or Email" required />
+      <input type="password" id="login-password" placeholder="Password" required />
+
+      <label style="display: block; text-align: left; font-size: 14px; margin-top: 10px;">
+        <input type="checkbox" id="remember-me" /> Remember Me
+      </label>
+
+      <button type="submit">Login</button>
+      <p id="login-error" style="color: #ff4d4d;"></p>
+      <p>Don't have an account? <a href="signup.html">Sign up</a></p>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById("login-form").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const username = document.getElementById("login-username").value.trim();
+      const password = document.getElementById("login-password").value;
+      const remember = document.getElementById("remember-me").checked;
+      const errorEl = document.getElementById("login-error");
+
+      if (!username || !password) {
+        errorEl.textContent = "Please fill in both fields.";
+        return;
+      }
+
+      errorEl.textContent = "";
+
+      if (remember) {
+        localStorage.setItem("rememberedUser", username);
+      } else {
+        localStorage.removeItem("rememberedUser");
+      }
+
+      alert("Login successful (dummy)!");
+    });
+
+    // Auto-fill remembered user
+    const remembered = localStorage.getItem("rememberedUser");
+    if (remembered) {
+      document.getElementById("login-username").value = remembered;
+      document.getElementById("remember-me").checked = true;
+    }
+  </script>
+</body>
+</html>
