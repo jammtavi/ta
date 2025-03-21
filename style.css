@@ -303,3 +303,13 @@ body.search-active {
 .dropdown-menu a:hover {
     background: rgba(255, 255, 255, 0.1);
 }
+
+/* 🔹 Movie Info Centered */
+.movie-info {
+    margin-top: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
