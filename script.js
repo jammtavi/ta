@@ -93,8 +93,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const urlParams = new URLSearchParams(window.location.search);
         const movieId = urlParams.get("id");
 
+        // 🔹 Get movies from localStorage or fallback
         let movies = JSON.parse(localStorage.getItem("movies") || "[]");
-        if (!movies.length) {
+
+        if (!Array.isArray(movies) || movies.length === 0) {
             movies = fetchAndStoreMovies();
         }
 
@@ -127,9 +129,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function handleMovieNotFound() {
-        document.getElementById("error-message").style.display = "block";
+        const errorMsg = document.getElementById("error-message");
+        if (errorMsg) errorMsg.style.display = "block";
+
         setTimeout(() => {
-            window.location.href = "index.html"; 
+            window.location.href = "index.html";
         }, 2000);
     }
 
@@ -137,17 +141,14 @@ document.addEventListener("DOMContentLoaded", () => {
         if (document.referrer && document.referrer.includes(window.location.hostname)) {
             window.history.back();
         } else {
-            window.location.href = "index.html"; 
+            window.location.href = "index.html";
         }
     };
 
-    searchIcon.addEventListener("click", openSearch);
-    cancelSearch.addEventListener("click", closeSearch);
-    searchInput.addEventListener("input", debouncedSearch);
-
-    if (movieGrid) {
-        renderMovies(storedMovies);
-    }
+    if (searchIcon) searchIcon.addEventListener("click", openSearch);
+    if (cancelSearch) cancelSearch.addEventListener("click", closeSearch);
+    if (searchInput) searchInput.addEventListener("input", debouncedSearch);
+    if (movieGrid) renderMovies(storedMovies);
 });
 
 /* 🔹 Profile Dropdown Handling */
@@ -157,7 +158,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let dropdownActive = false;
 
-    profileIcon.addEventListener("click", (event) => {
+    profileIcon?.addEventListener("click", (event) => {
         dropdownActive = !dropdownActive;
         profileMenu.classList.toggle("active", dropdownActive);
         profileMenu.setAttribute("aria-hidden", !dropdownActive);
