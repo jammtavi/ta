@@ -5,7 +5,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const searchInput = document.getElementById("search");
     const movieGrid = document.getElementById("movie-grid");
     const body = document.body;
+    const profileIcon = document.getElementById("profile-icon");
+    const profileMenu = document.getElementById("profile-menu");
 
+    // 🔹 Fetch or Initialize Movies
     function fetchAndStoreMovies() {
         const existingMovies = localStorage.getItem("movies");
         if (existingMovies) return JSON.parse(existingMovies);
@@ -22,7 +25,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const storedMovies = fetchAndStoreMovies();
 
+    // 🔹 Search Functions
     function openSearch() {
+        if (!searchOverlay || !searchInput) return;
         searchOverlay.classList.add("active");
         body.classList.add("search-active");
         searchOverlay.setAttribute("aria-hidden", "false");
@@ -30,6 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function closeSearch() {
+        if (!searchOverlay || !searchInput) return;
         searchOverlay.classList.remove("active");
         body.classList.remove("search-active");
         searchOverlay.setAttribute("aria-hidden", "true");
@@ -55,13 +61,17 @@ document.addEventListener("DOMContentLoaded", () => {
             renderMovies(storedMovies);
             return;
         }
-        let filteredMovies = storedMovies.filter(movie => normalizeString(movie.title).includes(query));
+        let filteredMovies = storedMovies.filter(movie =>
+            normalizeString(movie.title).includes(query)
+        );
         renderMovies(filteredMovies);
     }
 
     const debouncedSearch = debounce(searchMovies, 250);
 
+    // 🔹 Render Movies
     function renderMovies(movieList) {
+        if (!movieGrid) return;
         movieGrid.innerHTML = "";
 
         if (movieList.length === 0) {
@@ -85,15 +95,16 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    // 🔹 Navigate to Movie Page
     window.openMovieDetails = function (movieId) {
         window.location.href = `movie.html?id=${movieId}`;
     };
 
+    // 🔹 Movie Details Page Handling
     if (window.location.pathname.includes("movie.html")) {
         const urlParams = new URLSearchParams(window.location.search);
         const movieId = urlParams.get("id");
 
-        // 🔹 Get movies from localStorage or fallback
         let movies = JSON.parse(localStorage.getItem("movies") || "[]");
 
         if (!Array.isArray(movies) || movies.length === 0) {
@@ -129,14 +140,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function handleMovieNotFound() {
-        const errorMsg = document.getElementById("error-message");
-        if (errorMsg) errorMsg.style.display = "block";
+        const error = document.getElementById("error-message");
+        if (error) error.style.display = "block";
 
         setTimeout(() => {
             window.location.href = "index.html";
         }, 2000);
     }
 
+    // 🔹 Go Back Button Logic
     window.goBack = function () {
         if (document.referrer && document.referrer.includes(window.location.hostname)) {
             window.history.back();
@@ -145,17 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    if (searchIcon) searchIcon.addEventListener("click", openSearch);
-    if (cancelSearch) cancelSearch.addEventListener("click", closeSearch);
-    if (searchInput) searchInput.addEventListener("input", debouncedSearch);
-    if (movieGrid) renderMovies(storedMovies);
-});
-
-/* 🔹 Profile Dropdown Handling */
-document.addEventListener("DOMContentLoaded", () => {
-    const profileIcon = document.getElementById("profile-icon");
-    const profileMenu = document.getElementById("profile-menu");
-
+    // 🔹 Profile Dropdown
     let dropdownActive = false;
 
     profileIcon?.addEventListener("click", (event) => {
@@ -167,10 +169,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     document.addEventListener("click", (event) => {
-        if (!profileIcon.contains(event.target) && !profileMenu.contains(event.target)) {
-            profileMenu.classList.remove("active");
-            profileMenu.setAttribute("aria-hidden", "true");
-            profileMenu.setAttribute("aria-expanded", "false");
+        if (!profileIcon?.contains(event.target) && !profileMenu?.contains(event.target)) {
+            profileMenu?.classList.remove("active");
+            profileMenu?.setAttribute("aria-hidden", "true");
+            profileMenu?.setAttribute("aria-expanded", "false");
             dropdownActive = false;
         }
     });
@@ -178,15 +180,23 @@ document.addEventListener("DOMContentLoaded", () => {
     let lastScrollY = window.scrollY;
     window.addEventListener("scroll", () => {
         if (Math.abs(window.scrollY - lastScrollY) > 30) {
-            profileMenu.classList.remove("active");
-            profileMenu.setAttribute("aria-hidden", "true");
-            profileMenu.setAttribute("aria-expanded", "false");
+            profileMenu?.classList.remove("active");
+            profileMenu?.setAttribute("aria-hidden", "true");
+            profileMenu?.setAttribute("aria-expanded", "false");
             dropdownActive = false;
         }
         lastScrollY = window.scrollY;
     });
 
-    profileMenu.addEventListener("transitionend", () => {
+    profileMenu?.addEventListener("transitionend", () => {
         profileMenu.style.visibility = profileMenu.classList.contains("active") ? "visible" : "hidden";
     });
+
+    // 🔹 Event Listeners
+    searchIcon?.addEventListener("click", openSearch);
+    cancelSearch?.addEventListener("click", closeSearch);
+    searchInput?.addEventListener("input", debouncedSearch);
+    if (movieGrid && !window.location.pathname.includes("movie.html")) {
+        renderMovies(storedMovies);
+    }
 });
