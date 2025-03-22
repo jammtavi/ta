@@ -287,56 +287,6 @@ body.search-active {
     justify-content: center;
 }
 
-/* 🔹 Auth Pages */
-.auth-page {
-    background: #141414;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-.auth-modal {
-    background: #1e1e1e;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(122, 0, 255, 0.3);
-    width: 90%;
-    max-width: 400px;
-    text-align: center;
-}
-
-.auth-modal h2 {
-    margin-bottom: 20px;
-    color: #fff;
-}
-
-.auth-modal form input {
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    border: none;
-    border-radius: 5px;
-    background: #2a2a2a;
-    color: #fff;
-}
-
-.auth-modal form button {
-    width: 100%;
-    padding: 12px;
-    background: linear-gradient(135deg, #7a00ff, #b266ff);
-    border: none;
-    border-radius: 5px;
-    color: #fff;
-    font-size: 16px;
-    margin-top: 10px;
-    cursor: pointer;
-}
-
-.auth-modal input[type="checkbox"] {
-    margin-right: 6px;
-}
-
 /* 🔹 Accessibility Focus Styles */
 button:focus,
 input:focus {
