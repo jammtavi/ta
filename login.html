@@ -17,6 +17,10 @@
         <input type="checkbox" id="remember-me" /> Remember Me
       </label>
 
+      <label style="display: block; text-align: left; font-size: 14px; margin: 10px 0;">
+        <input type="checkbox" id="login-captcha" /> I'm not a robot
+      </label>
+
       <button type="submit">Login</button>
       <p id="login-error" style="color: #ff4d4d;"></p>
       <p>Don't have an account? <a href="signup.html">Sign up</a></p>
@@ -30,10 +34,16 @@
       const username = document.getElementById("login-username").value.trim();
       const password = document.getElementById("login-password").value;
       const remember = document.getElementById("remember-me").checked;
+      const captchaChecked = document.getElementById("login-captcha").checked;
       const errorEl = document.getElementById("login-error");
 
       if (!username || !password) {
         errorEl.textContent = "Please fill in both fields.";
+        return;
+      }
+
+      if (!captchaChecked) {
+        errorEl.textContent = "Please confirm you're not a robot.";
         return;
       }
 
@@ -48,7 +58,6 @@
       alert("Login successful (dummy)!");
     });
 
-    // Auto-fill remembered user
     const remembered = localStorage.getItem("rememberedUser");
     if (remembered) {
       document.getElementById("login-username").value = remembered;
