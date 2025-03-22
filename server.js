@@ -1,27 +1,26 @@
 const express = require("express");
-const cors = require("cors");
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect("mongodb+srv://movie:movie@cluster0.1j768.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", {
+mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
-const userSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
   uid: String,
   email: String,
-  createdAt: { type: Date, default: Date.now }
+  createdAt: { type: Date, default: Date.now },
 });
 
-const User = mongoose.model("User", userSchema);
+const User = mongoose.model("User", UserSchema);
 
 app.post("/api/users/signup", async (req, res) => {
   const { uid, email } = req.body;
-
   try {
     const existing = await User.findOne({ uid });
     if (!existing) {
@@ -29,8 +28,15 @@ app.post("/api/users/signup", async (req, res) => {
     }
     res.status(200).json({ success: true });
   } catch (err) {
-    res.status(500).json({ error: "Database error" });
+    res.status(500).json({ error: "Failed to save user" });
   }
 });
 
-app.listen(3000, () => console.log("Server running on http://localhost:3000"));
+app.get("/", (req, res) => {
+  res.send("MovieHub API is working!");
+});
+
+app.listen(3000, () => {
+  console.log("Server running on port 3000");
+});
+
