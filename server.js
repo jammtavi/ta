@@ -1,15 +1,25 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const cors = require("cors");
+import mongoose from 'mongoose';
 
-const app = express();
-app.use(cors());
-app.use(express.json());
+const uri = process.env.MONGO_URI;
 
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+// Reuse connection
+let cached = global.mongoose;
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null };
+}
+
+async function connect() {
+  if (cached.conn) return cached.conn;
+
+  if (!cached.promise) {
+    cached.promise = mongoose.connect(uri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+  }
+  cached.conn = await cached.promise;
+  return cached.conn;
+}
 
 const UserSchema = new mongoose.Schema({
   uid: String,
@@ -17,26 +27,22 @@ const UserSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-const User = mongoose.model("User", UserSchema);
+const User = mongoose.models.User || mongoose.model('User', UserSchema);
 
-app.post("/api/users/signup", async (req, res) => {
-  const { uid, email } = req.body;
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).end(); // Method Not Allowed
+  }
+
   try {
+    await connect();
+    const { uid, email } = req.body;
     const existing = await User.findOne({ uid });
     if (!existing) {
       await User.create({ uid, email });
     }
     res.status(200).json({ success: true });
   } catch (err) {
-    res.status(500).json({ error: "Failed to save user" });
+    res.status(500).json({ error: 'MongoDB error' });
   }
-});
-
-app.get("/", (req, res) => {
-  res.send("MovieHub API is working!");
-});
-
-app.listen(3000, () => {
-  console.log("Server running on port 3000");
-});
-
+}
