@@ -358,3 +358,7 @@ body.search-active {
   margin-top: 10px;
   cursor: pointer;
 }
+
+.auth-modal input[type="checkbox"] {
+  margin-right: 6px;
+}
