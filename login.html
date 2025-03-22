@@ -18,8 +18,7 @@
         <input type="checkbox" id="remember-me" /> Remember Me
       </label>
 
-      <!-- Google reCAPTCHA -->
-      <div class="g-recaptcha" data-sitekey="6Ld2ZvwqAAAAANmmE6JBPupiMVg3bhbGh4HUFt56"></div>
+      <div class="g-recaptcha" data-sitekey="6Lc4a_wqAAAAACmtH_LbDkVa1CpFnHHRGHJpEIhJ"></div>
 
       <button type="submit">Login</button>
       <p id="login-error" style="color: #ff4d4d;"></p>
@@ -28,14 +27,12 @@
   </div>
 
   <script>
-    // Load remembered user if exists
     const remembered = localStorage.getItem("rememberedUser");
     if (remembered) {
       document.getElementById("login-username").value = remembered;
       document.getElementById("remember-me").checked = true;
     }
 
-    // Save remembered user on form submit
     document.getElementById("login-form").addEventListener("submit", function () {
       const username = document.getElementById("login-username").value;
       if (document.getElementById("remember-me").checked) {
