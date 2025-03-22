@@ -6,6 +6,7 @@ html, body {
     background: #141414;
     color: #fff;
     font-family: 'Poppins', sans-serif;
+    scroll-behavior: smooth;
 }
 
 /* 🔹 Prevent Scrolling When Search is Active */
@@ -263,34 +264,6 @@ body.search-active {
     pointer-events: auto;
 }
 
-/* 🔹 Profile Dropdown */
-.profile-dropdown {
-    position: relative;
-}
-
-.dropdown-menu {
-    position: absolute;
-    right: 0;
-    top: 45px;
-    background: rgba(26, 26, 26, 0.95);
-    backdrop-filter: blur(8px);
-    border-radius: 8px;
-    width: 150px;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-10px);
-    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
-    box-shadow: 0 0 10px rgba(122, 0, 255, 0.2);
-    pointer-events: none;
-}
-
-.dropdown-menu.active {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-    pointer-events: auto;
-}
-
 .dropdown-menu a {
     display: block;
     padding: 10px 15px;
@@ -314,51 +287,80 @@ body.search-active {
     justify-content: center;
 }
 
+/* 🔹 Auth Pages */
 .auth-page {
-  background: #141414;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+    background: #141414;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
 .auth-modal {
-  background: #1e1e1e;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 0 20px rgba(122, 0, 255, 0.3);
-  width: 90%;
-  max-width: 400px;
-  text-align: center;
+    background: #1e1e1e;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(122, 0, 255, 0.3);
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
 }
 
 .auth-modal h2 {
-  margin-bottom: 20px;
-  color: #fff;
+    margin-bottom: 20px;
+    color: #fff;
 }
 
 .auth-modal form input {
-  width: 100%;
-  padding: 12px;
-  margin: 10px 0;
-  border: none;
-  border-radius: 5px;
-  background: #2a2a2a;
-  color: #fff;
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    background: #2a2a2a;
+    color: #fff;
 }
 
 .auth-modal form button {
-  width: 100%;
-  padding: 12px;
-  background: linear-gradient(135deg, #7a00ff, #b266ff);
-  border: none;
-  border-radius: 5px;
-  color: #fff;
-  font-size: 16px;
-  margin-top: 10px;
-  cursor: pointer;
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #7a00ff, #b266ff);
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 16px;
+    margin-top: 10px;
+    cursor: pointer;
 }
 
 .auth-modal input[type="checkbox"] {
-  margin-right: 6px;
+    margin-right: 6px;
+}
+
+/* 🔹 Accessibility Focus Styles */
+button:focus,
+input:focus {
+    outline: 2px solid #7a00ff;
+    outline-offset: 2px;
+}
+
+/* 🔹 Mobile Spacing Enhancements */
+@media (max-width: 480px) {
+    #movie-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 10px;
+    }
+
+    .search-container {
+        padding: 10px;
+    }
+
+    #search {
+        font-size: 14px;
+    }
+
+    #download-button {
+        font-size: 14px;
+        padding: 8px 12px;
+    }
 }
