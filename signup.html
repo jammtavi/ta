@@ -15,6 +15,10 @@
       <input type="password" id="signup-password" placeholder="Password" required />
       <input type="password" id="signup-confirm" placeholder="Confirm Password" required />
 
+      <label style="display: block; text-align: left; font-size: 14px; margin: 10px 0;">
+        <input type="checkbox" id="signup-captcha" /> I'm not a robot
+      </label>
+
       <button type="submit">Sign Up</button>
       <p id="signup-error" style="color: #ff4d4d;"></p>
       <p>Already have an account? <a href="login.html">Login</a></p>
@@ -28,6 +32,7 @@
       const username = document.getElementById("signup-username").value.trim();
       const password = document.getElementById("signup-password").value;
       const confirmPassword = document.getElementById("signup-confirm").value;
+      const captchaChecked = document.getElementById("signup-captcha").checked;
       const errorEl = document.getElementById("signup-error");
 
       const usernameValid = /^[a-zA-Z0-9_]{3,}$/.test(username);
@@ -41,10 +46,13 @@
         return;
       }
 
+      if (!captchaChecked) {
+        errorEl.textContent = "Please confirm you're not a robot.";
+        return;
+      }
+
       errorEl.textContent = "";
       alert("Signup successful (dummy)!");
-
-      // Optional: Save dummy user
       localStorage.setItem("user", JSON.stringify({ username }));
     });
   </script>
