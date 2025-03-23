@@ -7,7 +7,7 @@
 
   <title>Movie Details</title>
 
-  <!-- Meta Tags -->
+  <!-- SEO & Social -->
   <meta property="og:title" content="Movie Details - Watch & Download" />
   <meta property="og:description" content="Stream and download high-quality movies instantly." />
   <meta property="og:image" content="thumbnail.jpg" />
@@ -15,13 +15,13 @@
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
 
-  <!-- FontAwesome + Your External CSS -->
+  <!-- FontAwesome & External Styles -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- Header -->
+  <!-- 🔹 Header -->
   <header class="top-nav">
     <button onclick="goBack()" aria-label="Go Back" class="back-button">
       <i class="fas fa-arrow-left"></i>
@@ -29,7 +29,7 @@
     <h1 class="logo">Movie Details</h1>
   </header>
 
-  <!-- Movie Details Section -->
+  <!-- 🔹 Movie Details Section -->
   <main id="movie-details" class="modern-movie-details">
     <div class="details-container">
       <img id="movie-poster" src="" alt="Movie Poster" class="poster" loading="lazy" />
@@ -38,7 +38,7 @@
         <p id="movie-description"></p>
         <a id="download-button" href="#" target="_blank" rel="noopener noreferrer" class="download-btn">Download</a>
 
-        <!-- Action Buttons -->
+        <!-- 🔹 Action Buttons -->
         <div class="movie-actions">
           <button class="action-btn" id="like-btn" aria-label="Like"><i class="fas fa-thumbs-up"></i></button>
           <button class="action-btn" id="dislike-btn" aria-label="Dislike"><i class="fas fa-thumbs-down"></i></button>
@@ -52,7 +52,7 @@
     <p id="error-message" class="error-message" aria-live="polite" style="display: none;">Movie not found. Redirecting...</p>
   </main>
 
-  <!-- Playlist Modal -->
+  <!-- 🔹 Playlist Modal -->
   <div id="playlist-modal" class="playlist-modal" aria-hidden="true">
     <div class="modal-content">
       <h3>Create or Add to Playlist</h3>
@@ -62,12 +62,15 @@
     </div>
   </div>
 
-  <!-- Footer -->
+  <!-- 🔹 Share Popup (Injected by JS) -->
+  <!-- (No need to add manually; JS creates it) -->
+
+  <!-- 🔹 Footer -->
   <footer class="footer">
     <p>© 2025 Movie Download Hub. All Rights Reserved.</p>
   </footer>
 
-  <!-- JavaScript -->
+  <!-- 🔹 JavaScript -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const urlParams = new URLSearchParams(window.location.search);
@@ -84,6 +87,13 @@
       const savePlaylist = document.getElementById("save-playlist");
       const closePlaylist = document.getElementById("close-playlist");
 
+      // Create share popup
+      const sharePopup = document.createElement("div");
+      sharePopup.className = "share-popup";
+      sharePopup.innerHTML = `<p>Link copied ✅</p>`;
+      document.body.appendChild(sharePopup);
+
+      // Load movie data
       let movies = JSON.parse(localStorage.getItem("movies") || "[]");
       if (!Array.isArray(movies) || movies.length === 0) {
         movies = [
@@ -100,12 +110,9 @@
       function setMovieDetails(movie) {
         document.getElementById("movie-title").textContent = movie.title;
         document.getElementById("movie-description").textContent = movie.description;
-        const moviePoster = document.getElementById("movie-poster");
-        moviePoster.src = movie.poster;
-        moviePoster.alt = `${movie.title} Poster`;
-
-        const downloadBtn = document.getElementById("download-button");
-        downloadBtn.href = movie.downloadLink;
+        document.getElementById("movie-poster").src = movie.poster;
+        document.getElementById("movie-poster").alt = `${movie.title} Poster`;
+        document.getElementById("download-button").href = movie.downloadLink;
         document.title = `${movie.title} - Movie Details`;
 
         const prefs = JSON.parse(localStorage.getItem(`prefs_${movieId}`) || "{}");
@@ -115,11 +122,8 @@
       }
 
       function handleMovieNotFound() {
-        const err = document.getElementById("error-message");
-        err.style.display = "block";
-        setTimeout(() => {
-          window.location.href = "index.html";
-        }, 2000);
+        document.getElementById("error-message").style.display = "block";
+        setTimeout(() => window.location.href = "index.html", 2000);
       }
 
       window.goBack = function () {
@@ -132,44 +136,43 @@
 
       const prefs = JSON.parse(localStorage.getItem(`prefs_${movieId}`) || "{}");
 
-      likeBtn?.addEventListener("click", () => {
-        const active = likeBtn.classList.toggle("active");
+      likeBtn.addEventListener("click", () => {
+        likeBtn.classList.toggle("active");
         dislikeBtn.classList.remove("active");
-        prefs.liked = active;
+        prefs.liked = likeBtn.classList.contains("active");
         prefs.disliked = false;
         savePrefs();
       });
 
-      dislikeBtn?.addEventListener("click", () => {
-        const active = dislikeBtn.classList.toggle("active");
+      dislikeBtn.addEventListener("click", () => {
+        dislikeBtn.classList.toggle("active");
         likeBtn.classList.remove("active");
-        prefs.disliked = active;
+        prefs.disliked = dislikeBtn.classList.contains("active");
         prefs.liked = false;
         savePrefs();
       });
 
-      favoriteBtn?.addEventListener("click", () => {
-        const active = favoriteBtn.classList.toggle("active");
-        prefs.favorited = active;
+      favoriteBtn.addEventListener("click", () => {
+        favoriteBtn.classList.toggle("active");
+        prefs.favorited = favoriteBtn.classList.contains("active");
         savePrefs();
-        // TODO: Add MongoDB sync
       });
 
-      playlistBtn?.addEventListener("click", () => {
+      playlistBtn.addEventListener("click", () => {
         playlistModal.classList.add("active");
         playlistModal.setAttribute("aria-hidden", "false");
         playlistInput.focus();
         playlistBtn.classList.add("active");
       });
 
-      closePlaylist?.addEventListener("click", () => {
+      closePlaylist.addEventListener("click", () => {
         playlistModal.classList.remove("active");
         playlistModal.setAttribute("aria-hidden", "true");
         playlistInput.value = "";
         playlistBtn.classList.remove("active");
       });
 
-      savePlaylist?.addEventListener("click", () => {
+      savePlaylist.addEventListener("click", () => {
         const name = playlistInput.value.trim();
         if (name) {
           alert(`🎉 "${movie.title}" added to playlist: ${name}`);
@@ -178,14 +181,12 @@
         }
       });
 
-      shareBtn?.addEventListener("click", () => {
+      shareBtn.addEventListener("click", () => {
         const movieURL = window.location.href;
         navigator.clipboard.writeText(movieURL).then(() => {
-          shareBtn.classList.add("active");
-          shareBtn.innerHTML = `<i class="fas fa-check"></i>`;
+          sharePopup.classList.add("active");
           setTimeout(() => {
-            shareBtn.classList.remove("active");
-            shareBtn.innerHTML = `<i class="fas fa-share-alt"></i>`;
+            sharePopup.classList.remove("active");
           }, 1500);
         });
       });
