@@ -1,56 +1,63 @@
-.auth-page {
+/* Auth Modal */
+.auth-body {
   background: #141414;
+  font-family: 'Poppins', sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
   margin: 0;
-  font-family: 'Poppins', sans-serif;
+  color: #fff;
 }
 
 .auth-modal {
   background: #1e1e1e;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 0 20px rgba(122, 0, 255, 0.3);
-  width: 90%;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(122, 0, 255, 0.4);
+  width: 100%;
   max-width: 400px;
   text-align: center;
 }
 
 .auth-modal h2 {
   margin-bottom: 20px;
-  color: #fff;
+  color: #b266ff;
 }
 
-.auth-modal form input {
+.auth-modal input {
   width: 100%;
   padding: 12px;
-  margin: 10px 0;
+  margin-bottom: 15px;
+  border-radius: 8px;
   border: none;
-  border-radius: 5px;
+  font-size: 16px;
   background: #2a2a2a;
   color: #fff;
 }
 
-.auth-modal form button {
+.auth-modal button {
   width: 100%;
   padding: 12px;
-  background: linear-gradient(135deg, #7a00ff, #b266ff);
-  border: none;
-  border-radius: 5px;
-  color: #fff;
   font-size: 16px;
-  margin-top: 10px;
+  border: none;
+  background: linear-gradient(135deg, #7a00ff, #b266ff);
+  color: #fff;
+  border-radius: 8px;
   cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.auth-modal button:hover {
+  transform: scale(1.03);
+}
+
+.auth-modal p {
+  margin-top: 15px;
+  font-size: 14px;
 }
 
 .auth-modal a {
-  color: #7a00ff;
-  text-decoration: none;
-}
-
-.auth-modal label {
-  color: #ccc;
-  font-size: 14px;
+  color: #b266ff;
+  text-decoration: underline;
 }
