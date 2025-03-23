@@ -3,33 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="description" content="Movie Details - Watch and Download Your Favorite Movies in High Quality." />
+  <meta name="description" content="Movie Details - Watch and Download Your Favorite Movies in High Quality.">
 
-  <!-- 🔹 Open Graph -->
+  <title>Movie Details</title>
+
+  <!-- Open Graph & Twitter Meta -->
   <meta property="og:title" content="Movie Details - Watch & Download" />
   <meta property="og:description" content="Stream and download high-quality movies instantly." />
   <meta property="og:image" content="thumbnail.jpg" />
   <meta property="og:url" content="https://moviedownloadhub.com/movie.html" />
   <meta property="og:type" content="website" />
-
-  <!-- 🔹 Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Movie Details - Download & Stream" />
-  <meta name="twitter:description" content="Get the latest movies in high quality." />
-  <meta name="twitter:image" content="thumbnail.jpg" />
 
-  <title>Movie Details</title>
-
-  <!-- 🔹 FontAwesome + Styles -->
-  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" /></noscript>
-
+  <!-- FontAwesome & Styles -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
   <link rel="stylesheet" href="style.css" />
-  <script defer src="script.js"></script>
 </head>
 <body>
 
-  <!-- 🔹 Header -->
+  <!-- Header -->
   <header class="top-nav">
     <button onclick="goBack()" aria-label="Go Back" class="back-button">
       <i class="fas fa-arrow-left" aria-hidden="true"></i>
@@ -37,7 +29,7 @@
     <h1 class="logo">Movie Details</h1>
   </header>
 
-  <!-- 🔹 Movie Details Section -->
+  <!-- Movie Details Section -->
   <main id="movie-details" class="modern-movie-details">
     <div class="details-container">
       <img id="movie-poster" src="" alt="Movie Poster" class="poster" loading="lazy" />
@@ -45,95 +37,168 @@
         <h2 id="movie-title"></h2>
         <p id="movie-description"></p>
         <a id="download-button" href="#" target="_blank" rel="noopener noreferrer" class="download-btn">Download</a>
+
+        <!-- Action Buttons -->
+        <div class="movie-actions">
+          <button class="action-btn" id="like-btn" aria-label="Like"><i class="fas fa-thumbs-up"></i></button>
+          <button class="action-btn" id="dislike-btn" aria-label="Dislike"><i class="fas fa-thumbs-down"></i></button>
+          <button class="action-btn" id="favorite-btn" aria-label="Add to Favorites"><i class="fas fa-heart"></i></button>
+          <button class="action-btn" id="playlist-btn" aria-label="Add to Playlist"><i class="fas fa-folder-plus"></i></button>
+          <button class="action-btn" id="share-btn" aria-label="Share"><i class="fas fa-share-alt"></i></button>
+        </div>
       </div>
     </div>
 
-    <p id="error-message" class="error-message" aria-live="polite">Movie not found. Redirecting...</p>
+    <p id="error-message" class="error-message" aria-live="polite" style="display:none;">Movie not found. Redirecting...</p>
   </main>
 
-  <!-- 🔹 Footer -->
+  <!-- Playlist Modal -->
+  <div id="playlist-modal" class="playlist-modal" aria-hidden="true">
+    <div class="modal-content">
+      <h3>Create or Add to Playlist</h3>
+      <input type="text" id="playlist-name" placeholder="Playlist name..." />
+      <button id="save-playlist">Save</button>
+      <button id="close-playlist">Cancel</button>
+    </div>
+  </div>
+
+  <!-- Footer -->
   <footer class="footer">
     <p>© 2025 Movie Download Hub. All Rights Reserved.</p>
   </footer>
 
-  <!-- 🔹 Inline Script -->
+  <!-- JavaScript -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const urlParams = new URLSearchParams(window.location.search);
       const movieId = urlParams.get("id");
 
-      let movies = JSON.parse(localStorage.getItem("movies") || "[]");
+      const likeBtn = document.getElementById("like-btn");
+      const dislikeBtn = document.getElementById("dislike-btn");
+      const favoriteBtn = document.getElementById("favorite-btn");
+      const playlistBtn = document.getElementById("playlist-btn");
+      const shareBtn = document.getElementById("share-btn");
 
+      const playlistModal = document.getElementById("playlist-modal");
+      const playlistInput = document.getElementById("playlist-name");
+      const savePlaylist = document.getElementById("save-playlist");
+      const closePlaylist = document.getElementById("close-playlist");
+
+      // Fetch Movies from Local Storage
+      let movies = JSON.parse(localStorage.getItem("movies") || "[]");
       if (!Array.isArray(movies) || movies.length === 0) {
         movies = [
-          {
-            id: "movie1",
-            title: "Movie 1",
-            description: "A thrilling movie experience.",
-            poster: "images/3-316-16-9-aspect-ratio-s-sfw-wallpaper-preview.jpg",
-            downloadLink: "https://example.com/download/movie1"
-          },
-          {
-            id: "movie2",
-            title: "Movie 2",
-            description: "A breathtaking adventure.",
-            poster: "images/447d76a8817d3804243cd2bac16ac7be.jpg",
-            downloadLink: "https://example.com/download/movie2"
-          },
-          {
-            id: "movie3",
-            title: "Movie 3",
-            description: "A suspenseful mystery.",
-            poster: "images/3-316-16-9-aspect-ratio-s-sfw-wallpaper-preview.jpg",
-            downloadLink: "https://example.com/download/movie3"
-          }
+          { id: "movie1", title: "Movie 1", description: "A thrilling movie experience.", poster: "images/poster1.jpg", downloadLink: "https://example.com/download/movie1" },
+          { id: "movie2", title: "Movie 2", description: "An epic fantasy adventure.", poster: "images/poster2.jpg", downloadLink: "https://example.com/download/movie2" }
         ];
         localStorage.setItem("movies", JSON.stringify(movies));
       }
 
       const movie = movies.find(m => m.id === movieId);
+      if (!movie) return handleMovieNotFound();
+      setMovieDetails(movie);
 
-      if (movie) {
-        setMovieDetails(movie);
-      } else {
-        handleMovieNotFound();
+      // Populate movie content
+      function setMovieDetails(movie) {
+        document.getElementById("movie-title").textContent = movie.title;
+        document.getElementById("movie-description").textContent = movie.description;
+        const moviePoster = document.getElementById("movie-poster");
+        moviePoster.src = movie.poster;
+        moviePoster.alt = `${movie.title} Poster`;
+
+        const downloadBtn = document.getElementById("download-button");
+        downloadBtn.href = movie.downloadLink;
+        document.title = `${movie.title} - Movie Details`;
+
+        // Load previous prefs
+        const prefs = JSON.parse(localStorage.getItem(`prefs_${movieId}`) || "{}");
+        if (prefs.liked) likeBtn.classList.add("active");
+        if (prefs.disliked) dislikeBtn.classList.add("active");
+        if (prefs.favorited) favoriteBtn.classList.add("active");
+      }
+
+      function handleMovieNotFound() {
+        const err = document.getElementById("error-message");
+        err.style.display = "block";
+        setTimeout(() => {
+          window.location.href = "index.html";
+        }, 2000);
+      }
+
+      // Back button support
+      window.goBack = function () {
+        if (document.referrer.includes(window.location.hostname)) {
+          window.history.back();
+        } else {
+          window.location.href = "index.html";
+        }
+      };
+
+      // Interactions
+      const prefs = JSON.parse(localStorage.getItem(`prefs_${movieId}`) || "{}");
+
+      likeBtn?.addEventListener("click", () => {
+        likeBtn.classList.toggle("active");
+        dislikeBtn.classList.remove("active");
+        prefs.liked = likeBtn.classList.contains("active");
+        prefs.disliked = false;
+        savePrefs();
+      });
+
+      dislikeBtn?.addEventListener("click", () => {
+        dislikeBtn.classList.toggle("active");
+        likeBtn.classList.remove("active");
+        prefs.disliked = dislikeBtn.classList.contains("active");
+        prefs.liked = false;
+        savePrefs();
+      });
+
+      favoriteBtn?.addEventListener("click", () => {
+        favoriteBtn.classList.toggle("active");
+        prefs.favorited = favoriteBtn.classList.contains("active");
+        savePrefs();
+
+        // TODO: Call backend to sync to MongoDB
+      });
+
+      playlistBtn?.addEventListener("click", () => {
+        playlistModal.classList.add("active");
+        playlistModal.setAttribute("aria-hidden", "false");
+        playlistInput.focus();
+      });
+
+      closePlaylist?.addEventListener("click", () => {
+        playlistModal.classList.remove("active");
+        playlistModal.setAttribute("aria-hidden", "true");
+        playlistInput.value = "";
+      });
+
+      savePlaylist?.addEventListener("click", () => {
+        const name = playlistInput.value.trim();
+        if (name) {
+          alert(`🎉 "${movie.title}" added to playlist: ${name}`);
+          playlistModal.classList.remove("active");
+          playlistInput.value = "";
+          // TODO: Optionally save playlist name in localStorage or backend
+        }
+      });
+
+      shareBtn?.addEventListener("click", () => {
+        const movieURL = window.location.href;
+        navigator.clipboard.writeText(movieURL).then(() => {
+          shareBtn.innerHTML = `<i class="fas fa-check"></i>`;
+          setTimeout(() => {
+            shareBtn.innerHTML = `<i class="fas fa-share-alt"></i>`;
+          }, 1500);
+        }).catch(() => {
+          alert("Unable to copy link.");
+        });
+      });
+
+      function savePrefs() {
+        localStorage.setItem(`prefs_${movieId}`, JSON.stringify(prefs));
       }
     });
-
-    function setMovieDetails(movie) {
-      document.getElementById("movie-title").textContent = movie.title;
-      document.getElementById("movie-description").textContent = movie.description;
-
-      const moviePoster = document.getElementById("movie-poster");
-      moviePoster.src = movie.poster;
-      moviePoster.alt = `${movie.title} Poster`;
-
-      document.title = `${movie.title} - Movie Details`;
-
-      const downloadButton = document.getElementById("download-button");
-      if (movie.downloadLink) {
-        downloadButton.href = movie.downloadLink;
-        downloadButton.style.display = "inline-block";
-      } else {
-        downloadButton.style.display = "none";
-      }
-    }
-
-    function handleMovieNotFound() {
-      const error = document.getElementById("error-message");
-      error.style.display = "block";
-      setTimeout(() => {
-        window.location.href = "index.html";
-      }, 2000);
-    }
-
-    function goBack() {
-      if (document.referrer && document.referrer.includes(window.location.hostname)) {
-        window.history.back();
-      } else {
-        window.location.href = "index.html";
-      }
-    }
   </script>
 
 </body>
