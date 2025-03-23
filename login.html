@@ -3,57 +3,93 @@
 <head>
   <meta charset="UTF-8" />
   <title>Login</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
   <link rel="stylesheet" href="auth.css" />
 
-  <!-- Firebase SDKs -->
+  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 
-  <!-- Font Awesome -->
+  <!-- FontAwesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
 </head>
-<body class="auth-body">
+<body class="ph-auth-body">
 
-  <div class="auth-modal">
-    <h2>Login</h2>
+  <div class="ph-signup-container">
+    <div class="ph-banner">
+      <img src="images/banner.jpg" alt="Login Banner" />
+      <h2>Welcome Back</h2>
+    </div>
 
-    <!-- 🔐 Login Form -->
-    <form id="login-form">
+    <form id="login-form" class="ph-form">
       <input type="email" name="email" placeholder="Email" required />
-      <input type="password" name="password" placeholder="Password" required />
 
-      <p style="text-align: right; margin-top: -10px; margin-bottom: 10px;">
+      <div class="password-wrapper">
+        <input type="password" name="password" id="password" placeholder="Password" required />
+        <i class="fas fa-eye-slash" id="togglePassword"></i>
+      </div>
+
+      <div class="password-strength">
+        <label class="strength-label">Strength:</label>
+        <div id="strength-bar"><span></span></div>
+      </div>
+
+      <p style="text-align: right; font-size: 13px; margin-top: 5px;">
         <a href="#" onclick="showResetForm()">Forgot Password?</a>
       </p>
 
-      <label style="display: flex; align-items: center; font-size: 14px; margin-bottom: 10px;">
+      <label style="font-size: 13px; margin-bottom: 10px;">
         <input type="checkbox" name="remember" style="margin-right: 6px;" /> Remember Me
       </label>
 
-      <button type="submit">Login</button>
+      <button type="submit" class="ph-btn">Login</button>
 
-      <div class="or-divider">OR</div>
-
-      <button type="button" onclick="googleLogin()" class="google-btn">
-        <i class="fab fa-google"></i> Continue with Google
+      <button type="button" onclick="googleLogin()" class="ph-google-btn">
+        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" />
+        Login with Google
       </button>
 
-      <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
+      <p class="ph-login-link">Don't have an account? <a href="signup.html">Sign Up</a></p>
+      <p class="ph-terms">By logging in, you agree to our <a href="#">Terms and Conditions</a>.</p>
     </form>
 
-    <!-- 🔁 Reset Password Form -->
+    <!-- Reset Password Form -->
     <div id="reset-password-form" style="display: none;">
       <h3>Reset Password</h3>
       <input type="email" id="reset-email" placeholder="Enter your email" required />
       <button type="button" onclick="sendResetLink()">Send Reset Link</button>
-      <p style="font-size: 14px;"><a href="#" onclick="hideResetForm()">Back to Login</a></p>
+      <p><a href="#" onclick="hideResetForm()">Back to Login</a></p>
     </div>
   </div>
 
-  <!-- Firebase & Auth -->
   <script src="firebase-config.js"></script>
   <script src="auth.js"></script>
+  <script>
+    document.getElementById("togglePassword").addEventListener("click", function () {
+      const pass = document.getElementById("password");
+      const type = pass.type === "password" ? "text" : "password";
+      pass.type = type;
+      this.classList.toggle("fa-eye");
+      this.classList.toggle("fa-eye-slash");
+    });
 
+    // Password strength meter
+    const passwordInput = document.getElementById("password");
+    const strengthBar = document.querySelector("#strength-bar span");
+
+    passwordInput.addEventListener("input", () => {
+      const val = passwordInput.value;
+      let strength = 0;
+      if (val.length > 5) strength++;
+      if (val.match(/[A-Z]/)) strength++;
+      if (val.match(/[0-9]/)) strength++;
+      if (val.match(/[^a-zA-Z0-9]/)) strength++;
+
+      const colors = ["#f00", "#f90", "#cc0", "#6f0", "#0f0"];
+      const width = (strength / 4) * 100;
+      strengthBar.style.width = width + "%";
+      strengthBar.style.background = colors[strength];
+    });
+  </script>
 </body>
 </html>
