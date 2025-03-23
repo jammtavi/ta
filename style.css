@@ -385,23 +385,20 @@ input:focus {
   gap: 15px;
 }
 
-/* Remove outer lines and show icon only */
+/* Remove circles/ovals */
 .action-btn {
   background: transparent;
   border: none;
-  color: #fff;
+  padding: 0;
+  margin: 0 10px;
   font-size: 20px;
-  padding: 8px;
-  border-radius: 50%;
+  color: #fff;
   cursor: pointer;
-  transition: color 0.2s ease-in-out, transform 0.2s ease;
+  transition: transform 0.2s ease;
 }
-
 .action-btn:hover {
   transform: scale(1.15);
 }
-
-/* Button active states (colors only, no border/shadow) */
 #like-btn.active { color: #7a00ff; }
 #dislike-btn.active { color: #ff7a00; }
 #favorite-btn.active { color: #e91e63; }
@@ -428,4 +425,25 @@ input:focus {
 .share-popup.active {
   opacity: 1;
   visibility: visible;
+}
+
+/* Playlist Modal */
+#playlist-list {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 10px;
+}
+#playlist-list li {
+  margin-bottom: 6px;
+}
+#playlist-list li button {
+  background: #333;
+  color: #fff;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+#playlist-list li button:hover {
+  background: #7a00ff;
 }
