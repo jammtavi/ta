@@ -59,3 +59,29 @@ function googleLogin() {
       alert("Google Login Failed: " + error.message);
     });
 }
+
+// SHOW/HIDE RESET FORM
+function showResetForm() {
+  document.querySelector("form").style.display = "none";
+  document.getElementById("reset-password-form").style.display = "block";
+}
+
+function hideResetForm() {
+  document.querySelector("form").style.display = "block";
+  document.getElementById("reset-password-form").style.display = "none";
+}
+
+// SEND RESET LINK
+function sendResetLink() {
+  const email = document.getElementById("reset-email").value;
+  if (!email) return alert("Please enter your email.");
+
+  auth.sendPasswordResetEmail(email)
+    .then(() => {
+      alert("Reset link sent! Check your inbox.");
+      hideResetForm();
+    })
+    .catch((error) => {
+      alert("Error: " + error.message);
+    });
+}
