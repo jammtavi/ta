@@ -17,7 +17,7 @@
 
   <div class="ph-signup-container">
     <div class="ph-banner">
-      <img src="banner.jpg" alt="Signup Banner" />
+      <img src="images/banner.jpg" alt="Signup Banner" />
       <h2>Sign Up for Free</h2>
     </div>
 
@@ -28,6 +28,13 @@
         <input type="password" name="password" id="password" placeholder="Password" required />
         <i class="fas fa-eye-slash" id="togglePassword"></i>
       </div>
+
+      <div class="password-wrapper">
+        <input type="password" name="confirmPassword" id="confirm-password" placeholder="Confirm Password" required />
+        <i class="fas fa-eye-slash" id="toggleConfirmPassword"></i>
+      </div>
+
+      <p id="match-msg" class="match-msg"></p>
 
       <div class="password-strength">
         <label class="strength-label">Strength:</label>
@@ -46,20 +53,43 @@
     </form>
   </div>
 
+  <!-- ✅ Email Verification Modal -->
+  <div class="verify-modal" id="verify-modal">
+    <div class="modal-content">
+      <i class="fas fa-envelope-circle-check"></i>
+      <p>We've sent a verification link to your email.<br>Please verify to activate your account.</p>
+      <button id="resend-verification-btn">Resend Email</button>
+      <p id="resend-confirm" style="margin-top: 10px; font-size: 13px; color: #0f0;"></p>
+    </div>
+  </div>
+
+  <!-- Firebase Setup -->
   <script src="firebase-config.js"></script>
   <script src="auth.js"></script>
 
   <script>
-    // Toggle password visibility
-    document.getElementById("togglePassword").addEventListener("click", function () {
+    let currentUser;
+
+    // Password toggle
+    document.getElementById("togglePassword").addEventListener("click", () => {
       const pass = document.getElementById("password");
-      const type = pass.type === "password" ? "text" : "password";
-      pass.type = type;
-      this.classList.toggle("fa-eye");
-      this.classList.toggle("fa-eye-slash");
+      pass.type = pass.type === "password" ? "text" : "password";
+      toggleIcon("togglePassword");
     });
 
-    // Password strength
+    document.getElementById("toggleConfirmPassword").addEventListener("click", () => {
+      const pass = document.getElementById("confirm-password");
+      pass.type = pass.type === "password" ? "text" : "password";
+      toggleIcon("toggleConfirmPassword");
+    });
+
+    function toggleIcon(id) {
+      const icon = document.getElementById(id);
+      icon.classList.toggle("fa-eye");
+      icon.classList.toggle("fa-eye-slash");
+    }
+
+    // Strength Meter
     const passwordInput = document.getElementById("password");
     const strengthBar = document.querySelector("#strength-bar span");
 
@@ -72,10 +102,75 @@
       if (val.match(/[^a-zA-Z0-9]/)) strength++;
 
       const colors = ["#f00", "#f90", "#cc0", "#6f0", "#0f0"];
-      const width = (strength / 4) * 100;
-      strengthBar.style.width = width + "%";
+      strengthBar.style.width = (strength / 4) * 100 + "%";
       strengthBar.style.background = colors[strength];
     });
+
+    // Match Check
+    const confirmInput = document.getElementById("confirm-password");
+    const matchMsg = document.getElementById("match-msg");
+
+    confirmInput.addEventListener("input", () => {
+      const pass = passwordInput.value;
+      const confirm = confirmInput.value;
+      if (confirm === pass) {
+        matchMsg.textContent = "Passwords match!";
+        matchMsg.style.color = "#0f0";
+      } else {
+        matchMsg.textContent = "Passwords do not match.";
+        matchMsg.style.color = "#f00";
+      }
+    });
+
+    // SIGNUP + VERIFICATION
+    document.getElementById("signup-form")?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const email = e.target.email.value;
+      const password = e.target.password.value;
+      const confirmPassword = e.target.confirmPassword.value;
+
+      if (password !== confirmPassword) {
+        alert("Passwords do not match!");
+        return;
+      }
+
+      try {
+        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+        currentUser = userCredential.user;
+
+        await currentUser.sendEmailVerification();
+
+        document.getElementById("verify-modal").style.display = "flex";
+      } catch (error) {
+        alert(error.message);
+      }
+    });
+
+    // RESEND EMAIL
+    document.getElementById("resend-verification-btn")?.addEventListener("click", async () => {
+      if (!currentUser) return;
+
+      try {
+        await currentUser.sendEmailVerification();
+        document.getElementById("resend-confirm").textContent = "Verification email sent again!";
+      } catch (error) {
+        document.getElementById("resend-confirm").textContent = "Error: " + error.message;
+      }
+    });
+
+    // GOOGLE LOGIN
+    function googleLogin() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      auth.signInWithPopup(provider)
+        .then((result) => {
+          alert("Logged in as " + result.user.displayName);
+          window.location.href = "index.html";
+        })
+        .catch((error) => {
+          alert("Google Login Failed: " + error.message);
+        });
+    }
   </script>
 
 </body>
