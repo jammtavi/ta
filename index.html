@@ -1,95 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="Download and stream your favorite movies on Movie Download Hub. Get the latest releases in high quality.">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="description" content="Download and stream your favorite movies on Movie Download Hub. Get the latest releases in high quality.">
 
-    <!-- 🔹 SEO & Open Graph Tags -->
-    <meta property="og:title" content="Movie Download Hub - Download & Stream Movies">
-    <meta property="og:description" content="Get the latest movie releases in high quality. Download or stream instantly.">
-    <meta property="og:image" content="thumbnail.jpg">
-    <meta property="og:url" content="https://moviedownloadhub.com">
-    <meta property="og:type" content="website">
+  <title>Movie Download Hub</title>
 
-    <!-- 🔹 Twitter Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Movie Download Hub">
-    <meta name="twitter:description" content="Download and stream your favorite movies in high quality.">
-    <meta name="twitter:image" content="thumbnail.jpg">
+  <!-- 🔹 Open Graph -->
+  <meta property="og:title" content="Movie Download Hub - Download & Stream Movies" />
+  <meta property="og:description" content="Get the latest movie releases in high quality. Download or stream instantly." />
+  <meta property="og:image" content="thumbnail.jpg" />
+  <meta property="og:url" content="https://moviedownloadhub.com" />
+  <meta property="og:type" content="website" />
 
-    <title>Movie Download Hub</title>
+  <!-- 🔹 Twitter Meta -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Movie Download Hub" />
+  <meta name="twitter:description" content="Download and stream your favorite movies in high quality." />
+  <meta name="twitter:image" content="thumbnail.jpg" />
 
-    <!-- 🔹 Preload FontAwesome for Performance -->
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"></noscript>
+  <!-- 🔹 FontAwesome & Styles -->
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" /></noscript>
 
-    <!-- 🔹 Styles & Scripts -->
-    <link rel="stylesheet" href="style.css">
-    <script defer src="script.js"></script>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-    <!-- 🔹 Header (Navigation Bar) -->
-    <header>
-        <nav class="top-nav">
-            <button id="menu-icon" aria-label="Open Menu">
-                <i class="fas fa-bars" aria-hidden="true"></i>
-            </button>
-            <span class="logo">MovieHub</span>
-            <div class="nav-icons">
-                <button id="search-icon" aria-label="Search Movies">
-                    <i class="fas fa-search" aria-hidden="true"></i>
-                </button>
-                <div class="profile-dropdown">
-                    <button id="profile-icon" aria-label="User Profile">
-                        <i class="fas fa-user" aria-hidden="true"></i>
-                    </button>
-                    <div class="dropdown-menu" id="profile-menu" role="menu">
-                        <a href="https://t-tawny-two.vercel.app/login.html" role="menuitem">Login</a>
-                        <a href="https://t-tawny-two.vercel.app/signup.html" role="menuitem">Sign Up</a>
-                        <a href="#" role="menuitem">Settings</a>
-                    </div>
-                </div>
+  <!-- 🔹 Header -->
+  <header>
+    <nav class="top-nav">
+      <button id="menu-icon" aria-label="Open Menu">
+        <i class="fas fa-bars" aria-hidden="true"></i>
+      </button>
+
+      <span class="logo">MovieHub</span>
+
+      <div class="nav-icons">
+        <button id="search-icon" aria-label="Search Movies">
+          <i class="fas fa-search" aria-hidden="true"></i>
+        </button>
+
+        <div class="profile-dropdown">
+          <button id="profile-icon" aria-label="User Profile">
+            <i class="fas fa-user" aria-hidden="true"></i>
+          </button>
+
+          <div class="dropdown-menu" id="profile-menu" role="menu">
+            <div id="auth-controls">
+              <!-- Firebase auth will insert content here -->
             </div>
-        </nav>
-    </header>
-
-    
-
-    <!-- 🔹 Main Content -->
-    <main id="movie-section">
-        <!-- 🔹 Search Overlay -->
-        <div id="search-overlay">
-            <div class="search-container">
-                <input type="text" id="search" placeholder="Search for movies..." aria-label="Search movies">
-                <button id="cancel-search">Cancel</button>
-            </div>
+          </div>
         </div>
+      </div>
+    </nav>
+  </header>
 
-        <h2>Latest Movies</h2>
-        <div id="movie-grid" class="optimized-grid">
-            <!-- Movies dynamically inserted via JavaScript -->
-        </div>
-    </main>
+  <!-- 🔹 Search Overlay -->
+  <div id="search-overlay" aria-hidden="true">
+    <div class="search-container">
+      <input type="text" id="search" placeholder="Search for movies..." aria-label="Search movies" />
+      <button id="cancel-search">Cancel</button>
+    </div>
+  </div>
 
-    <!-- 🔹 Footer -->
-    <footer class="footer">
-        <p>© 2025 Movie Download Hub. All Rights Reserved.</p>
-    </footer>
+  <!-- 🔹 Main Section -->
+  <main id="movie-section">
+    <h2>Latest Movies</h2>
+    <div id="movie-grid" class="optimized-grid">
+      <!-- Movies injected by JavaScript -->
+    </div>
+  </main>
 
-    <script>
-  firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-      console.log("User is logged in:", user.email);
-      // Show logout button or user icon
-    } else {
-      console.log("User is not logged in");
-      // Show login/signup links
-    }
-  });
-</script>
+  <!-- 🔹 Footer -->
+  <footer class="footer">
+    <p>© 2025 Movie Download Hub. All Rights Reserved.</p>
+  </footer>
 
-    
+  <!-- 🔹 Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+
+  <!-- 🔹 Your Firebase config and auth logic -->
+  <script src="firebase-config.js"></script>
+  <script src="auth.js"></script>
+
+  <!-- 🔹 Main Script (search, movie render, etc) -->
+  <script src="script.js" defer></script>
+
+  <!-- 🔹 Auth Dropdown Rendering -->
+  <script>
+    auth.onAuthStateChanged((user) => {
+      const authControls = document.getElementById("auth-controls");
+      if (!authControls) return;
+
+      if (user) {
+        authControls.innerHTML = `
+          <a href="#">Hi, ${user.email.split('@')[0]}</a>
+          <a href="#" onclick="logoutUser()">Logout</a>
+        `;
+      } else {
+        authControls.innerHTML = `
+          <a href="login.html">Login</a>
+          <a href="signup.html">Sign Up</a>
+        `;
+      }
+    });
+  </script>
+
 </body>
 </html>
