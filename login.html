@@ -10,16 +10,22 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 
-  <!-- Font Awesome for Google Icon -->
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
 </head>
 <body class="auth-body">
 
   <div class="auth-modal">
     <h2>Login</h2>
+
+    <!-- 🔐 Login Form -->
     <form id="login-form">
       <input type="email" name="email" placeholder="Email" required />
       <input type="password" name="password" placeholder="Password" required />
+
+      <p style="text-align: right; margin-top: -10px; margin-bottom: 10px;">
+        <a href="#" onclick="showResetForm()">Forgot Password?</a>
+      </p>
 
       <label style="display: flex; align-items: center; font-size: 14px; margin-bottom: 10px;">
         <input type="checkbox" name="remember" style="margin-right: 6px;" /> Remember Me
@@ -35,9 +41,17 @@
 
       <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
     </form>
+
+    <!-- 🔁 Reset Password Form -->
+    <div id="reset-password-form" style="display: none;">
+      <h3>Reset Password</h3>
+      <input type="email" id="reset-email" placeholder="Enter your email" required />
+      <button type="button" onclick="sendResetLink()">Send Reset Link</button>
+      <p style="font-size: 14px;"><a href="#" onclick="hideResetForm()">Back to Login</a></p>
+    </div>
   </div>
 
-  <!-- Firebase Config and Auth Logic -->
+  <!-- Firebase & Auth -->
   <script src="firebase-config.js"></script>
   <script src="auth.js"></script>
 
