@@ -27,7 +27,7 @@
     <h1 class="logo">Movie Details</h1>
   </header>
 
-  <!-- Main Movie Section -->
+  <!-- Movie Details -->
   <main id="movie-details" class="modern-movie-details">
     <div class="details-container">
       <img id="movie-poster" src="" alt="Movie Poster" class="poster" loading="lazy" />
@@ -38,14 +38,15 @@
 
         <!-- Action Buttons -->
         <div class="movie-actions">
-          <button class="action-btn" id="like-btn" aria-label="Like"><i class="fas fa-thumbs-up"></i></button>
-          <button class="action-btn" id="dislike-btn" aria-label="Dislike"><i class="fas fa-thumbs-down"></i></button>
-          <button class="action-btn" id="favorite-btn" aria-label="Favorite"><i class="fas fa-heart"></i></button>
-          <button class="action-btn" id="playlist-btn" aria-label="Add to Playlist"><i class="fas fa-folder-plus"></i></button>
-          <button class="action-btn" id="share-btn" aria-label="Share"><i class="fas fa-share-alt"></i></button>
+          <button class="action-btn" id="like-btn"><i class="fas fa-thumbs-up"></i></button>
+          <button class="action-btn" id="dislike-btn"><i class="fas fa-thumbs-down"></i></button>
+          <button class="action-btn" id="favorite-btn"><i class="fas fa-heart"></i></button>
+          <button class="action-btn" id="playlist-btn"><i class="fas fa-folder-plus"></i></button>
+          <button class="action-btn" id="share-btn"><i class="fas fa-share-alt"></i></button>
         </div>
       </div>
     </div>
+
     <p id="error-message" class="error-message" aria-live="polite" style="display: none;">Movie not found. Redirecting...</p>
   </main>
 
@@ -79,11 +80,10 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
   <script src="firebase-config.js"></script>
 
-  <!-- Script -->
+  <!-- JavaScript -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const movieId = new URLSearchParams(window.location.search).get("id");
-
       const likeBtn = document.getElementById("like-btn");
       const dislikeBtn = document.getElementById("dislike-btn");
       const favoriteBtn = document.getElementById("favorite-btn");
@@ -99,21 +99,28 @@
       const loginModal = document.getElementById("login-modal");
 
       function requireLogin(callback) {
-        firebase.auth().onAuthStateChanged(user => {
-          if (user) {
-            callback(user);
-          } else {
-            showLoginModal();
-          }
-        });
+        const user = firebase.auth().currentUser;
+        if (user) {
+          callback(user);
+        } else {
+          showLoginModal();
+        }
       }
+
+      function showLoginModal() {
+        loginModal.style.display = "flex";
+      }
+
+      window.closeLoginModal = function () {
+        loginModal.style.display = "none";
+      };
 
       let movies = JSON.parse(localStorage.getItem("movies") || "[]");
       const movie = movies.find(m => m.id === movieId);
-      if (!movie) return redirectNotFound();
-      setMovieDetails(movie);
+      if (!movie) return notFound();
+      setDetails(movie);
 
-      function setMovieDetails(m) {
+      function setDetails(m) {
         document.getElementById("movie-title").textContent = m.title;
         document.getElementById("movie-description").textContent = m.description;
         document.getElementById("movie-poster").src = m.poster;
@@ -126,16 +133,16 @@
         if (prefs.favorited) favoriteBtn.classList.add("active");
       }
 
-      function redirectNotFound() {
+      function notFound() {
         document.getElementById("error-message").style.display = "block";
         setTimeout(() => window.location.href = "index.html", 2000);
       }
 
       window.goBack = function () {
-        if (document.referrer.includes(window.location.hostname)) {
-          window.history.back();
+        if (document.referrer.includes(location.hostname)) {
+          history.back();
         } else {
-          window.location.href = "index.html";
+          location.href = "index.html";
         }
       };
 
@@ -167,7 +174,6 @@
           prefs.favorited = favoriteBtn.classList.contains("active");
           savePrefs();
 
-          // Sync to backend
           fetch("/api/favorites/toggle", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -227,14 +233,6 @@
 
       function savePrefs() {
         localStorage.setItem(`prefs_${movieId}`, JSON.stringify(prefs));
-      }
-
-      function showLoginModal() {
-        loginModal.style.display = "flex";
-      }
-
-      window.closeLoginModal = function () {
-        loginModal.style.display = "none";
       }
     });
   </script>
