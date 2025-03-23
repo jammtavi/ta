@@ -46,3 +46,16 @@ function logoutUser() {
     alert("Logout error: " + error.message);
   });
 }
+
+function googleLogin() {
+  const provider = new firebase.auth.GoogleAuthProvider();
+
+  auth.signInWithPopup(provider)
+    .then((result) => {
+      alert("Logged in as " + result.user.displayName);
+      window.location.href = "index.html";
+    })
+    .catch((error) => {
+      alert("Google Login Failed: " + error.message);
+    });
+}
