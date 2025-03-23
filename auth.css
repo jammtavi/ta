@@ -1,150 +1,18 @@
-.auth-body {
-  background: radial-gradient(circle at top left, #1a1a1a, #0e0e0e);
-  font-family: 'Poppins', sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
-  color: #fff;
-}
-
-.auth-modal {
-  background: rgba(30, 30, 30, 0.95);
-  border-radius: 16px;
-  padding: 40px 30px;
-  width: 100%;
-  max-width: 400px;
-  box-shadow: 0 0 30px rgba(122, 0, 255, 0.4);
-  backdrop-filter: blur(12px);
-  animation: fadeIn 0.4s ease;
-  text-align: center;
-}
-
-.auth-modal h2 {
-  font-size: 26px;
-  color: #b266ff;
-  margin-bottom: 25px;
-}
-
-.auth-modal input {
-  width: 100%;
-  padding: 14px 12px;
-  margin-bottom: 15px;
-  border-radius: 8px;
-  border: none;
-  background: #2b2b2b;
-  color: #fff;
-  font-size: 16px;
-}
-
-.auth-modal input::placeholder {
-  color: #aaa;
-}
-
-.auth-modal button {
-  width: 100%;
-  padding: 12px;
-  border: none;
-  background: linear-gradient(135deg, #7a00ff, #c166ff);
-  color: #fff;
-  font-size: 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-.auth-modal button:hover {
-  transform: scale(1.03);
-}
-
-.auth-modal a {
-  color: #b266ff;
-  text-decoration: none;
-}
-
-.auth-modal a:hover {
-  text-decoration: underline;
-}
-
-.auth-modal p {
-  font-size: 14px;
-  margin-top: 15px;
-}
-
-/* Divider */
-.or-divider {
-  margin: 18px 0;
-  font-size: 14px;
-  color: #aaa;
-  position: relative;
-}
-
-.or-divider::before,
-.or-divider::after {
-  content: "";
-  height: 1px;
-  background: #444;
-  position: absolute;
-  top: 50%;
-  width: 40%;
-}
-
-.or-divider::before {
-  left: 0;
-}
-
-.or-divider::after {
-  right: 0;
-}
-
-/* Google Button */
-.google-btn {
-  background: #fff;
-  color: #000;
-  border: none;
-  padding: 12px;
-  border-radius: 8px;
-  font-size: 15px;
-  font-weight: 500;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.google-btn:hover {
-  background: #f1f1f1;
-}
-
-.google-btn i {
-  color: #DB4437;
-}
-
-/* Reset Password Form */
-#reset-password-form h3 {
-  color: #ff9aff;
-  font-size: 20px;
-  margin-bottom: 15px;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.96); }
-  to { opacity: 1; transform: scale(1); }
-}
-
+/* ========== Shared Pornhub Style ========== */
 .ph-auth-body {
   background: #000;
   font-family: 'Poppins', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
   margin: 0;
-  padding: 0;
   color: #fff;
 }
 
 .ph-signup-container {
   max-width: 420px;
+  width: 100%;
   margin: 0 auto;
   background: #1a1a1a;
   border-radius: 16px;
@@ -155,7 +23,6 @@
 .ph-banner {
   position: relative;
   text-align: center;
-  background: #000;
 }
 
 .ph-banner img {
@@ -164,66 +31,31 @@
   object-fit: cover;
 }
 
-.ph-logo {
-  position: absolute;
-  top: 10px;
-  left: 15px;
-  font-size: 24px;
-  font-weight: bold;
-}
-
-.ph-logo span {
-  background: #ffa31a;
-  color: #000;
-  padding: 0 5px;
-  border-radius: 2px;
-}
-
 .ph-banner h2 {
   position: absolute;
   bottom: 15px;
-  width: 100%;
+  left: 0;
+  right: 0;
   font-size: 20px;
   text-shadow: 0 0 5px #000;
 }
 
-.ph-benefits {
-  display: flex;
-  justify-content: space-around;
-  background: #0f0f0f;
-  padding: 10px;
-  font-size: 12px;
-  text-align: center;
-  gap: 5px;
-}
-
-.ph-benefits div {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-width: 90px;
-}
-
-.ph-benefits i {
-  font-size: 18px;
-  margin-bottom: 4px;
-  color: #ffa31a;
-}
-
-.ph-form {
+.ph-form,
+#reset-password-form {
   padding: 20px;
   display: flex;
   flex-direction: column;
+  gap: 12px;
 }
 
-.ph-form input {
+.ph-form input,
+#reset-password-form input {
   background: #2c2c2c;
   border: none;
   padding: 12px;
   border-radius: 8px;
   color: #fff;
   font-size: 15px;
-  margin-bottom: 12px;
 }
 
 .password-wrapper {
@@ -239,21 +71,19 @@
   cursor: pointer;
 }
 
-.strength-label {
-  font-size: 12px;
-  color: #888;
-  margin-bottom: 12px;
-}
-
 .ph-btn {
-  background: #555;
-  color: #ccc;
+  background: linear-gradient(135deg, #7a00ff, #c166ff);
+  color: #fff;
   padding: 12px;
   border: none;
   border-radius: 8px;
   font-size: 16px;
-  margin-bottom: 12px;
-  cursor: not-allowed;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.ph-btn:hover {
+  background: linear-gradient(135deg, #c166ff, #7a00ff);
 }
 
 .ph-google-btn {
@@ -280,14 +110,33 @@
   font-size: 13px;
   color: #aaa;
   text-align: center;
-  margin-top: 10px;
 }
 
-.ph-login-link a {
+.ph-login-link a,
+.ph-terms a {
   color: #ffa31a;
   text-decoration: underline;
 }
 
-.ph-terms a {
-  color: #ffa31a;
+/* Password Strength Meter */
+.password-strength {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+#strength-bar {
+  height: 6px;
+  width: 100%;
+  background: #333;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+#strength-bar span {
+  display: block;
+  height: 100%;
+  width: 0%;
+  transition: width 0.3s ease;
+  background: red;
 }
