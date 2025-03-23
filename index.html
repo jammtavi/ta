@@ -55,6 +55,8 @@
         </nav>
     </header>
 
+    
+
     <!-- 🔹 Main Content -->
     <main id="movie-section">
         <!-- 🔹 Search Overlay -->
@@ -76,5 +78,18 @@
         <p>© 2025 Movie Download Hub. All Rights Reserved.</p>
     </footer>
 
+    <script>
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      console.log("User is logged in:", user.email);
+      // Show logout button or user icon
+    } else {
+      console.log("User is not logged in");
+      // Show login/signup links
+    }
+  });
+</script>
+
+    
 </body>
 </html>
