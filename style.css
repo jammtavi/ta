@@ -450,3 +450,14 @@ input:focus {
 #playlist-list li button:hover {
   background: #7a00ff;
 }
+
+button:focus,
+input:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.action-btn:focus {
+  outline: none;
+  box-shadow: none;
+}
