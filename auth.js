@@ -1,13 +1,20 @@
 // auth.js
 
-// LOGIN
+// LOGIN with Remember Me
 document.getElementById("login-form")?.addEventListener("submit", async (e) => {
   e.preventDefault();
   const email = e.target.email.value;
   const password = e.target.password.value;
+  const rememberMe = e.target.remember.checked;
 
   try {
+    const persistence = rememberMe
+      ? firebase.auth.Auth.Persistence.LOCAL
+      : firebase.auth.Auth.Persistence.SESSION;
+
+    await auth.setPersistence(persistence);
     await auth.signInWithEmailAndPassword(email, password);
+
     alert("Logged in successfully!");
     window.location.href = "index.html";
   } catch (error) {
@@ -29,3 +36,13 @@ document.getElementById("signup-form")?.addEventListener("submit", async (e) => 
     alert(error.message);
   }
 });
+
+// LOGOUT
+function logoutUser() {
+  auth.signOut().then(() => {
+    alert("Logged out!");
+    window.location.href = "index.html";
+  }).catch((error) => {
+    alert("Logout error: " + error.message);
+  });
+}
