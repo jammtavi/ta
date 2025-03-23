@@ -385,44 +385,47 @@ input:focus {
   gap: 15px;
 }
 
+/* Remove outer lines and show icon only */
 .action-btn {
-  background: rgba(255, 255, 255, 0.08);
+  background: transparent;
   border: none;
   color: #fff;
-  font-size: 18px;
-  padding: 10px 14px;
-  border-radius: 10px;
+  font-size: 20px;
+  padding: 8px;
+  border-radius: 50%;
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
+  transition: color 0.2s ease-in-out, transform 0.2s ease;
 }
 
 .action-btn:hover {
-  background: rgba(122, 0, 255, 0.2);
-  transform: scale(1.05);
+  transform: scale(1.15);
 }
 
-/* Individual Active Styles */
-#like-btn.active {
-  background: #7a00ff;
+/* Button active states (colors only, no border/shadow) */
+#like-btn.active { color: #7a00ff; }
+#dislike-btn.active { color: #ff7a00; }
+#favorite-btn.active { color: #e91e63; }
+#playlist-btn.active { color: #00bfa6; }
+#share-btn.active { color: #2196f3; }
+
+/* Share popup animation */
+.share-popup {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #222;
   color: #fff;
+  padding: 10px 20px;
+  border-radius: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  z-index: 9999;
 }
 
-#dislike-btn.active {
-  background: #ff7a00;
-  color: #fff;
-}
-
-#favorite-btn.active {
-  background: #e91e63;
-  color: #fff;
-}
-
-#playlist-btn.active {
-  background: #00bfa6;
-  color: #fff;
-}
-
-#share-btn.active {
-  background: #2196f3;
-  color: #fff;
+.share-popup.active {
+  opacity: 1;
+  visibility: visible;
 }
