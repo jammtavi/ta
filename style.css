@@ -385,23 +385,22 @@ input:focus {
   gap: 15px;
 }
 
-/* 🔹 Clean icon-only style */
+/* Action icon-only style */
 .action-btn {
-  background: transparent;
+  background: none;
   border: none;
-  padding: 0;
-  margin: 0 10px;
   font-size: 22px;
   color: #fff;
   cursor: pointer;
-  transition: color 0.2s ease, transform 0.2s ease;
+  padding: 0;
+  margin: 0 8px;
+  transition: color 0.2s ease;
 }
 
 .action-btn:hover {
   transform: scale(1.2);
 }
 
-/* 🔹 On click, only icon color changes */
 #like-btn.active { color: #7a00ff; }
 #dislike-btn.active { color: #ff7a00; }
 #favorite-btn.active { color: #e91e63; }
@@ -439,6 +438,7 @@ input:focus {
 #playlist-list li {
   margin-bottom: 6px;
 }
+
 #playlist-list li button {
   background: #333;
   color: #fff;
@@ -451,12 +451,7 @@ input:focus {
   background: #7a00ff;
 }
 
-button:focus,
-input:focus {
-  outline: none;
-  box-shadow: none;
-}
-
+/* Remove focus outline */
 .action-btn:focus {
   outline: none;
   box-shadow: none;
