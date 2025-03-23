@@ -4,16 +4,18 @@
   <meta charset="UTF-8" />
   <title>Sign Up</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+
+  <!-- 🔗 Custom Auth Styles -->
   <link rel="stylesheet" href="auth.css" />
 
-  <!-- Firebase -->
+  <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 
-  <!-- FontAwesome -->
+  <!-- FontAwesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
 </head>
-<body class="ph-auth-body">
+<body class="auth-body">
 
   <div class="ph-signup-container">
     <div class="ph-banner">
@@ -53,7 +55,7 @@
     </form>
   </div>
 
-  <!-- ✅ Email Verification Modal -->
+  <!-- 🔹 Email Verification Modal -->
   <div class="verify-modal" id="verify-modal">
     <div class="modal-content">
       <i class="fas fa-envelope-circle-check"></i>
@@ -63,50 +65,33 @@
     </div>
   </div>
 
-  <!-- Firebase Setup -->
+  <!-- 🔗 Firebase Config & Auth -->
   <script src="firebase-config.js"></script>
   <script src="auth.js"></script>
 
   <script>
     let currentUser;
 
-    // Password toggle
-    document.getElementById("togglePassword").addEventListener("click", () => {
-      const pass = document.getElementById("password");
-      pass.type = pass.type === "password" ? "text" : "password";
-      toggleIcon("togglePassword");
-    });
-
-    document.getElementById("toggleConfirmPassword").addEventListener("click", () => {
-      const pass = document.getElementById("confirm-password");
-      pass.type = pass.type === "password" ? "text" : "password";
-      toggleIcon("toggleConfirmPassword");
-    });
-
-    function toggleIcon(id) {
+    // Toggle Password Visibility
+    function toggleIcon(id, inputId) {
       const icon = document.getElementById(id);
+      const input = document.getElementById(inputId);
+      const isVisible = input.type === "text";
+      input.type = isVisible ? "password" : "text";
       icon.classList.toggle("fa-eye");
       icon.classList.toggle("fa-eye-slash");
     }
 
-    // Strength Meter
-    const passwordInput = document.getElementById("password");
-    const strengthBar = document.querySelector("#strength-bar span");
-
-    passwordInput.addEventListener("input", () => {
-      const val = passwordInput.value;
-      let strength = 0;
-      if (val.length > 5) strength++;
-      if (val.match(/[A-Z]/)) strength++;
-      if (val.match(/[0-9]/)) strength++;
-      if (val.match(/[^a-zA-Z0-9]/)) strength++;
-
-      const colors = ["#f00", "#f90", "#cc0", "#6f0", "#0f0"];
-      strengthBar.style.width = (strength / 4) * 100 + "%";
-      strengthBar.style.background = colors[strength];
+    document.getElementById("togglePassword").addEventListener("click", () => {
+      toggleIcon("togglePassword", "password");
     });
 
-    // Match Check
+    document.getElementById("toggleConfirmPassword").addEventListener("click", () => {
+      toggleIcon("toggleConfirmPassword", "confirm-password");
+    });
+
+    // Password Match Check
+    const passwordInput = document.getElementById("password");
     const confirmInput = document.getElementById("confirm-password");
     const matchMsg = document.getElementById("match-msg");
 
@@ -122,10 +107,24 @@
       }
     });
 
-    // SIGNUP + VERIFICATION
-    document.getElementById("signup-form")?.addEventListener("submit", async (e) => {
-      e.preventDefault();
+    // Password Strength Meter
+    const strengthBar = document.querySelector("#strength-bar span");
+    passwordInput.addEventListener("input", () => {
+      const val = passwordInput.value;
+      let strength = 0;
+      if (val.length > 5) strength++;
+      if (val.match(/[A-Z]/)) strength++;
+      if (val.match(/[0-9]/)) strength++;
+      if (val.match(/[^a-zA-Z0-9]/)) strength++;
 
+      const colors = ["#f00", "#f90", "#cc0", "#6f0", "#0f0"];
+      strengthBar.style.width = (strength / 4) * 100 + "%";
+      strengthBar.style.background = colors[strength];
+    });
+
+    // Handle Signup + Email Verification
+    document.getElementById("signup-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
       const email = e.target.email.value;
       const password = e.target.password.value;
       const confirmPassword = e.target.confirmPassword.value;
@@ -138,19 +137,17 @@
       try {
         const userCredential = await auth.createUserWithEmailAndPassword(email, password);
         currentUser = userCredential.user;
-
         await currentUser.sendEmailVerification();
 
-        document.getElementById("verify-modal").style.display = "flex";
+        document.getElementById("verify-modal").classList.add("show");
       } catch (error) {
         alert(error.message);
       }
     });
 
-    // RESEND EMAIL
-    document.getElementById("resend-verification-btn")?.addEventListener("click", async () => {
+    // Resend Verification
+    document.getElementById("resend-verification-btn").addEventListener("click", async () => {
       if (!currentUser) return;
-
       try {
         await currentUser.sendEmailVerification();
         document.getElementById("resend-confirm").textContent = "Verification email sent again!";
@@ -159,19 +156,18 @@
       }
     });
 
-    // GOOGLE LOGIN
+    // Google Signup
     function googleLogin() {
       const provider = new firebase.auth.GoogleAuthProvider();
       auth.signInWithPopup(provider)
         .then((result) => {
-          alert("Logged in as " + result.user.displayName);
+          alert("Signed in as " + result.user.displayName);
           window.location.href = "index.html";
         })
         .catch((error) => {
-          alert("Google Login Failed: " + error.message);
+          alert("Google login failed: " + error.message);
         });
     }
   </script>
-
 </body>
 </html>
