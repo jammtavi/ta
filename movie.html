@@ -6,7 +6,7 @@
   <meta name="description" content="Movie Details - Watch and Download Your Favorite Movies in High Quality.">
   <title>Movie Details</title>
 
-  <!-- Meta Tags -->
+  <!-- Meta & Styles -->
   <meta property="og:title" content="Movie Details - Watch & Download" />
   <meta property="og:description" content="Stream and download high-quality movies instantly." />
   <meta property="og:image" content="thumbnail.jpg" />
@@ -14,7 +14,6 @@
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
 
-  <!-- Styles -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -28,7 +27,7 @@
     <h1 class="logo">Movie Details</h1>
   </header>
 
-  <!-- Movie Details Section -->
+  <!-- Main Movie Section -->
   <main id="movie-details" class="modern-movie-details">
     <div class="details-container">
       <img id="movie-poster" src="" alt="Movie Poster" class="poster" loading="lazy" />
@@ -41,13 +40,12 @@
         <div class="movie-actions">
           <button class="action-btn" id="like-btn" aria-label="Like"><i class="fas fa-thumbs-up"></i></button>
           <button class="action-btn" id="dislike-btn" aria-label="Dislike"><i class="fas fa-thumbs-down"></i></button>
-          <button class="action-btn" id="favorite-btn" aria-label="Add to Favorites"><i class="fas fa-heart"></i></button>
+          <button class="action-btn" id="favorite-btn" aria-label="Favorite"><i class="fas fa-heart"></i></button>
           <button class="action-btn" id="playlist-btn" aria-label="Add to Playlist"><i class="fas fa-folder-plus"></i></button>
           <button class="action-btn" id="share-btn" aria-label="Share"><i class="fas fa-share-alt"></i></button>
         </div>
       </div>
     </div>
-
     <p id="error-message" class="error-message" aria-live="polite" style="display: none;">Movie not found. Redirecting...</p>
   </main>
 
@@ -62,6 +60,15 @@
     </div>
   </div>
 
+  <!-- Login Modal -->
+  <div id="login-modal" class="playlist-modal" style="display: none;">
+    <div class="modal-content">
+      <p>Please log in to use this feature.</p>
+      <a href="login.html" class="download-btn">Login</a>
+      <button onclick="closeLoginModal()" class="download-btn">Cancel</button>
+    </div>
+  </div>
+
   <!-- Footer -->
   <footer class="footer">
     <p>© 2025 Movie Download Hub. All Rights Reserved.</p>
@@ -72,7 +79,7 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
   <script src="firebase-config.js"></script>
 
-  <!-- Main Script -->
+  <!-- Script -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const movieId = new URLSearchParams(window.location.search).get("id");
@@ -89,7 +96,18 @@
       const savePlaylist = document.getElementById("save-playlist");
       const closePlaylist = document.getElementById("close-playlist");
 
-      // Load movie data
+      const loginModal = document.getElementById("login-modal");
+
+      function requireLogin(callback) {
+        firebase.auth().onAuthStateChanged(user => {
+          if (user) {
+            callback(user);
+          } else {
+            showLoginModal();
+          }
+        });
+      }
+
       let movies = JSON.parse(localStorage.getItem("movies") || "[]");
       const movie = movies.find(m => m.id === movieId);
       if (!movie) return redirectNotFound();
@@ -124,34 +142,37 @@
       const prefs = JSON.parse(localStorage.getItem(`prefs_${movieId}`) || "{}");
 
       likeBtn.onclick = () => {
-        likeBtn.classList.toggle("active");
-        dislikeBtn.classList.remove("active");
-        prefs.liked = likeBtn.classList.contains("active");
-        prefs.disliked = false;
-        savePrefs();
+        requireLogin(() => {
+          likeBtn.classList.toggle("active");
+          dislikeBtn.classList.remove("active");
+          prefs.liked = likeBtn.classList.contains("active");
+          prefs.disliked = false;
+          savePrefs();
+        });
       };
 
       dislikeBtn.onclick = () => {
-        dislikeBtn.classList.toggle("active");
-        likeBtn.classList.remove("active");
-        prefs.disliked = dislikeBtn.classList.contains("active");
-        prefs.liked = false;
-        savePrefs();
+        requireLogin(() => {
+          dislikeBtn.classList.toggle("active");
+          likeBtn.classList.remove("active");
+          prefs.disliked = dislikeBtn.classList.contains("active");
+          prefs.liked = false;
+          savePrefs();
+        });
       };
 
       favoriteBtn.onclick = () => {
-        favoriteBtn.classList.toggle("active");
-        prefs.favorited = favoriteBtn.classList.contains("active");
-        savePrefs();
+        requireLogin(user => {
+          favoriteBtn.classList.toggle("active");
+          prefs.favorited = favoriteBtn.classList.contains("active");
+          savePrefs();
 
-        firebase.auth().onAuthStateChanged(user => {
-          if (user) {
-            fetch("/api/favorites/toggle", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ movieId, userId: user.uid })
-            }).then(res => res.json()).then(console.log);
-          }
+          // Sync to backend
+          fetch("/api/favorites/toggle", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ movieId, userId: user.uid })
+          }).then(res => res.json()).then(console.log);
         });
       };
 
@@ -206,6 +227,14 @@
 
       function savePrefs() {
         localStorage.setItem(`prefs_${movieId}`, JSON.stringify(prefs));
+      }
+
+      function showLoginModal() {
+        loginModal.style.display = "flex";
+      }
+
+      window.closeLoginModal = function () {
+        loginModal.style.display = "none";
       }
     });
   </script>
