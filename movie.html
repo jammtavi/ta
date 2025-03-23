@@ -7,7 +7,7 @@
 
   <title>Movie Details</title>
 
-  <!-- Open Graph & Twitter Meta -->
+  <!-- Meta Tags -->
   <meta property="og:title" content="Movie Details - Watch & Download" />
   <meta property="og:description" content="Stream and download high-quality movies instantly." />
   <meta property="og:image" content="thumbnail.jpg" />
@@ -15,7 +15,7 @@
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
 
-  <!-- FontAwesome & Styles -->
+  <!-- FontAwesome + Your External CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -24,7 +24,7 @@
   <!-- Header -->
   <header class="top-nav">
     <button onclick="goBack()" aria-label="Go Back" class="back-button">
-      <i class="fas fa-arrow-left" aria-hidden="true"></i>
+      <i class="fas fa-arrow-left"></i>
     </button>
     <h1 class="logo">Movie Details</h1>
   </header>
@@ -49,7 +49,7 @@
       </div>
     </div>
 
-    <p id="error-message" class="error-message" aria-live="polite" style="display:none;">Movie not found. Redirecting...</p>
+    <p id="error-message" class="error-message" aria-live="polite" style="display: none;">Movie not found. Redirecting...</p>
   </main>
 
   <!-- Playlist Modal -->
@@ -84,7 +84,6 @@
       const savePlaylist = document.getElementById("save-playlist");
       const closePlaylist = document.getElementById("close-playlist");
 
-      // Fetch Movies from Local Storage
       let movies = JSON.parse(localStorage.getItem("movies") || "[]");
       if (!Array.isArray(movies) || movies.length === 0) {
         movies = [
@@ -98,7 +97,6 @@
       if (!movie) return handleMovieNotFound();
       setMovieDetails(movie);
 
-      // Populate movie content
       function setMovieDetails(movie) {
         document.getElementById("movie-title").textContent = movie.title;
         document.getElementById("movie-description").textContent = movie.description;
@@ -110,7 +108,6 @@
         downloadBtn.href = movie.downloadLink;
         document.title = `${movie.title} - Movie Details`;
 
-        // Load previous prefs
         const prefs = JSON.parse(localStorage.getItem(`prefs_${movieId}`) || "{}");
         if (prefs.liked) likeBtn.classList.add("active");
         if (prefs.disliked) dislikeBtn.classList.add("active");
@@ -125,7 +122,6 @@
         }, 2000);
       }
 
-      // Back button support
       window.goBack = function () {
         if (document.referrer.includes(window.location.hostname)) {
           window.history.back();
@@ -134,43 +130,43 @@
         }
       };
 
-      // Interactions
       const prefs = JSON.parse(localStorage.getItem(`prefs_${movieId}`) || "{}");
 
       likeBtn?.addEventListener("click", () => {
-        likeBtn.classList.toggle("active");
+        const active = likeBtn.classList.toggle("active");
         dislikeBtn.classList.remove("active");
-        prefs.liked = likeBtn.classList.contains("active");
+        prefs.liked = active;
         prefs.disliked = false;
         savePrefs();
       });
 
       dislikeBtn?.addEventListener("click", () => {
-        dislikeBtn.classList.toggle("active");
+        const active = dislikeBtn.classList.toggle("active");
         likeBtn.classList.remove("active");
-        prefs.disliked = dislikeBtn.classList.contains("active");
+        prefs.disliked = active;
         prefs.liked = false;
         savePrefs();
       });
 
       favoriteBtn?.addEventListener("click", () => {
-        favoriteBtn.classList.toggle("active");
-        prefs.favorited = favoriteBtn.classList.contains("active");
+        const active = favoriteBtn.classList.toggle("active");
+        prefs.favorited = active;
         savePrefs();
-
-        // TODO: Call backend to sync to MongoDB
+        // TODO: Add MongoDB sync
       });
 
       playlistBtn?.addEventListener("click", () => {
         playlistModal.classList.add("active");
         playlistModal.setAttribute("aria-hidden", "false");
         playlistInput.focus();
+        playlistBtn.classList.add("active");
       });
 
       closePlaylist?.addEventListener("click", () => {
         playlistModal.classList.remove("active");
         playlistModal.setAttribute("aria-hidden", "true");
         playlistInput.value = "";
+        playlistBtn.classList.remove("active");
       });
 
       savePlaylist?.addEventListener("click", () => {
@@ -179,19 +175,18 @@
           alert(`🎉 "${movie.title}" added to playlist: ${name}`);
           playlistModal.classList.remove("active");
           playlistInput.value = "";
-          // TODO: Optionally save playlist name in localStorage or backend
         }
       });
 
       shareBtn?.addEventListener("click", () => {
         const movieURL = window.location.href;
         navigator.clipboard.writeText(movieURL).then(() => {
+          shareBtn.classList.add("active");
           shareBtn.innerHTML = `<i class="fas fa-check"></i>`;
           setTimeout(() => {
+            shareBtn.classList.remove("active");
             shareBtn.innerHTML = `<i class="fas fa-share-alt"></i>`;
           }, 1500);
-        }).catch(() => {
-          alert("Unable to copy link.");
         });
       });
 
