@@ -6,37 +6,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
   <link rel="stylesheet" href="auth.css" />
 
-  <!-- Firebase SDK -->
+  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 
-  <!-- FontAwesome for icons -->
+  <!-- FontAwesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
 </head>
 <body class="ph-auth-body">
 
   <div class="ph-signup-container">
     <div class="ph-banner">
-      <img src="images/banner.jpg" alt="Signup Banner" />
-      <div class="ph-logo">Porn<span>hub</span></div>
+      <img src="banner.jpg" alt="Signup Banner" />
       <h2>Sign Up for Free</h2>
-    </div>
-
-    <div class="ph-benefits">
-      <div><i class="fas fa-list-alt"></i><span>Create your own playlists.</span></div>
-      <div><i class="fas fa-comment-dots"></i><span>Engage with the community.</span></div>
-      <div><i class="fas fa-thumbs-up"></i><span>Tailored video suggestions.</span></div>
     </div>
 
     <form id="signup-form" class="ph-form">
       <input type="email" name="email" placeholder="Email" required />
-      
+
       <div class="password-wrapper">
         <input type="password" name="password" id="password" placeholder="Password" required />
         <i class="fas fa-eye-slash" id="togglePassword"></i>
       </div>
 
-      <label class="strength-label">Strength:</label>
+      <div class="password-strength">
+        <label class="strength-label">Strength:</label>
+        <div id="strength-bar"><span></span></div>
+      </div>
 
       <button type="submit" class="ph-btn">Sign Up</button>
 
@@ -45,14 +41,16 @@
         Sign up with Google
       </button>
 
-      <p class="ph-login-link">Already have an account? <a href="login.html">Login</a> here</p>
+      <p class="ph-login-link">Already have an account? <a href="login.html">Login</a></p>
       <p class="ph-terms">By signing up, you agree to our <a href="#">Terms and Conditions</a>.</p>
     </form>
   </div>
 
   <script src="firebase-config.js"></script>
   <script src="auth.js"></script>
+
   <script>
+    // Toggle password visibility
     document.getElementById("togglePassword").addEventListener("click", function () {
       const pass = document.getElementById("password");
       const type = pass.type === "password" ? "text" : "password";
@@ -60,6 +58,25 @@
       this.classList.toggle("fa-eye");
       this.classList.toggle("fa-eye-slash");
     });
+
+    // Password strength
+    const passwordInput = document.getElementById("password");
+    const strengthBar = document.querySelector("#strength-bar span");
+
+    passwordInput.addEventListener("input", () => {
+      const val = passwordInput.value;
+      let strength = 0;
+      if (val.length > 5) strength++;
+      if (val.match(/[A-Z]/)) strength++;
+      if (val.match(/[0-9]/)) strength++;
+      if (val.match(/[^a-zA-Z0-9]/)) strength++;
+
+      const colors = ["#f00", "#f90", "#cc0", "#6f0", "#0f0"];
+      const width = (strength / 4) * 100;
+      strengthBar.style.width = width + "%";
+      strengthBar.style.background = colors[strength];
+    });
   </script>
+
 </body>
 </html>
