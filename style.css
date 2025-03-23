@@ -385,20 +385,23 @@ input:focus {
   gap: 15px;
 }
 
-/* Remove circles/ovals */
+/* 🔹 Clean icon-only style */
 .action-btn {
   background: transparent;
   border: none;
   padding: 0;
   margin: 0 10px;
-  font-size: 20px;
+  font-size: 22px;
   color: #fff;
   cursor: pointer;
-  transition: transform 0.2s ease;
+  transition: color 0.2s ease, transform 0.2s ease;
 }
+
 .action-btn:hover {
-  transform: scale(1.15);
+  transform: scale(1.2);
 }
+
+/* 🔹 On click, only icon color changes */
 #like-btn.active { color: #7a00ff; }
 #dislike-btn.active { color: #ff7a00; }
 #favorite-btn.active { color: #e91e63; }
