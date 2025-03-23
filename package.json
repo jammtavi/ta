@@ -1,7 +1,0 @@
-{
-  "name": "vercel-backend",
-  "type": "module",
-  "dependencies": {
-    "mongoose": "^7.0.0"
-  }
-}
