@@ -5,14 +5,14 @@
   <title>Sign Up</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
 
-  <!-- 🔗 Custom Auth Styles -->
+  <!-- Auth Styles -->
   <link rel="stylesheet" href="auth.css" />
 
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 
-  <!-- FontAwesome for icons -->
+  <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
 </head>
 <body class="auth-body">
@@ -56,25 +56,28 @@
   </div>
 
   <!-- 🔹 Email Verification Modal -->
-  <div class="verify-modal" id="verify-modal">
+  <div class="verify-modal" id="verify-modal" style="display: none;">
     <div class="modal-content">
       <i class="fas fa-envelope-circle-check"></i>
       <p>We've sent a verification link to your email.<br>Please verify to activate your account.</p>
+
       <button id="resend-verification-btn">Resend Email</button>
-      <p id="resend-confirm" style="margin-top: 10px; font-size: 13px; color: #0f0;"></p>
+      <p id="resend-confirm" class="verify-status-msg"></p>
+
+      <button id="close-verify-modal">Close</button>
     </div>
   </div>
 
-  <!-- 🔗 Firebase Config & Auth -->
+  <!-- Firebase Config & Auth -->
   <script src="firebase-config.js"></script>
   <script src="auth.js"></script>
 
   <script>
     let currentUser;
 
-    // Toggle Password Visibility
-    function toggleIcon(id, inputId) {
-      const icon = document.getElementById(id);
+    // Toggle password visibility
+    function toggleIcon(iconId, inputId) {
+      const icon = document.getElementById(iconId);
       const input = document.getElementById(inputId);
       const isVisible = input.type === "text";
       input.type = isVisible ? "password" : "text";
@@ -90,7 +93,7 @@
       toggleIcon("toggleConfirmPassword", "confirm-password");
     });
 
-    // Password Match Check
+    // Real-time match check
     const passwordInput = document.getElementById("password");
     const confirmInput = document.getElementById("confirm-password");
     const matchMsg = document.getElementById("match-msg");
@@ -107,7 +110,7 @@
       }
     });
 
-    // Password Strength Meter
+    // Password strength
     const strengthBar = document.querySelector("#strength-bar span");
     passwordInput.addEventListener("input", () => {
       const val = passwordInput.value;
@@ -116,13 +119,12 @@
       if (val.match(/[A-Z]/)) strength++;
       if (val.match(/[0-9]/)) strength++;
       if (val.match(/[^a-zA-Z0-9]/)) strength++;
-
       const colors = ["#f00", "#f90", "#cc0", "#6f0", "#0f0"];
       strengthBar.style.width = (strength / 4) * 100 + "%";
       strengthBar.style.background = colors[strength];
     });
 
-    // Handle Signup + Email Verification
+    // Signup & show verification modal
     document.getElementById("signup-form").addEventListener("submit", async (e) => {
       e.preventDefault();
       const email = e.target.email.value;
@@ -137,15 +139,19 @@
       try {
         const userCredential = await auth.createUserWithEmailAndPassword(email, password);
         currentUser = userCredential.user;
+
         await currentUser.sendEmailVerification();
 
-        document.getElementById("verify-modal").classList.add("show");
+        document.getElementById("verify-modal").style.display = "flex";
+
+        // Optionally redirect after delay
+        // setTimeout(() => window.location.href = "index.html", 8000);
       } catch (error) {
-        alert(error.message);
+        alert("Signup Error: " + error.message);
       }
     });
 
-    // Resend Verification
+    // Resend verification
     document.getElementById("resend-verification-btn").addEventListener("click", async () => {
       if (!currentUser) return;
       try {
@@ -156,7 +162,12 @@
       }
     });
 
-    // Google Signup
+    // Close modal
+    document.getElementById("close-verify-modal").addEventListener("click", () => {
+      document.getElementById("verify-modal").style.display = "none";
+    });
+
+    // Google login
     function googleLogin() {
       const provider = new firebase.auth.GoogleAuthProvider();
       auth.signInWithPopup(provider)
