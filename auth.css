@@ -1,5 +1,5 @@
 /* =====================
-  AUTH PAGE BASE STYLES
+  AUTH BASE STYLES
 ===================== */
 body.auth-body {
   background: #000;
@@ -14,7 +14,7 @@ body.auth-body {
 }
 
 /* =====================
-  CONTAINER / CARD
+  CONTAINER
 ===================== */
 .ph-signup-container {
   width: 100%;
@@ -26,7 +26,7 @@ body.auth-body {
 }
 
 /* =====================
-  BANNER SECTION
+  BANNER
 ===================== */
 .ph-banner {
   position: relative;
@@ -49,7 +49,7 @@ body.auth-body {
 }
 
 /* =====================
-  FORM STYLES
+  FORM STYLING
 ===================== */
 .ph-form {
   display: flex;
@@ -81,7 +81,7 @@ body.auth-body {
 }
 
 /* =====================
-  MATCHING + STRENGTH
+  PASSWORD MATCH + STRENGTH
 ===================== */
 .match-msg {
   font-size: 13px;
@@ -111,7 +111,7 @@ body.auth-body {
 }
 
 /* =====================
-  BUTTON STYLES
+  BUTTONS
 ===================== */
 .ph-btn {
   background: linear-gradient(135deg, #7a00ff, #c166ff);
@@ -128,9 +128,6 @@ body.auth-body {
   background: linear-gradient(135deg, #c166ff, #7a00ff);
 }
 
-/* =====================
-  GOOGLE BUTTON
-===================== */
 .ph-google-btn {
   background: #fff;
   color: #000;
@@ -151,7 +148,7 @@ body.auth-body {
 }
 
 /* =====================
-  LINKS / FOOTER
+  LINKS
 ===================== */
 .ph-login-link,
 .ph-terms {
@@ -174,15 +171,11 @@ body.auth-body {
   position: fixed;
   top: 0; left: 0;
   width: 100vw; height: 100vh;
-  background: rgba(0,0,0,0.75);
+  background: rgba(0, 0, 0, 0.75);
   display: none;
   align-items: center;
   justify-content: center;
   z-index: 9999;
-}
-
-.verify-modal.show {
-  display: flex;
 }
 
 .verify-modal .modal-content {
@@ -192,6 +185,7 @@ body.auth-body {
   text-align: center;
   color: #ffa31a;
   font-size: 16px;
+  max-width: 400px;
   animation: popIn 0.3s ease;
 }
 
@@ -201,20 +195,26 @@ body.auth-body {
   margin-bottom: 10px;
 }
 
-#resend-verification-btn {
-  margin-top: 15px;
-  padding: 10px 20px;
+.verify-modal button {
   background: #ffa31a;
   border: none;
-  color: #000;
-  font-weight: bold;
+  padding: 10px 20px;
   border-radius: 8px;
+  font-weight: bold;
   cursor: pointer;
+  color: #000;
+  margin-top: 10px;
   transition: background 0.3s ease;
 }
 
-#resend-verification-btn:hover {
+.verify-modal button:hover {
   background: #ffbe4d;
+}
+
+.verify-status-msg {
+  font-size: 13px;
+  margin-top: 8px;
+  color: #0f0;
 }
 
 /* =====================
