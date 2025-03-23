@@ -60,3 +60,33 @@
   color: #b266ff;
   text-decoration: underline;
 }
+
+.google-btn {
+  width: 100%;
+  background: #fff;
+  color: #000;
+  border: none;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.google-btn:hover {
+  background: #f1f1f1;
+}
+
+.google-btn i {
+  margin-right: 8px;
+  color: #DB4437;
+}
+
+.or-divider {
+  margin: 15px 0;
+  font-size: 14px;
+  color: #ccc;
+  text-align: center;
+}
