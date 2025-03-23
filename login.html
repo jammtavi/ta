@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Login</title>
-  <link rel="stylesheet" href="auth.css">
+  <link rel="stylesheet" href="style.css" />
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 </head>
@@ -13,8 +13,9 @@
     <form id="login-form">
       <input type="email" name="email" placeholder="Email" required />
       <input type="password" name="password" placeholder="Password" required />
+      <label><input type="checkbox" name="remember" /> Remember Me</label>
       <button type="submit">Login</button>
-      <p>Don't have an account? <a href="signup.html">Sign up</a></p>
+      <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
     </form>
   </div>
   <script src="firebase-config.js"></script>
