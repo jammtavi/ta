@@ -2,10 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <title>Movie Details</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="description" content="Movie Details - Watch and Download Your Favorite Movies in High Quality.">
-
-  <title>Movie Details</title>
 
   <!-- SEO & Social -->
   <meta property="og:title" content="Movie Details - Watch & Download" />
@@ -15,13 +14,18 @@
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
 
-  <!-- FontAwesome & External Styles -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  <!-- Styles & Fonts -->
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="firebase-config.js"></script>
 </head>
 <body>
 
-  <!-- 🔹 Header -->
+  <!-- Header -->
   <header class="top-nav">
     <button onclick="goBack()" aria-label="Go Back" class="back-button">
       <i class="fas fa-arrow-left"></i>
@@ -29,7 +33,7 @@
     <h1 class="logo">Movie Details</h1>
   </header>
 
-  <!-- 🔹 Movie Details Section -->
+  <!-- Movie Details -->
   <main id="movie-details" class="modern-movie-details">
     <div class="details-container">
       <img id="movie-poster" src="" alt="Movie Poster" class="poster" loading="lazy" />
@@ -38,7 +42,7 @@
         <p id="movie-description"></p>
         <a id="download-button" href="#" target="_blank" rel="noopener noreferrer" class="download-btn">Download</a>
 
-        <!-- 🔹 Action Buttons -->
+        <!-- Action Buttons -->
         <div class="movie-actions">
           <button class="action-btn" id="like-btn" aria-label="Like"><i class="fas fa-thumbs-up"></i></button>
           <button class="action-btn" id="dislike-btn" aria-label="Dislike"><i class="fas fa-thumbs-down"></i></button>
@@ -48,11 +52,10 @@
         </div>
       </div>
     </div>
-
     <p id="error-message" class="error-message" aria-live="polite" style="display: none;">Movie not found. Redirecting...</p>
   </main>
 
-  <!-- 🔹 Playlist Modal -->
+  <!-- Playlist Modal -->
   <div id="playlist-modal" class="playlist-modal" aria-hidden="true">
     <div class="modal-content">
       <h3>Create or Add to Playlist</h3>
@@ -62,15 +65,12 @@
     </div>
   </div>
 
-  <!-- 🔹 Share Popup (Injected by JS) -->
-  <!-- (No need to add manually; JS creates it) -->
-
-  <!-- 🔹 Footer -->
+  <!-- Footer -->
   <footer class="footer">
     <p>© 2025 Movie Download Hub. All Rights Reserved.</p>
   </footer>
 
-  <!-- 🔹 JavaScript -->
+  <!-- Main Script -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const urlParams = new URLSearchParams(window.location.search);
@@ -87,7 +87,7 @@
       const savePlaylist = document.getElementById("save-playlist");
       const closePlaylist = document.getElementById("close-playlist");
 
-      // Create share popup
+      // Share popup
       const sharePopup = document.createElement("div");
       sharePopup.className = "share-popup";
       sharePopup.innerHTML = `<p>Link copied ✅</p>`;
@@ -134,35 +134,53 @@
         }
       };
 
+      // Action Buttons - Require login
+      function requireLogin(action) {
+        const user = firebase.auth().currentUser;
+        if (!user) {
+          window.location.href = "signup.html"; // Or show modal
+          return;
+        }
+        action();
+      }
+
       const prefs = JSON.parse(localStorage.getItem(`prefs_${movieId}`) || "{}");
 
       likeBtn.addEventListener("click", () => {
-        likeBtn.classList.toggle("active");
-        dislikeBtn.classList.remove("active");
-        prefs.liked = likeBtn.classList.contains("active");
-        prefs.disliked = false;
-        savePrefs();
+        requireLogin(() => {
+          likeBtn.classList.toggle("active");
+          dislikeBtn.classList.remove("active");
+          prefs.liked = likeBtn.classList.contains("active");
+          prefs.disliked = false;
+          savePrefs();
+        });
       });
 
       dislikeBtn.addEventListener("click", () => {
-        dislikeBtn.classList.toggle("active");
-        likeBtn.classList.remove("active");
-        prefs.disliked = dislikeBtn.classList.contains("active");
-        prefs.liked = false;
-        savePrefs();
+        requireLogin(() => {
+          dislikeBtn.classList.toggle("active");
+          likeBtn.classList.remove("active");
+          prefs.disliked = dislikeBtn.classList.contains("active");
+          prefs.liked = false;
+          savePrefs();
+        });
       });
 
       favoriteBtn.addEventListener("click", () => {
-        favoriteBtn.classList.toggle("active");
-        prefs.favorited = favoriteBtn.classList.contains("active");
-        savePrefs();
+        requireLogin(() => {
+          favoriteBtn.classList.toggle("active");
+          prefs.favorited = favoriteBtn.classList.contains("active");
+          savePrefs();
+        });
       });
 
       playlistBtn.addEventListener("click", () => {
-        playlistModal.classList.add("active");
-        playlistModal.setAttribute("aria-hidden", "false");
-        playlistInput.focus();
-        playlistBtn.classList.add("active");
+        requireLogin(() => {
+          playlistModal.classList.add("active");
+          playlistModal.setAttribute("aria-hidden", "false");
+          playlistInput.focus();
+          playlistBtn.classList.add("active");
+        });
       });
 
       closePlaylist.addEventListener("click", () => {
@@ -196,6 +214,5 @@
       }
     });
   </script>
-
 </body>
 </html>
