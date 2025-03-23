@@ -1,25 +1,33 @@
-/* ========== Shared Pornhub Style ========== */
-.ph-auth-body {
+/* =====================
+  AUTH PAGE BASE STYLES
+===================== */
+body.auth-body {
   background: #000;
   font-family: 'Poppins', sans-serif;
+  color: #fff;
+  margin: 0;
+  padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  margin: 0;
-  color: #fff;
 }
 
+/* =====================
+  CONTAINER / CARD
+===================== */
 .ph-signup-container {
-  max-width: 420px;
   width: 100%;
-  margin: 0 auto;
+  max-width: 420px;
   background: #1a1a1a;
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
 }
 
+/* =====================
+  BANNER SECTION
+===================== */
 .ph-banner {
   position: relative;
   text-align: center;
@@ -40,16 +48,17 @@
   text-shadow: 0 0 5px #000;
 }
 
-.ph-form,
-#reset-password-form {
-  padding: 20px;
+/* =====================
+  FORM STYLES
+===================== */
+.ph-form {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  padding: 20px;
 }
 
-.ph-form input,
-#reset-password-form input {
+.ph-form input {
   background: #2c2c2c;
   border: none;
   padding: 12px;
@@ -71,54 +80,14 @@
   cursor: pointer;
 }
 
-.ph-btn {
-  background: linear-gradient(135deg, #7a00ff, #c166ff);
-  color: #fff;
-  padding: 12px;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.ph-btn:hover {
-  background: linear-gradient(135deg, #c166ff, #7a00ff);
-}
-
-.ph-google-btn {
-  background: #fff;
-  color: #000;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 10px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-}
-
-.ph-google-btn img {
-  width: 20px;
-  height: 20px;
-}
-
-.ph-login-link,
-.ph-terms {
+/* =====================
+  MATCHING + STRENGTH
+===================== */
+.match-msg {
   font-size: 13px;
-  color: #aaa;
-  text-align: center;
+  margin: -5px 0 10px;
 }
 
-.ph-login-link a,
-.ph-terms a {
-  color: #ffa31a;
-  text-decoration: underline;
-}
-
-/* Password Strength Meter */
 .password-strength {
   display: flex;
   flex-direction: column;
@@ -141,16 +110,79 @@
   background: red;
 }
 
-/* Modal */
+/* =====================
+  BUTTON STYLES
+===================== */
+.ph-btn {
+  background: linear-gradient(135deg, #7a00ff, #c166ff);
+  color: #fff;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.ph-btn:hover {
+  background: linear-gradient(135deg, #c166ff, #7a00ff);
+}
+
+/* =====================
+  GOOGLE BUTTON
+===================== */
+.ph-google-btn {
+  background: #fff;
+  color: #000;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.ph-google-btn img {
+  width: 20px;
+  height: 20px;
+}
+
+/* =====================
+  LINKS / FOOTER
+===================== */
+.ph-login-link,
+.ph-terms {
+  font-size: 13px;
+  color: #aaa;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.ph-login-link a,
+.ph-terms a {
+  color: #ffa31a;
+  text-decoration: underline;
+}
+
+/* =====================
+  VERIFICATION MODAL
+===================== */
 .verify-modal {
   position: fixed;
   top: 0; left: 0;
-  height: 100vh; width: 100vw;
-  background: rgba(0, 0, 0, 0.7);
+  width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.75);
   display: none;
   align-items: center;
   justify-content: center;
   z-index: 9999;
+}
+
+.verify-modal.show {
+  display: flex;
 }
 
 .verify-modal .modal-content {
@@ -185,7 +217,62 @@
   background: #ffbe4d;
 }
 
+/* =====================
+  FORGOT PASSWORD FORM
+===================== */
+#reset-password-form {
+  display: none;
+  padding: 20px;
+  background: #111;
+  border-radius: 12px;
+  text-align: center;
+}
+
+#reset-password-form input {
+  background: #2b2b2b;
+  padding: 12px;
+  width: 100%;
+  border: none;
+  color: #fff;
+  margin-bottom: 10px;
+  border-radius: 8px;
+}
+
+#reset-password-form button {
+  background: #ffa31a;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  color: #000;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+}
+
+#reset-password-form p {
+  font-size: 13px;
+  margin-top: 10px;
+}
+
+/* =====================
+  ANIMATION
+===================== */
 @keyframes popIn {
   from { transform: scale(0.8); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
+}
+
+/* =====================
+  RESPONSIVE
+===================== */
+@media (max-width: 500px) {
+  .ph-signup-container {
+    border-radius: 0;
+    max-width: 100%;
+  }
+
+  .ph-form,
+  #reset-password-form {
+    padding: 15px;
+  }
 }
