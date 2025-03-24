@@ -26,7 +26,7 @@ body.auth-body {
 }
 
 /* =====================
-  FORM SHARED STYLES
+  FORMS
 ===================== */
 .ph-form,
 .forgot-form {
@@ -67,7 +67,7 @@ body.auth-body {
 }
 
 /* =====================
-  PRIMARY BUTTON
+  BUTTONS
 ===================== */
 .ph-btn,
 .forgot-submit {
@@ -80,8 +80,8 @@ body.auth-body {
   font-weight: bold;
   cursor: pointer;
   transition: background 0.3s ease;
-  text-align: center;
   width: 100%;
+  text-align: center;
 }
 
 .ph-btn:hover,
@@ -112,7 +112,7 @@ body.auth-body {
 }
 
 /* =====================
-  LINK SECTIONS
+  LINKS & TEXT
 ===================== */
 .ph-login-link,
 .ph-terms,
@@ -135,7 +135,7 @@ body.auth-body {
 }
 
 /* =====================
-  PASSWORD STRENGTH (SIGNUP)
+  PASSWORD STRENGTH
 ===================== */
 .password-strength {
   display: flex;
@@ -161,11 +161,11 @@ body.auth-body {
 
 .match-msg {
   font-size: 13px;
-  margin: -5px 0 5px;
+  margin-top: -5px;
 }
 
 /* =====================
-  FORGOT PASSWORD CUSTOM
+  FORGOT PASSWORD HEADINGS
 ===================== */
 .forgot-heading {
   font-size: 22px;
@@ -189,7 +189,7 @@ body.auth-body {
 }
 
 /* =====================
-  VERIFICATION MODAL
+  EMAIL VERIFICATION MODAL
 ===================== */
 .verify-modal {
   position: fixed;
