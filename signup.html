@@ -5,178 +5,151 @@
   <title>Sign Up</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
 
-  <!-- Auth Styles -->
+  <!-- Styles -->
   <link rel="stylesheet" href="auth.css" />
 
-  <!-- Firebase SDKs -->
+  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 
-  <!-- FontAwesome Icons -->
+  <!-- FontAwesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
 </head>
 <body class="auth-body">
 
   <div class="ph-signup-container">
-    <div class="ph-banner">
-      <img src="images/banner.jpg" alt="Signup Banner" />
-      <h2>Sign Up for Free</h2>
+    <div style="text-align: center;">
+      <h1 style="color: #fff; font-size: 28px; margin-bottom: 0;">
+        <span style="color: white;">Porn</span><span style="color: #ffa31a; background: #ffa31a; color: #000; padding: 0 6px; border-radius: 4px;">hub</span>
+      </h1>
+      <h2 style="font-size: 22px; margin: 10px 0;">Sign Up for Free</h2>
     </div>
 
     <form id="signup-form" class="ph-form">
-      <input type="email" name="email" placeholder="Email" required />
+      <input type="email" id="email" placeholder="Email" required />
 
       <div class="password-wrapper">
-        <input type="password" name="password" id="password" placeholder="Password" required />
-        <i class="fas fa-eye-slash" id="togglePassword"></i>
+        <input type="password" id="password" placeholder="Password" required />
+        <i class="fas fa-eye-slash toggle-password" data-toggle="password"></i>
       </div>
 
       <div class="password-wrapper">
-        <input type="password" name="confirmPassword" id="confirm-password" placeholder="Confirm Password" required />
-        <i class="fas fa-eye-slash" id="toggleConfirmPassword"></i>
+        <input type="password" id="confirm-password" placeholder="Confirm Password" required />
+        <i class="fas fa-eye-slash toggle-password" data-toggle="confirm-password"></i>
       </div>
-
-      <p id="match-msg" class="match-msg"></p>
 
       <div class="password-strength">
-        <label class="strength-label">Strength:</label>
+        <label>Strength:</label>
         <div id="strength-bar"><span></span></div>
+        <div id="match-msg" class="match-msg"></div>
       </div>
 
       <button type="submit" class="ph-btn">Sign Up</button>
 
-      <button type="button" onclick="googleLogin()" class="ph-google-btn">
+      <button type="button" onclick="googleSignup()" class="ph-google-btn">
         <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" />
         Sign up with Google
       </button>
 
-      <p class="ph-login-link">Already have an account? <a href="login.html">Login</a></p>
-      <p class="ph-terms">By signing up, you agree to our <a href="#">Terms and Conditions</a>.</p>
+      <p class="ph-login-link">
+        Already have an account? <a href="login.html">Login</a> here
+      </p>
     </form>
-  </div>
 
-  <!-- 🔹 Email Verification Modal -->
-  <div class="verify-modal" id="verify-modal" style="display: none;">
-    <div class="modal-content">
-      <i class="fas fa-envelope-circle-check"></i>
-      <p>We've sent a verification link to your email.<br>Please verify to activate your account.</p>
-
-      <button id="resend-verification-btn">Resend Email</button>
-      <p id="resend-confirm" class="verify-status-msg"></p>
-
-      <button id="close-verify-modal">Close</button>
+    <!-- Email Verification Modal -->
+    <div class="verify-modal" id="verify-modal">
+      <div class="modal-content">
+        <i class="fas fa-envelope"></i>
+        <p>Please verify your email address before continuing.</p>
+        <button onclick="resendVerification()">Resend Email</button>
+        <div class="verify-status-msg" id="verify-status-msg"></div>
+      </div>
     </div>
   </div>
 
-  <!-- Firebase Config & Auth -->
+  <!-- Firebase Config -->
   <script src="firebase-config.js"></script>
   <script src="auth.js"></script>
 
   <script>
-    let currentUser;
+    // Password visibility toggles
+    document.querySelectorAll(".toggle-password").forEach(icon => {
+      icon.addEventListener("click", () => {
+        const input = document.getElementById(icon.dataset.toggle);
+        const isVisible = input.type === "text";
+        input.type = isVisible ? "password" : "text";
+        icon.classList.toggle("fa-eye");
+        icon.classList.toggle("fa-eye-slash");
+      });
+    });
 
-    // Toggle password visibility
-    function toggleIcon(iconId, inputId) {
-      const icon = document.getElementById(iconId);
-      const input = document.getElementById(inputId);
-      const isVisible = input.type === "text";
-      input.type = isVisible ? "password" : "text";
-      icon.classList.toggle("fa-eye");
-      icon.classList.toggle("fa-eye-slash");
+    // Password match + strength check
+    const password = document.getElementById("password");
+    const confirm = document.getElementById("confirm-password");
+    const matchMsg = document.getElementById("match-msg");
+    const bar = document.getElementById("strength-bar").firstElementChild;
+
+    function checkStrength(pw) {
+      let score = 0;
+      if (pw.length >= 6) score++;
+      if (/[A-Z]/.test(pw)) score++;
+      if (/\d/.test(pw)) score++;
+      if (/[\W]/.test(pw)) score++;
+      return score;
     }
 
-    document.getElementById("togglePassword").addEventListener("click", () => {
-      toggleIcon("togglePassword", "password");
+    password.addEventListener("input", () => {
+      const strength = checkStrength(password.value);
+      const widths = ["0%", "25%", "50%", "75%", "100%"];
+      const colors = ["red", "orange", "yellow", "lightgreen", "green"];
+      bar.style.width = widths[strength];
+      bar.style.background = colors[strength];
     });
 
-    document.getElementById("toggleConfirmPassword").addEventListener("click", () => {
-      toggleIcon("toggleConfirmPassword", "confirm-password");
+    confirm.addEventListener("input", () => {
+      matchMsg.textContent = confirm.value === password.value ? "Passwords match" : "Passwords do not match";
+      matchMsg.style.color = confirm.value === password.value ? "#0f0" : "#f00";
     });
 
-    // Real-time match check
-    const passwordInput = document.getElementById("password");
-    const confirmInput = document.getElementById("confirm-password");
-    const matchMsg = document.getElementById("match-msg");
-
-    confirmInput.addEventListener("input", () => {
-      const pass = passwordInput.value;
-      const confirm = confirmInput.value;
-      if (confirm === pass) {
-        matchMsg.textContent = "Passwords match!";
-        matchMsg.style.color = "#0f0";
-      } else {
-        matchMsg.textContent = "Passwords do not match.";
-        matchMsg.style.color = "#f00";
-      }
-    });
-
-    // Password strength
-    const strengthBar = document.querySelector("#strength-bar span");
-    passwordInput.addEventListener("input", () => {
-      const val = passwordInput.value;
-      let strength = 0;
-      if (val.length > 5) strength++;
-      if (val.match(/[A-Z]/)) strength++;
-      if (val.match(/[0-9]/)) strength++;
-      if (val.match(/[^a-zA-Z0-9]/)) strength++;
-      const colors = ["#f00", "#f90", "#cc0", "#6f0", "#0f0"];
-      strengthBar.style.width = (strength / 4) * 100 + "%";
-      strengthBar.style.background = colors[strength];
-    });
-
-    // Signup & show verification modal
+    // Signup logic
     document.getElementById("signup-form").addEventListener("submit", async (e) => {
       e.preventDefault();
-      const email = e.target.email.value;
-      const password = e.target.password.value;
-      const confirmPassword = e.target.confirmPassword.value;
+      const email = document.getElementById("email").value.trim();
+      const pw = password.value;
+      const confirmPw = confirm.value;
 
-      if (password !== confirmPassword) {
-        alert("Passwords do not match!");
+      if (pw !== confirmPw) {
+        alert("Passwords do not match.");
         return;
       }
 
       try {
-        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-        currentUser = userCredential.user;
-
-        await currentUser.sendEmailVerification();
-
+        const userCred = await auth.createUserWithEmailAndPassword(email, pw);
+        await userCred.user.sendEmailVerification();
         document.getElementById("verify-modal").style.display = "flex";
-
-        // Optionally redirect after delay
-        // setTimeout(() => window.location.href = "index.html", 8000);
-      } catch (error) {
-        alert("Signup Error: " + error.message);
+      } catch (err) {
+        alert("Signup Error: " + err.message);
       }
     });
 
-    // Resend verification
-    document.getElementById("resend-verification-btn").addEventListener("click", async () => {
-      if (!currentUser) return;
-      try {
-        await currentUser.sendEmailVerification();
-        document.getElementById("resend-confirm").textContent = "Verification email sent again!";
-      } catch (error) {
-        document.getElementById("resend-confirm").textContent = "Error: " + error.message;
+    function resendVerification() {
+      const user = auth.currentUser;
+      if (user) {
+        user.sendEmailVerification().then(() => {
+          document.getElementById("verify-status-msg").textContent = "Verification email resent!";
+        });
       }
-    });
+    }
 
-    // Close modal
-    document.getElementById("close-verify-modal").addEventListener("click", () => {
-      document.getElementById("verify-modal").style.display = "none";
-    });
-
-    // Google login
-    function googleLogin() {
+    function googleSignup() {
       const provider = new firebase.auth.GoogleAuthProvider();
       auth.signInWithPopup(provider)
-        .then((result) => {
-          alert("Signed in as " + result.user.displayName);
+        .then(result => {
+          alert("Signed up as " + result.user.displayName);
           window.location.href = "index.html";
         })
-        .catch((error) => {
-          alert("Google login failed: " + error.message);
+        .catch(error => {
+          alert("Google Signup Failed: " + error.message);
         });
     }
   </script>
