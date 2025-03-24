@@ -1,5 +1,5 @@
 /* =====================
-  AUTH BASE STYLES
+  BASE AUTH PAGE
 ===================== */
 body.auth-body {
   background: #000;
@@ -14,7 +14,7 @@ body.auth-body {
 }
 
 /* =====================
-  CONTAINER
+  FORM CONTAINER
 ===================== */
 .ph-signup-container {
   width: 100%;
@@ -49,7 +49,7 @@ body.auth-body {
 }
 
 /* =====================
-  FORM STYLING
+  AUTH FORM
 ===================== */
 .ph-form {
   display: flex;
@@ -67,6 +67,9 @@ body.auth-body {
   font-size: 15px;
 }
 
+/* =====================
+  PASSWORD FIELD
+===================== */
 .password-wrapper {
   position: relative;
 }
@@ -128,6 +131,9 @@ body.auth-body {
   background: linear-gradient(135deg, #c166ff, #7a00ff);
 }
 
+/* =====================
+  GOOGLE BUTTON
+===================== */
 .ph-google-btn {
   background: #fff;
   color: #000;
@@ -148,7 +154,7 @@ body.auth-body {
 }
 
 /* =====================
-  LINKS
+  FOOTER LINKS
 ===================== */
 .ph-login-link,
 .ph-terms {
@@ -255,7 +261,7 @@ body.auth-body {
 }
 
 /* =====================
-  ANIMATION
+  ANIMATIONS
 ===================== */
 @keyframes popIn {
   from { transform: scale(0.8); opacity: 0; }
