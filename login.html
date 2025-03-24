@@ -5,7 +5,7 @@
   <title>Login</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
 
-  <!-- 🔗 Auth CSS -->
+  <!-- 🔗 Shared Auth CSS -->
   <link rel="stylesheet" href="auth.css" />
 
   <!-- 🔗 Firebase SDK -->
@@ -23,6 +23,7 @@
       <h2>Welcome Back</h2>
     </div>
 
+    <!-- 🔹 Login Form -->
     <form id="login-form" class="ph-form">
       <input type="email" name="email" placeholder="Email" required />
 
@@ -51,11 +52,12 @@
     </form>
 
     <!-- 🔹 Forgot Password Form -->
-    <div id="reset-password-form">
+    <div id="reset-password-form" class="forgot-form">
       <h3>Reset Password</h3>
       <input type="email" id="reset-email" placeholder="Enter your email" required />
       <button type="button" onclick="sendResetLink()">Send Reset Link</button>
-      <p><a href="#" onclick="hideResetForm()">Back to Login</a></p>
+      <p class="back-login"><a href="#" onclick="hideResetForm()">← Back to Login</a></p>
+      <p id="reset-status-msg"></p>
     </div>
   </div>
 
@@ -84,9 +86,9 @@
 
       try {
         if (remember) {
-          auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+          await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
         } else {
-          auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
+          await auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
         }
 
         await auth.signInWithEmailAndPassword(email, password);
@@ -109,27 +111,39 @@
         });
     }
 
-    // Forgot Password
+    // Show forgot password form
     function showResetForm() {
       document.querySelector("form").style.display = "none";
       document.getElementById("reset-password-form").style.display = "block";
+      document.getElementById("reset-status-msg").textContent = "";
     }
 
+    // Hide forgot password form
     function hideResetForm() {
       document.querySelector("form").style.display = "block";
       document.getElementById("reset-password-form").style.display = "none";
+      document.getElementById("reset-email").value = "";
     }
 
+    // Send Reset Email
     function sendResetLink() {
-      const email = document.getElementById("reset-email").value;
-      if (!email) return alert("Enter your email.");
-      auth.sendPasswordResetEmail(email)
+      const emailInput = document.getElementById("reset-email");
+      const msg = document.getElementById("reset-status-msg");
+
+      if (!emailInput.value.trim()) {
+        msg.textContent = "Please enter your email.";
+        msg.style.color = "#f00";
+        return;
+      }
+
+      auth.sendPasswordResetEmail(emailInput.value.trim())
         .then(() => {
-          alert("Reset email sent!");
-          hideResetForm();
+          msg.textContent = "Reset link sent! Check your inbox.";
+          msg.style.color = "#0f0";
         })
-        .catch(error => {
-          alert("Error: " + error.message);
+        .catch((error) => {
+          msg.textContent = error.message;
+          msg.style.color = "#f00";
         });
     }
   </script>
