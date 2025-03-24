@@ -1,5 +1,5 @@
 /* =====================
-  BASE AUTH PAGE
+  BASE PAGE STYLES
 ===================== */
 body.auth-body {
   background: #000;
@@ -18,53 +18,36 @@ body.auth-body {
 ===================== */
 .ph-signup-container {
   width: 100%;
-  max-width: 420px;
-  background: #1a1a1a;
-  border-radius: 16px;
-  overflow: hidden;
+  max-width: 400px;
+  background: #111;
+  border-radius: 12px;
+  padding: 30px 20px;
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
 }
 
 /* =====================
-  BANNER
+  FORM SHARED STYLES
 ===================== */
-.ph-banner {
-  position: relative;
-  text-align: center;
-}
-
-.ph-banner img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-}
-
-.ph-banner h2 {
-  position: absolute;
-  bottom: 15px;
-  left: 0;
-  right: 0;
-  font-size: 20px;
-  text-shadow: 0 0 5px #000;
-}
-
-/* =====================
-  AUTH FORM
-===================== */
-.ph-form {
+.ph-form,
+.forgot-form {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 20px;
+  gap: 15px;
 }
 
-.ph-form input {
+.ph-form input,
+.forgot-form input {
   background: #2c2c2c;
   border: none;
-  padding: 12px;
+  padding: 14px;
   border-radius: 8px;
   color: #fff;
   font-size: 15px;
+}
+
+.ph-form input::placeholder,
+.forgot-form input::placeholder {
+  color: #aaa;
 }
 
 /* =====================
@@ -84,13 +67,76 @@ body.auth-body {
 }
 
 /* =====================
-  PASSWORD MATCH + STRENGTH
+  PRIMARY BUTTON
 ===================== */
-.match-msg {
-  font-size: 13px;
-  margin: -5px 0 10px;
+.ph-btn,
+.forgot-submit {
+  background: #ffa31a;
+  color: #000;
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  text-align: center;
+  width: 100%;
 }
 
+.ph-btn:hover,
+.forgot-submit:hover {
+  background: #ffb845;
+}
+
+/* =====================
+  GOOGLE BUTTON
+===================== */
+.ph-google-btn {
+  background: #fff;
+  color: #000;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.ph-google-btn img {
+  width: 20px;
+  height: 20px;
+}
+
+/* =====================
+  LINK SECTIONS
+===================== */
+.ph-login-link,
+.ph-terms,
+.back-login {
+  font-size: 13px;
+  color: #ccc;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.ph-login-link a,
+.ph-terms a,
+.back-login a {
+  color: #ffa31a;
+  text-decoration: none;
+}
+
+.back-login a:hover {
+  text-decoration: underline;
+}
+
+/* =====================
+  PASSWORD STRENGTH (SIGNUP)
+===================== */
 .password-strength {
   display: flex;
   flex-direction: column;
@@ -113,58 +159,33 @@ body.auth-body {
   background: red;
 }
 
-/* =====================
-  BUTTONS
-===================== */
-.ph-btn {
-  background: linear-gradient(135deg, #7a00ff, #c166ff);
-  color: #fff;
-  padding: 12px;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.ph-btn:hover {
-  background: linear-gradient(135deg, #c166ff, #7a00ff);
-}
-
-.ph-google-btn {
-  background: #fff;
-  color: #000;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 10px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-}
-
-.ph-google-btn img {
-  width: 20px;
-  height: 20px;
-}
-
-/* =====================
-  FOOTER LINKS
-===================== */
-.ph-login-link,
-.ph-terms {
+.match-msg {
   font-size: 13px;
-  color: #aaa;
-  text-align: center;
-  margin-top: 10px;
+  margin: -5px 0 5px;
 }
 
-.ph-login-link a,
-.ph-terms a {
-  color: #ffa31a;
-  text-decoration: underline;
+/* =====================
+  FORGOT PASSWORD CUSTOM
+===================== */
+.forgot-heading {
+  font-size: 22px;
+  color: #fff;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.forgot-subtext {
+  font-size: 14px;
+  color: #ccc;
+  text-align: left;
+  margin-bottom: 15px;
+}
+
+#reset-status-msg {
+  font-size: 13px;
+  margin-top: 10px;
+  color: #0f0;
+  text-align: center;
 }
 
 /* =====================
@@ -215,69 +236,6 @@ body.auth-body {
 }
 
 .verify-status-msg {
-  font-size: 13px;
-  margin-top: 8px;
-  color: #0f0;
-}
-
-/* =====================
-  FORGOT PASSWORD
-===================== */
-.forgot-form {
-  display: none;
-  padding: 20px;
-  background: #111;
-  border-radius: 12px;
-  text-align: center;
-}
-
-.forgot-form h3 {
-  font-size: 18px;
-  margin-bottom: 15px;
-  color: #ffa31a;
-}
-
-.forgot-form input {
-  background: #2b2b2b;
-  padding: 12px;
-  width: 100%;
-  border: none;
-  color: #fff;
-  margin-bottom: 10px;
-  border-radius: 8px;
-  font-size: 14px;
-}
-
-.forgot-form button {
-  background: #ffa31a;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  color: #000;
-  font-weight: bold;
-  cursor: pointer;
-  width: 100%;
-  font-size: 15px;
-  margin-bottom: 10px;
-  transition: background 0.3s ease;
-}
-
-.forgot-form button:hover {
-  background: #ffbe4d;
-}
-
-.back-login {
-  font-size: 13px;
-  margin-top: 5px;
-}
-
-.back-login a {
-  color: #bbb;
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-#reset-status-msg {
   font-size: 13px;
   margin-top: 8px;
   color: #0f0;
