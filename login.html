@@ -4,20 +4,22 @@
   <meta charset="UTF-8" />
   <title>Login</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+
+  <!-- 🔗 Auth CSS -->
   <link rel="stylesheet" href="auth.css" />
 
-  <!-- Firebase -->
+  <!-- 🔗 Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 
-  <!-- FontAwesome -->
+  <!-- 🔗 FontAwesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
 </head>
-<body class="ph-auth-body">
+<body class="auth-body">
 
   <div class="ph-signup-container">
     <div class="ph-banner">
-      <img src="images/banner.jpg" alt="Login Banner" />
+      <img src="banner.jpg" alt="Login Banner" />
       <h2>Welcome Back</h2>
     </div>
 
@@ -29,17 +31,13 @@
         <i class="fas fa-eye-slash" id="togglePassword"></i>
       </div>
 
-      <div class="password-strength">
-        <label class="strength-label">Strength:</label>
-        <div id="strength-bar"><span></span></div>
-      </div>
-
-      <p style="text-align: right; font-size: 13px; margin-top: 5px;">
+      <p style="text-align: right; font-size: 13px; margin-top: -5px;">
         <a href="#" onclick="showResetForm()">Forgot Password?</a>
       </p>
 
-      <label style="font-size: 13px; margin-bottom: 10px;">
-        <input type="checkbox" name="remember" style="margin-right: 6px;" /> Remember Me
+      <label style="font-size: 13px;">
+        <input type="checkbox" id="rememberMe" style="margin-right: 6px;" />
+        Remember Me
       </label>
 
       <button type="submit" class="ph-btn">Login</button>
@@ -50,11 +48,10 @@
       </button>
 
       <p class="ph-login-link">Don't have an account? <a href="signup.html">Sign Up</a></p>
-      <p class="ph-terms">By logging in, you agree to our <a href="#">Terms and Conditions</a>.</p>
     </form>
 
-    <!-- Reset Password Form -->
-    <div id="reset-password-form" style="display: none;">
+    <!-- 🔹 Forgot Password Form -->
+    <div id="reset-password-form">
       <h3>Reset Password</h3>
       <input type="email" id="reset-email" placeholder="Enter your email" required />
       <button type="button" onclick="sendResetLink()">Send Reset Link</button>
@@ -62,34 +59,79 @@
     </div>
   </div>
 
+  <!-- Firebase Config -->
   <script src="firebase-config.js"></script>
   <script src="auth.js"></script>
+
   <script>
-    document.getElementById("togglePassword").addEventListener("click", function () {
+    // Toggle Password Visibility
+    document.getElementById("togglePassword").addEventListener("click", () => {
       const pass = document.getElementById("password");
       const type = pass.type === "password" ? "text" : "password";
       pass.type = type;
-      this.classList.toggle("fa-eye");
-      this.classList.toggle("fa-eye-slash");
+
+      const icon = document.getElementById("togglePassword");
+      icon.classList.toggle("fa-eye");
+      icon.classList.toggle("fa-eye-slash");
     });
 
-    // Password strength meter
-    const passwordInput = document.getElementById("password");
-    const strengthBar = document.querySelector("#strength-bar span");
+    // Firebase Login
+    document.getElementById("login-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = e.target.email.value;
+      const password = e.target.password.value;
+      const remember = document.getElementById("rememberMe").checked;
 
-    passwordInput.addEventListener("input", () => {
-      const val = passwordInput.value;
-      let strength = 0;
-      if (val.length > 5) strength++;
-      if (val.match(/[A-Z]/)) strength++;
-      if (val.match(/[0-9]/)) strength++;
-      if (val.match(/[^a-zA-Z0-9]/)) strength++;
+      try {
+        if (remember) {
+          auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+        } else {
+          auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
+        }
 
-      const colors = ["#f00", "#f90", "#cc0", "#6f0", "#0f0"];
-      const width = (strength / 4) * 100;
-      strengthBar.style.width = width + "%";
-      strengthBar.style.background = colors[strength];
+        await auth.signInWithEmailAndPassword(email, password);
+        window.location.href = "index.html";
+      } catch (error) {
+        alert("Login Error: " + error.message);
+      }
     });
+
+    // Google Login
+    function googleLogin() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      auth.signInWithPopup(provider)
+        .then(result => {
+          alert("Logged in as " + result.user.displayName);
+          window.location.href = "index.html";
+        })
+        .catch(error => {
+          alert("Google Login Failed: " + error.message);
+        });
+    }
+
+    // Forgot Password
+    function showResetForm() {
+      document.querySelector("form").style.display = "none";
+      document.getElementById("reset-password-form").style.display = "block";
+    }
+
+    function hideResetForm() {
+      document.querySelector("form").style.display = "block";
+      document.getElementById("reset-password-form").style.display = "none";
+    }
+
+    function sendResetLink() {
+      const email = document.getElementById("reset-email").value;
+      if (!email) return alert("Enter your email.");
+      auth.sendPasswordResetEmail(email)
+        .then(() => {
+          alert("Reset email sent!");
+          hideResetForm();
+        })
+        .catch(error => {
+          alert("Error: " + error.message);
+        });
+    }
   </script>
 </body>
 </html>
