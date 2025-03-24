@@ -5,14 +5,14 @@
   <title>Login</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
 
-  <!-- 🔗 Shared Auth CSS -->
+  <!-- Auth Styles -->
   <link rel="stylesheet" href="auth.css" />
 
-  <!-- 🔗 Firebase SDK -->
+  <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 
-  <!-- 🔗 FontAwesome -->
+  <!-- FontAwesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
 </head>
 <body class="auth-body">
@@ -23,41 +23,37 @@
       <h2>Welcome Back</h2>
     </div>
 
-    <!-- 🔹 Login Form -->
-    <form id="login-form" class="ph-form">
-      <input type="email" name="email" placeholder="Email" required />
+    <div id="form-wrapper">
+      <!-- Login Form -->
+      <form id="login-form" class="ph-form">
+        <input type="email" name="email" placeholder="Email" required />
+        <div class="password-wrapper">
+          <input type="password" name="password" id="password" placeholder="Password" required />
+          <i class="fas fa-eye-slash" id="togglePassword"></i>
+        </div>
+        <p style="text-align: right; font-size: 13px; margin-top: -5px;">
+          <a href="forgot-password.html" onclick="showResetForm()">Forgot Password?</a>
+        </p>
+        <label style="font-size: 13px;">
+          <input type="checkbox" id="rememberMe" style="margin-right: 6px;" />
+          Remember Me
+        </label>
+        <button type="submit" class="ph-btn">Login</button>
+        <button type="button" onclick="googleLogin()" class="ph-google-btn">
+          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" />
+          Login with Google
+        </button>
+        <p class="ph-login-link">Don't have an account? <a href="signup.html">Sign Up</a></p>
+      </form>
 
-      <div class="password-wrapper">
-        <input type="password" name="password" id="password" placeholder="Password" required />
-        <i class="fas fa-eye-slash" id="togglePassword"></i>
-      </div>
-
-      <p style="text-align: right; font-size: 13px; margin-top: -5px;">
-        <a href="#" onclick="showResetForm()">Forgot Password?</a>
-      </p>
-
-      <label style="font-size: 13px;">
-        <input type="checkbox" id="rememberMe" style="margin-right: 6px;" />
-        Remember Me
-      </label>
-
-      <button type="submit" class="ph-btn">Login</button>
-
-      <button type="button" onclick="googleLogin()" class="ph-google-btn">
-        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" />
-        Login with Google
-      </button>
-
-      <p class="ph-login-link">Don't have an account? <a href="signup.html">Sign Up</a></p>
-    </form>
-
-    <!-- 🔹 Forgot Password Form -->
-    <div id="reset-password-form" class="forgot-form">
-      <h3>Reset Password</h3>
-      <input type="email" id="reset-email" placeholder="Enter your email" required />
-      <button type="button" onclick="sendResetLink()">Send Reset Link</button>
-      <p class="back-login"><a href="#" onclick="hideResetForm()">← Back to Login</a></p>
-      <p id="reset-status-msg"></p>
+      <!-- Forgot Password Form -->
+      <form id="reset-password-form" class="forgot-form">
+        <h3>Reset Password</h3>
+        <input type="email" id="reset-email" placeholder="Enter your email" required />
+        <button type="submit">Send Reset Link</button>
+        <p id="reset-status-msg"></p>
+        <p class="back-login"><a href="#" onclick="showLoginForm()">← Back to Login</a></p>
+      </form>
     </div>
   </div>
 
@@ -66,18 +62,16 @@
   <script src="auth.js"></script>
 
   <script>
-    // Toggle Password Visibility
-    document.getElementById("togglePassword").addEventListener("click", () => {
-      const pass = document.getElementById("password");
-      const type = pass.type === "password" ? "text" : "password";
-      pass.type = type;
+    const togglePassword = document.getElementById("togglePassword");
+    const passwordInput = document.getElementById("password");
 
-      const icon = document.getElementById("togglePassword");
-      icon.classList.toggle("fa-eye");
-      icon.classList.toggle("fa-eye-slash");
+    togglePassword.addEventListener("click", () => {
+      const isVisible = passwordInput.type === "text";
+      passwordInput.type = isVisible ? "password" : "text";
+      togglePassword.classList.toggle("fa-eye");
+      togglePassword.classList.toggle("fa-eye-slash");
     });
 
-    // Firebase Login
     document.getElementById("login-form").addEventListener("submit", async (e) => {
       e.preventDefault();
       const email = e.target.email.value;
@@ -86,9 +80,9 @@
 
       try {
         if (remember) {
-          await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+          auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
         } else {
-          await auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
+          auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
         }
 
         await auth.signInWithEmailAndPassword(email, password);
@@ -98,7 +92,6 @@
       }
     });
 
-    // Google Login
     function googleLogin() {
       const provider = new firebase.auth.GoogleAuthProvider();
       auth.signInWithPopup(provider)
@@ -111,41 +104,46 @@
         });
     }
 
-    // Show forgot password form
     function showResetForm() {
-      document.querySelector("form").style.display = "none";
+      document.getElementById("login-form").style.display = "none";
       document.getElementById("reset-password-form").style.display = "block";
       document.getElementById("reset-status-msg").textContent = "";
-    }
-
-    // Hide forgot password form
-    function hideResetForm() {
-      document.querySelector("form").style.display = "block";
-      document.getElementById("reset-password-form").style.display = "none";
       document.getElementById("reset-email").value = "";
     }
 
-    // Send Reset Email
-    function sendResetLink() {
-      const emailInput = document.getElementById("reset-email");
+    function showLoginForm() {
+      document.getElementById("reset-password-form").style.display = "none";
+      document.getElementById("login-form").style.display = "block";
+
+      // Reset password field visibility if toggled before
+      if (passwordInput.type === "text") {
+        passwordInput.type = "password";
+        togglePassword.classList.add("fa-eye-slash");
+        togglePassword.classList.remove("fa-eye");
+      }
+    }
+
+    document.getElementById("reset-password-form").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const email = document.getElementById("reset-email").value.trim();
       const msg = document.getElementById("reset-status-msg");
 
-      if (!emailInput.value.trim()) {
-        msg.textContent = "Please enter your email.";
+      if (!email) {
+        msg.textContent = "Please enter your email address.";
         msg.style.color = "#f00";
         return;
       }
 
-      auth.sendPasswordResetEmail(emailInput.value.trim())
+      auth.sendPasswordResetEmail(email)
         .then(() => {
-          msg.textContent = "Reset link sent! Check your inbox.";
+          msg.textContent = "Password reset link sent! Check your inbox.";
           msg.style.color = "#0f0";
         })
         .catch((error) => {
           msg.textContent = error.message;
           msg.style.color = "#f00";
         });
-    }
+    });
   </script>
 </body>
 </html>
