@@ -14,7 +14,7 @@ body.auth-body {
 }
 
 /* =====================
-  FORM CONTAINER
+  CONTAINER
 ===================== */
 .ph-signup-container {
   width: 100%;
@@ -131,9 +131,6 @@ body.auth-body {
   background: linear-gradient(135deg, #c166ff, #7a00ff);
 }
 
-/* =====================
-  GOOGLE BUTTON
-===================== */
 .ph-google-btn {
   background: #fff;
   color: #000;
@@ -224,9 +221,9 @@ body.auth-body {
 }
 
 /* =====================
-  FORGOT PASSWORD FORM
+  FORGOT PASSWORD
 ===================== */
-#reset-password-form {
+.forgot-form {
   display: none;
   padding: 20px;
   background: #111;
@@ -234,7 +231,13 @@ body.auth-body {
   text-align: center;
 }
 
-#reset-password-form input {
+.forgot-form h3 {
+  font-size: 18px;
+  margin-bottom: 15px;
+  color: #ffa31a;
+}
+
+.forgot-form input {
   background: #2b2b2b;
   padding: 12px;
   width: 100%;
@@ -242,9 +245,10 @@ body.auth-body {
   color: #fff;
   margin-bottom: 10px;
   border-radius: 8px;
+  font-size: 14px;
 }
 
-#reset-password-form button {
+.forgot-form button {
   background: #ffa31a;
   border: none;
   padding: 10px 20px;
@@ -253,11 +257,30 @@ body.auth-body {
   font-weight: bold;
   cursor: pointer;
   width: 100%;
+  font-size: 15px;
+  margin-bottom: 10px;
+  transition: background 0.3s ease;
 }
 
-#reset-password-form p {
+.forgot-form button:hover {
+  background: #ffbe4d;
+}
+
+.back-login {
   font-size: 13px;
-  margin-top: 10px;
+  margin-top: 5px;
+}
+
+.back-login a {
+  color: #bbb;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+#reset-status-msg {
+  font-size: 13px;
+  margin-top: 8px;
+  color: #0f0;
 }
 
 /* =====================
@@ -278,7 +301,7 @@ body.auth-body {
   }
 
   .ph-form,
-  #reset-password-form {
+  .forgot-form {
     padding: 15px;
   }
 }
