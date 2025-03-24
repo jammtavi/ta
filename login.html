@@ -5,10 +5,10 @@
   <title>Login</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
 
-  <!-- Auth Styles -->
+  <!-- Styles -->
   <link rel="stylesheet" href="auth.css" />
 
-  <!-- Firebase SDK -->
+  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 
@@ -18,43 +18,48 @@
 <body class="auth-body">
 
   <div class="ph-signup-container">
-    <div class="ph-banner">
-      <img src="banner.jpg" alt="Login Banner" />
-      <h2>Welcome Back</h2>
+    <div style="text-align: center;">
+      <h1 style="color: #fff; font-size: 28px; margin-bottom: 0;">
+        <span style="color: white;">Porn</span><span style="color: #ffa31a; background: #ffa31a; color: #000; padding: 0 6px; border-radius: 4px;">hub</span>
+      </h1>
+      <h2 style="font-size: 22px; margin: 10px 0;">Member Sign in</h2>
+      <p style="font-size: 14px; color: #aaa; margin-bottom: 25px;">Access your account</p>
     </div>
 
-    <div id="form-wrapper">
-      <!-- Login Form -->
-      <form id="login-form" class="ph-form">
-        <input type="email" name="email" placeholder="Email" required />
-        <div class="password-wrapper">
-          <input type="password" name="password" id="password" placeholder="Password" required />
-          <i class="fas fa-eye-slash" id="togglePassword"></i>
-        </div>
-        <p style="text-align: right; font-size: 13px; margin-top: -5px;">
-          <a href="forgot-password.html" onclick="showResetForm()">Forgot Password?</a>
-        </p>
-        <label style="font-size: 13px;">
-          <input type="checkbox" id="rememberMe" style="margin-right: 6px;" />
-          Remember Me
-        </label>
-        <button type="submit" class="ph-btn">Login</button>
-        <button type="button" onclick="googleLogin()" class="ph-google-btn">
-          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" />
-          Login with Google
-        </button>
-        <p class="ph-login-link">Don't have an account? <a href="signup.html">Sign Up</a></p>
-      </form>
+    <!-- Login Form -->
+    <form id="login-form" class="ph-form">
+      <input type="email" name="email" placeholder="Email" required />
 
-      <!-- Forgot Password Form -->
-      <form id="reset-password-form" class="forgot-form">
-        <h3>Reset Password</h3>
-        <input type="email" id="reset-email" placeholder="Enter your email" required />
-        <button type="submit">Send Reset Link</button>
-        <p id="reset-status-msg"></p>
-        <p class="back-login"><a href="#" onclick="showLoginForm()">← Back to Login</a></p>
-      </form>
-    </div>
+      <div class="password-wrapper">
+        <input type="password" name="password" id="password" placeholder="Password" required />
+        <i class="fas fa-eye-slash" id="togglePassword"></i>
+      </div>
+
+      <button type="submit" class="ph-btn">Sign in</button>
+
+      <button type="button" onclick="googleLogin()" class="ph-google-btn">
+        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" />
+        Sign in with Google
+      </button>
+
+      <p class="ph-login-link">
+        Don't have an account yet? <a href="signup.html">Sign Up</a> here
+      </p>
+
+      <p style="text-align: center;">
+        <a href="forgot-password.html" onclick="showResetForm()" style="color: #ffa31a;">Forgot Password?</a>
+      </p>
+    </form>
+
+    <!-- Forgot Password Form -->
+    <form id="reset-password-form" class="forgot-form">
+      <h3 class="forgot-heading">Lost Password?</h3>
+      <p class="forgot-subtext">Please enter your email which you first registered with.</p>
+      <input type="email" id="reset-email" placeholder="Email" required />
+      <button type="submit" class="forgot-submit">Send Email</button>
+      <p id="reset-status-msg"></p>
+      <p class="back-login"><a href="#" onclick="showLoginForm()">← Back to Login</a></p>
+    </form>
   </div>
 
   <!-- Firebase Config -->
@@ -62,6 +67,7 @@
   <script src="auth.js"></script>
 
   <script>
+    // Toggle password visibility
     const togglePassword = document.getElementById("togglePassword");
     const passwordInput = document.getElementById("password");
 
@@ -72,26 +78,21 @@
       togglePassword.classList.toggle("fa-eye-slash");
     });
 
+    // Login with Firebase
     document.getElementById("login-form").addEventListener("submit", async (e) => {
       e.preventDefault();
       const email = e.target.email.value;
       const password = e.target.password.value;
-      const remember = document.getElementById("rememberMe").checked;
 
       try {
-        if (remember) {
-          auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-        } else {
-          auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
-        }
-
         await auth.signInWithEmailAndPassword(email, password);
         window.location.href = "index.html";
       } catch (error) {
-        alert("Login Error: " + error.message);
+        alert("Login failed: " + error.message);
       }
     });
 
+    // Google login
     function googleLogin() {
       const provider = new firebase.auth.GoogleAuthProvider();
       auth.signInWithPopup(provider)
@@ -100,10 +101,11 @@
           window.location.href = "index.html";
         })
         .catch(error => {
-          alert("Google Login Failed: " + error.message);
+          alert("Google login failed: " + error.message);
         });
     }
 
+    // Show/hide reset form
     function showResetForm() {
       document.getElementById("login-form").style.display = "none";
       document.getElementById("reset-password-form").style.display = "block";
@@ -115,7 +117,6 @@
       document.getElementById("reset-password-form").style.display = "none";
       document.getElementById("login-form").style.display = "block";
 
-      // Reset password field visibility if toggled before
       if (passwordInput.type === "text") {
         passwordInput.type = "password";
         togglePassword.classList.add("fa-eye-slash");
@@ -123,23 +124,24 @@
       }
     }
 
+    // Handle password reset
     document.getElementById("reset-password-form").addEventListener("submit", function (e) {
       e.preventDefault();
       const email = document.getElementById("reset-email").value.trim();
       const msg = document.getElementById("reset-status-msg");
 
       if (!email) {
-        msg.textContent = "Please enter your email address.";
+        msg.textContent = "Please enter your email.";
         msg.style.color = "#f00";
         return;
       }
 
       auth.sendPasswordResetEmail(email)
         .then(() => {
-          msg.textContent = "Password reset link sent! Check your inbox.";
+          msg.textContent = "Reset link sent! Check your inbox.";
           msg.style.color = "#0f0";
         })
-        .catch((error) => {
+        .catch(error => {
           msg.textContent = error.message;
           msg.style.color = "#f00";
         });
