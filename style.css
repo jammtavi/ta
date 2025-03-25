@@ -160,31 +160,33 @@ body.search-active {
 .recent-searches {
   width: 100%;
   max-width: 500px;
-  margin: 10px auto 0;
+  margin: 12px auto 0;
+  padding: 0 20px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   gap: 6px;
-  padding: 0 20px;
   font-size: 14px;
+  color: #ccc;
 }
 
 .recent-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: #ccc;
-  width: 100%;
   cursor: pointer;
+  color: #ccc;
+  transition: color 0.2s ease;
 }
 
-.recent-item .term {
-  flex: 1;
+.recent-item:hover {
+  color: #fff;
 }
 
 .recent-item .remove {
   margin-left: 10px;
-  color: #ff4444;
+  color: #f55;
+  font-weight: bold;
+  font-size: 16px;
   cursor: pointer;
 }
 
