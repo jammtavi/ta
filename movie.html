@@ -70,7 +70,7 @@
     <p>© 2025 Movie Download Hub. All Rights Reserved.</p>
   </footer>
 
-  <!-- Main Script -->
+  <!-- Script -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const urlParams = new URLSearchParams(window.location.search);
@@ -93,7 +93,7 @@
       sharePopup.innerHTML = `<p>Link copied ✅</p>`;
       document.body.appendChild(sharePopup);
 
-      // Load movie data
+      // Load movie
       let movies = JSON.parse(localStorage.getItem("movies") || "[]");
       if (!Array.isArray(movies) || movies.length === 0) {
         movies = [
@@ -134,11 +134,11 @@
         }
       };
 
-      // Action Buttons - Require login
+      // Require login
       function requireLogin(action) {
         const user = firebase.auth().currentUser;
         if (!user) {
-          window.location.href = "signup.html"; // Or show modal
+          window.location.href = "signup.html";
           return;
         }
         action();
