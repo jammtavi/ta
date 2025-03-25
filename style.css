@@ -157,6 +157,43 @@ body.search-active {
     transform: scale(1.05);
 }
 
+.recent-searches {
+  width: 100%;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 5px 0;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.recent-item {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 8px 12px;
+  border-radius: 8px;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.recent-item:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.recent-item .remove {
+  color: #f55;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+
 /* 🔹 Movie Grid */
 #movie-section {
     padding: 20px;
@@ -460,39 +497,4 @@ input:focus {
 
 button, a {
   -webkit-tap-highlight-color: transparent;
-}
-
-.recent-searches {
-  margin-top: 15px;
-  width: 100%;
-  max-height: 200px;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.recent-searches .recent-item {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 8px 12px;
-  border-radius: 8px;
-  color: #fff;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-.recent-searches .recent-item:hover {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.recent-searches .remove {
-  color: #f55;
-  font-weight: bold;
-  font-size: 16px;
-  cursor: pointer;
-  margin-left: 10px;
 }
