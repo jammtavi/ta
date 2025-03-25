@@ -14,7 +14,7 @@ body.auth-body {
 }
 
 /* =====================
-  CONTAINER BOX
+  FORM CONTAINER
 ===================== */
 .ph-signup-container {
   width: 100%;
@@ -46,7 +46,7 @@ body.auth-body {
 }
 
 /* =====================
-  FORM STYLES
+  FORM ELEMENTS
 ===================== */
 .ph-form,
 .forgot-form {
@@ -71,7 +71,7 @@ body.auth-body {
 }
 
 /* =====================
-  PASSWORD FIELD WRAPPER
+  PASSWORD FIELD ICON
 ===================== */
 .password-wrapper {
   position: relative;
@@ -110,7 +110,7 @@ body.auth-body {
 }
 
 /* =====================
-  GOOGLE SIGNUP
+  GOOGLE SIGNUP BUTTON
 ===================== */
 .ph-google-btn {
   background: #fff;
@@ -132,10 +132,9 @@ body.auth-body {
 }
 
 /* =====================
-  LINKS
+  LINK STYLING
 ===================== */
 .ph-login-link,
-.ph-terms,
 .back-login {
   font-size: 13px;
   color: #ccc;
@@ -144,7 +143,6 @@ body.auth-body {
 }
 
 .ph-login-link a,
-.ph-terms a,
 .back-login a {
   color: #ffa31a;
   text-decoration: none;
@@ -185,7 +183,7 @@ body.auth-body {
 }
 
 /* =====================
-  FORGOT PASSWORD
+  FORGOT PASSWORD STYLES
 ===================== */
 .forgot-heading {
   font-size: 22px;
@@ -212,12 +210,12 @@ body.auth-body {
   EMAIL VERIFICATION MODAL
 ===================== */
 .verify-modal {
-  display: none;
   position: fixed;
   top: 0; left: 0;
   width: 100vw;
   height: 100vh;
   background: rgba(0, 0, 0, 0.75);
+  display: none;
   align-items: center;
   justify-content: center;
   z-index: 9999;
@@ -289,51 +287,72 @@ body.auth-body {
 }
 
 /* =====================
-  EMAIL VERIFIED SCREEN
+  EMAIL VERIFIED PAGE (MODERN CARD)
 ===================== */
-.verify-success-modal {
+.email-verified-container {
+  background: #000;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #000;
-  height: 100vh;
   padding: 20px;
 }
 
-.verify-success-modal .verify-box {
+.verified-card {
   background: #111;
-  color: #fff;
-  padding: 30px;
-  border-radius: 12px;
+  border-radius: 14px;
+  padding: 30px 25px;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 0 15px rgba(255, 165, 0, 0.2);
   text-align: center;
-  max-width: 420px;
-  box-shadow: 0 0 20px rgba(255, 165, 0, 0.2);
 }
 
-.verify-success-modal h2 {
-  font-size: 22px;
+.icon-circle {
+  background: #ffa31a;
+  color: #000;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin: 0 auto 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+}
+
+.verified-card h2 {
   color: #ffa31a;
+  font-size: 22px;
   margin-bottom: 10px;
 }
 
-.verify-success-modal p {
-  font-size: 15px;
+.verified-card p {
+  font-size: 14px;
   color: #ccc;
   margin-bottom: 20px;
-  line-height: 1.6;
+  line-height: 1.5;
 }
 
-.verify-btn.close-window {
+.btn-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.verified-card button {
   background: #ffa31a;
-  border: none;
   color: #000;
-  font-weight: bold;
+  border: none;
   padding: 12px 20px;
-  border-radius: 8px;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: bold;
   cursor: pointer;
+  transition: background 0.3s ease;
 }
 
-.verify-btn.close-window:hover {
+.verified-card button:hover {
   background: #ffb84d;
 }
 
@@ -343,6 +362,21 @@ body.auth-body {
 @keyframes popIn {
   from { transform: scale(0.85); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-out both;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 /* =====================
