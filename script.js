@@ -50,21 +50,25 @@ document.addEventListener("DOMContentLoaded", () => {
     body.classList.add("search-active");
     searchOverlay.setAttribute("aria-hidden", "false");
     setTimeout(() => searchInput.focus(), 150);
-    history.pushState({ searchOpen: true }, ""); // add state
+    history.pushState({ searchOpen: true }, "");
   }
 
-  function closeSearch() {
+  function closeSearch(reset = true) {
     searchOverlay.classList.remove("active");
     body.classList.remove("search-active");
     searchOverlay.setAttribute("aria-hidden", "true");
-    searchInput.value = "";
-    renderMovies(storedMovies);
+
+    if (reset) {
+      searchInput.value = "";
+      renderMovies(storedMovies);
+    }
+
     if (window.history.state?.searchOpen) {
-      history.back(); // go back one state
+      history.back();
     }
   }
 
-  // 🔹 Search Functions
+  // 🔹 Search Logic
   function debounce(func, delay) {
     let timer;
     return function (...args) {
@@ -118,7 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // 🔹 Profile Dropdown Menu
+  // 🔹 Profile Dropdown
   let dropdownActive = false;
   profileIcon?.addEventListener("click", (e) => {
     dropdownActive = !dropdownActive;
@@ -137,7 +141,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Close on scroll
   let lastScrollY = window.scrollY;
   window.addEventListener("scroll", () => {
     if (Math.abs(window.scrollY - lastScrollY) > 30) {
@@ -155,45 +158,46 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 🔹 Search Events
   searchIcon?.addEventListener("click", openSearch);
-  cancelSearch?.addEventListener("click", closeSearch);
+  cancelSearch?.addEventListener("click", () => closeSearch(true));
   searchInput?.addEventListener("input", debouncedSearch);
 
-  // ENTER key triggers search
+  // ENTER key → search + close without reset
   searchInput?.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
       searchMovies();
+      closeSearch(false); // don't reset results
     }
   });
 
-  // ESC key closes search
+  // ESC key → close with reset
   window.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && searchOverlay.classList.contains("active")) {
-      closeSearch();
+      closeSearch(true);
     }
   });
 
-  // Click outside closes search
+  // Click outside → close with reset
   searchOverlay?.addEventListener("click", (e) => {
     if (!e.target.closest(".search-container")) {
-      closeSearch();
+      closeSearch(true);
     }
   });
 
-  // Back button support
+  // Back button → close
   window.addEventListener("popstate", (e) => {
     if (e.state?.searchOpen && searchOverlay.classList.contains("active")) {
-      closeSearch();
+      closeSearch(true);
     }
   });
 
-  // Initial movie render (only on homepage)
+  // Initial movie load
   if (movieGrid && !window.location.pathname.includes("movie.html")) {
     renderMovies(storedMovies);
   }
 });
 
-// 🔹 Global function for movie card click
+// 🔹 Global Function
 window.openMovieDetails = function (movieId) {
   window.location.href = `movie.html?id=${movieId}`;
 };
