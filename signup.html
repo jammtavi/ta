@@ -58,9 +58,21 @@
           Please check your inbox to continue.
         </p>
         <button onclick="resendVerification()" class="verify-btn resend">Resend email</button>
-        <button onclick="updateEmail()" class="verify-btn update">Update your email</button>
+        <button onclick="openUpdateEmail()" class="verify-btn update">Update your email</button>
         <button onclick="continueToApp()" class="verify-btn continue">Continue</button>
         <div class="verify-status-msg" id="verify-status-msg"></div>
+      </div>
+    </div>
+
+    <!-- 🔄 UPDATE EMAIL MODAL -->
+    <div class="verify-modal" id="update-email-modal" style="display: none;">
+      <div class="verify-box">
+        <h2>Update Email</h2>
+        <p>Enter a new email address below to resend verification:</p>
+        <input type="email" id="new-email" placeholder="New email" />
+        <button onclick="submitUpdatedEmail()" class="verify-btn resend">Update & Resend</button>
+        <button onclick="closeUpdateModal()" class="verify-btn update">Cancel</button>
+        <div class="verify-status-msg" id="update-status-msg"></div>
       </div>
     </div>
   </div>
@@ -68,18 +80,18 @@
   <!-- ✅ Firebase Config -->
   <script>
     const firebaseConfig = {
-      apiKey: "AIzaSyDpOnti9yv1DQa5mspgG02B_mPP4SruopM",
-      authDomain: "moviehub-3c7db.firebaseapp.com",
-      projectId: "moviehub-3c7db",
-      appId: "1:137910493083:web:a92dc3bc47ceedd3d1cb3e"
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      appId: "YOUR_APP_ID"
     };
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
   </script>
 
-  <!-- ✅ Signup JS Logic -->
+  <!-- ✅ Signup Logic -->
   <script>
-    // Password toggle
+    // Toggle password view
     document.querySelectorAll(".toggle-password").forEach(icon => {
       icon.addEventListener("click", () => {
         const input = document.getElementById(icon.dataset.toggle);
@@ -130,9 +142,9 @@
       try {
         const userCred = await auth.createUserWithEmailAndPassword(email, pw);
         await userCred.user.sendEmailVerification();
-
         document.getElementById("user-email").textContent = email;
         document.getElementById("verify-modal").style.display = "flex";
+        startEmailVerificationCheck();
       } catch (err) {
         alert("Signup Error: " + err.message);
       }
@@ -152,12 +164,59 @@
       }
     }
 
-    function updateEmail() {
-      alert("Redirect user to email update form or show modal.");
+    function startEmailVerificationCheck() {
+      const continueBtn = document.querySelector(".verify-btn.continue");
+      const interval = setInterval(async () => {
+        const user = auth.currentUser;
+        if (user) {
+          await user.reload();
+          if (user.emailVerified) {
+            continueBtn.style.pointerEvents = "auto";
+            continueBtn.style.opacity = "1";
+            clearInterval(interval);
+          }
+        }
+      }, 3000);
     }
 
     function continueToApp() {
-      window.location.href = "email-verified.html"; // 👈 go to modern confirmation screen
+      const user = auth.currentUser;
+      if (user && user.emailVerified) {
+        window.location.href = "email-verified.html";
+      } else {
+        alert("Please verify your email first.");
+      }
+    }
+
+    function openUpdateEmail() {
+      document.getElementById("update-email-modal").style.display = "flex";
+    }
+
+    function closeUpdateModal() {
+      document.getElementById("update-email-modal").style.display = "none";
+    }
+
+    async function submitUpdatedEmail() {
+      const newEmail = document.getElementById("new-email").value.trim();
+      const msg = document.getElementById("update-status-msg");
+      const user = auth.currentUser;
+
+      if (!newEmail) {
+        msg.textContent = "Please enter a valid email.";
+        msg.style.color = "#f00";
+        return;
+      }
+
+      try {
+        await user.updateEmail(newEmail);
+        await user.sendEmailVerification();
+        document.getElementById("user-email").textContent = newEmail;
+        msg.textContent = "Email updated & verification resent!";
+        msg.style.color = "#0f0";
+      } catch (error) {
+        msg.textContent = error.message;
+        msg.style.color = "#f00";
+      }
     }
 
     function googleSignup() {
@@ -171,6 +230,5 @@
         });
     }
   </script>
-
 </body>
 </html>
