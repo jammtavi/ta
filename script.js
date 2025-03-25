@@ -16,23 +16,23 @@ document.addEventListener("DOMContentLoaded", () => {
     const movies = [
       {
         id: "movie1",
-        title: "Movie 1",
-        description: "A thrilling movie experience.",
-        poster: "images/3-316-16-9-aspect-ratio-s-sfw-wallpaper-preview.jpg",
+        title: "Brazzers Hot Night",
+        description: "An intense adult film production.",
+        poster: "images/brazzers1.jpg",
         downloadLink: "https://example.com/download/movie1"
       },
       {
         id: "movie2",
-        title: "Movie 2",
-        description: "A breathtaking adventure.",
-        poster: "images/447d76a8817d3804243cd2bac16ac7be.jpg",
+        title: "Bang Bros Adventure",
+        description: "Ride along with the wildest.",
+        poster: "images/bangbros.jpg",
         downloadLink: "https://example.com/download/movie2"
       },
       {
         id: "movie3",
-        title: "Movie 3",
-        description: "A suspenseful mystery.",
-        poster: "images/3-316-16-9-aspect-ratio-s-sfw-wallpaper-preview.jpg",
+        title: "Brazzers College Fun",
+        description: "Steamy party at college dorm.",
+        poster: "images/brazzers2.jpg",
         downloadLink: "https://example.com/download/movie3"
       }
     ];
@@ -43,24 +43,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const storedMovies = fetchAndStoreMovies();
 
-  // 🔹 Search Functions
+  // 🔹 Open & Close Search
   function openSearch() {
     if (!searchOverlay || !searchInput) return;
     searchOverlay.classList.add("active");
     body.classList.add("search-active");
     searchOverlay.setAttribute("aria-hidden", "false");
     setTimeout(() => searchInput.focus(), 150);
+    history.pushState({ searchOpen: true }, ""); // add state
   }
 
   function closeSearch() {
-    if (!searchOverlay || !searchInput) return;
     searchOverlay.classList.remove("active");
     body.classList.remove("search-active");
     searchOverlay.setAttribute("aria-hidden", "true");
     searchInput.value = "";
     renderMovies(storedMovies);
+    if (window.history.state?.searchOpen) {
+      history.back(); // go back one state
+    }
   }
 
+  // 🔹 Search Logic
   function debounce(func, delay) {
     let timer;
     return function (...args) {
@@ -74,15 +78,16 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function searchMovies() {
-    let query = normalizeString(searchInput.value.trim());
+    const query = normalizeString(searchInput.value.trim());
     if (!query) {
       renderMovies(storedMovies);
       return;
     }
-    let filteredMovies = storedMovies.filter(movie =>
+
+    const filtered = storedMovies.filter(movie =>
       normalizeString(movie.title).includes(query)
     );
-    renderMovies(filteredMovies);
+    renderMovies(filtered);
   }
 
   const debouncedSearch = debounce(searchMovies, 250);
@@ -98,14 +103,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     movieList.forEach(movie => {
-      const movieCard = document.createElement("article");
-      movieCard.classList.add("movie-card");
-      movieCard.innerHTML = `
+      const card = document.createElement("article");
+      card.classList.add("movie-card");
+      card.innerHTML = `
         <img src="${movie.poster}" alt="${movie.title} Poster" loading="lazy" class="lazy-load">
         <h3>${movie.title}</h3>
       `;
-      movieCard.addEventListener("click", () => openMovieDetails(movie.id));
-      movieGrid.appendChild(movieCard);
+      card.addEventListener("click", () => openMovieDetails(movie.id));
+      movieGrid.appendChild(card);
     });
 
     document.querySelectorAll(".lazy-load").forEach(img => {
@@ -113,12 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // 🔹 Navigate to Movie Page
-  window.openMovieDetails = function (movieId) {
-    window.location.href = `movie.html?id=${movieId}`;
-  };
-
-  // 🔹 Movie Details Page Handling
+  // 🔹 Movie Details Page Handler
   if (window.location.pathname.includes("movie.html")) {
     const urlParams = new URLSearchParams(window.location.search);
     const movieId = urlParams.get("id");
@@ -130,43 +130,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const movie = movies.find(m => m.id === movieId);
     if (movie) {
-      setMovieDetails(movie);
+      document.getElementById("movie-title").textContent = movie.title;
+      document.getElementById("movie-description").textContent = movie.description;
+      const poster = document.getElementById("movie-poster");
+      poster.src = movie.poster;
+      poster.alt = `${movie.title} Poster`;
+      const download = document.getElementById("download-button");
+      download.href = movie.downloadLink;
+      document.title = `${movie.title} - Movie Details`;
     } else {
-      handleMovieNotFound();
+      const error = document.getElementById("error-message");
+      if (error) error.style.display = "block";
+      setTimeout(() => window.location.href = "index.html", 2000);
     }
   }
 
-  function setMovieDetails(movie) {
-    document.getElementById("movie-title").textContent = movie.title;
-    document.getElementById("movie-description").textContent = movie.description;
-
-    const moviePoster = document.getElementById("movie-poster");
-    moviePoster.src = movie.poster;
-    moviePoster.alt = `${movie.title} Poster`;
-
-    document.title = `${movie.title} - Movie Details`;
-
-    const downloadButton = document.getElementById("download-button");
-    if (movie.downloadLink) {
-      downloadButton.href = movie.downloadLink;
-      downloadButton.style.display = "inline-block";
-    } else {
-      downloadButton.style.display = "none";
-    }
-  }
-
-  function handleMovieNotFound() {
-    const error = document.getElementById("error-message");
-    if (error) error.style.display = "block";
-
-    setTimeout(() => {
-      window.location.href = "index.html";
-    }, 2000);
-  }
-
-  // 🔹 Go Back Button Logic
+  // 🔹 Go Back Logic
   window.goBack = function () {
-    if (document.referrer && document.referrer.includes(window.location.hostname)) {
+    if (document.referrer.includes(window.location.hostname)) {
       window.history.back();
     } else {
       window.location.href = "index.html";
@@ -175,17 +156,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 🔹 Profile Dropdown
   let dropdownActive = false;
-
-  profileIcon?.addEventListener("click", (event) => {
+  profileIcon?.addEventListener("click", (e) => {
     dropdownActive = !dropdownActive;
     profileMenu.classList.toggle("active", dropdownActive);
     profileMenu.setAttribute("aria-hidden", !dropdownActive);
     profileMenu.setAttribute("aria-expanded", dropdownActive);
-    event.stopPropagation();
+    e.stopPropagation();
   });
 
-  document.addEventListener("click", (event) => {
-    if (!profileIcon?.contains(event.target) && !profileMenu?.contains(event.target)) {
+  document.addEventListener("click", (e) => {
+    if (!profileIcon?.contains(e.target) && !profileMenu?.contains(e.target)) {
       profileMenu?.classList.remove("active");
       profileMenu?.setAttribute("aria-hidden", "true");
       profileMenu?.setAttribute("aria-expanded", "false");
@@ -208,11 +188,41 @@ document.addEventListener("DOMContentLoaded", () => {
     profileMenu.style.visibility = profileMenu.classList.contains("active") ? "visible" : "hidden";
   });
 
-  // 🔹 Event Listeners
+  // 🔹 Search Events
   searchIcon?.addEventListener("click", openSearch);
   cancelSearch?.addEventListener("click", closeSearch);
   searchInput?.addEventListener("input", debouncedSearch);
 
+  // Press Enter to search
+  searchInput?.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      searchMovies();
+    }
+  });
+
+  // ESC to close search
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && searchOverlay.classList.contains("active")) {
+      closeSearch();
+    }
+  });
+
+  // Click outside search container closes it
+  searchOverlay?.addEventListener("click", (e) => {
+    if (!e.target.closest(".search-container")) {
+      closeSearch();
+    }
+  });
+
+  // Back button support
+  window.addEventListener("popstate", (e) => {
+    if (e.state?.searchOpen && searchOverlay.classList.contains("active")) {
+      closeSearch();
+    }
+  });
+
+  // Initial render (on homepage only)
   if (movieGrid && !window.location.pathname.includes("movie.html")) {
     renderMovies(storedMovies);
   }
