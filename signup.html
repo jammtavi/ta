@@ -7,20 +7,20 @@
 
   <!-- Styles -->
   <link rel="stylesheet" href="auth.css" />
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-
-  <!-- FontAwesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
 </head>
 <body class="auth-body">
 
   <div class="ph-signup-container">
+    <button class="close-btn" onclick="closeModal()">×</button>
+
     <div style="text-align: center;">
       <h1 style="color: #fff; font-size: 28px; margin-bottom: 0;">
-        <span style="color: white;">Porn</span><span style="color: #ffa31a; background: #ffa31a; color: #000; padding: 0 6px; border-radius: 4px;">hub</span>
+        <span style="color: white;">Corn</span><span style="color: #ffa31a; background: #ffa31a; color: #000; padding: 0 6px; border-radius: 4px;">Hub</span>
       </h1>
       <h2 style="font-size: 22px; margin: 10px 0;">Sign Up for Free</h2>
     </div>
@@ -58,10 +58,18 @@
 
     <!-- Email Verification Modal -->
     <div class="verify-modal" id="verify-modal">
-      <div class="modal-content">
-        <i class="fas fa-envelope"></i>
-        <p>Please verify your email address before continuing.</p>
-        <button onclick="resendVerification()">Resend Email</button>
+      <div class="verify-box">
+        <h2>Verify your email</h2>
+        <p>
+          To proceed, you must verify your email address.<br>
+          We've sent a verification email to <strong id="user-email"></strong>.<br>
+          Please check your inbox.
+        </p>
+
+        <button onclick="resendVerification()" class="verify-btn resend">Resend email</button>
+        <button onclick="updateEmail()" class="verify-btn update">Update your email</button>
+        <button onclick="continueToApp()" class="verify-btn continue">Continue</button>
+
         <div class="verify-status-msg" id="verify-status-msg"></div>
       </div>
     </div>
@@ -72,7 +80,12 @@
   <script src="auth.js"></script>
 
   <script>
-    // Password visibility toggles
+    // Close modal
+    function closeModal() {
+      window.location.href = "index.html";
+    }
+
+    // Toggle password visibility
     document.querySelectorAll(".toggle-password").forEach(icon => {
       icon.addEventListener("click", () => {
         const input = document.getElementById(icon.dataset.toggle);
@@ -83,7 +96,7 @@
       });
     });
 
-    // Password match + strength check
+    // Strength and match
     const password = document.getElementById("password");
     const confirm = document.getElementById("confirm-password");
     const matchMsg = document.getElementById("match-msg");
@@ -111,7 +124,7 @@
       matchMsg.style.color = confirm.value === password.value ? "#0f0" : "#f00";
     });
 
-    // Signup logic
+    // Signup
     document.getElementById("signup-form").addEventListener("submit", async (e) => {
       e.preventDefault();
       const email = document.getElementById("email").value.trim();
@@ -126,6 +139,8 @@
       try {
         const userCred = await auth.createUserWithEmailAndPassword(email, pw);
         await userCred.user.sendEmailVerification();
+
+        document.getElementById("user-email").textContent = userCred.user.email;
         document.getElementById("verify-modal").style.display = "flex";
       } catch (err) {
         alert("Signup Error: " + err.message);
@@ -134,11 +149,24 @@
 
     function resendVerification() {
       const user = auth.currentUser;
+      const msg = document.getElementById("verify-status-msg");
       if (user) {
         user.sendEmailVerification().then(() => {
-          document.getElementById("verify-status-msg").textContent = "Verification email resent!";
+          msg.textContent = "Verification email resent!";
+          msg.style.color = "#0f0";
+        }).catch(err => {
+          msg.textContent = err.message;
+          msg.style.color = "#f00";
         });
       }
+    }
+
+    function updateEmail() {
+      alert("You can add update email functionality here.");
+    }
+
+    function continueToApp() {
+      alert("Redirect user to homepage after checking verification.");
     }
 
     function googleSignup() {
@@ -153,5 +181,6 @@
         });
     }
   </script>
+
 </body>
 </html>
