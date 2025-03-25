@@ -1,5 +1,5 @@
 /* =====================
-  BASE PAGE STYLES
+  GLOBAL LAYOUT
 ===================== */
 body.auth-body {
   background: #000;
@@ -14,7 +14,7 @@ body.auth-body {
 }
 
 /* =====================
-  CONTAINER
+  CONTAINER BOX
 ===================== */
 .ph-signup-container {
   width: 100%;
@@ -23,10 +23,30 @@ body.auth-body {
   border-radius: 12px;
   padding: 30px 20px;
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+  position: relative;
 }
 
 /* =====================
-  FORMS
+  CLOSE (X) BUTTON
+===================== */
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #aaa;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.close-btn:hover {
+  color: #fff;
+}
+
+/* =====================
+  FORM STYLES
 ===================== */
 .ph-form,
 .forgot-form {
@@ -51,7 +71,7 @@ body.auth-body {
 }
 
 /* =====================
-  PASSWORD FIELD
+  PASSWORD FIELD WRAPPER
 ===================== */
 .password-wrapper {
   position: relative;
@@ -67,7 +87,7 @@ body.auth-body {
 }
 
 /* =====================
-  BUTTONS
+  PRIMARY BUTTONS
 ===================== */
 .ph-btn,
 .forgot-submit {
@@ -90,7 +110,7 @@ body.auth-body {
 }
 
 /* =====================
-  GOOGLE BUTTON
+  GOOGLE SIGNUP
 ===================== */
 .ph-google-btn {
   background: #fff;
@@ -112,7 +132,7 @@ body.auth-body {
 }
 
 /* =====================
-  LINKS & TEXT
+  LINKS
 ===================== */
 .ph-login-link,
 .ph-terms,
@@ -165,7 +185,7 @@ body.auth-body {
 }
 
 /* =====================
-  FORGOT PASSWORD HEADINGS
+  FORGOT PASSWORD
 ===================== */
 .forgot-heading {
   font-size: 22px;
@@ -194,7 +214,8 @@ body.auth-body {
 .verify-modal {
   position: fixed;
   top: 0; left: 0;
-  width: 100vw; height: 100vh;
+  width: 100vw;
+  height: 100vh;
   background: rgba(0, 0, 0, 0.75);
   display: none;
   align-items: center;
@@ -202,50 +223,125 @@ body.auth-body {
   z-index: 9999;
 }
 
-.verify-modal .modal-content {
-  background: #1f1f1f;
+.verify-box {
+  background: #111;
+  color: #fff;
   padding: 30px;
-  border-radius: 10px;
+  border-radius: 12px;
   text-align: center;
-  color: #ffa31a;
-  font-size: 16px;
-  max-width: 400px;
+  width: 90%;
+  max-width: 420px;
   animation: popIn 0.3s ease;
+  box-shadow: 0 0 20px rgba(255, 165, 0, 0.2);
 }
 
-.verify-modal i {
-  font-size: 36px;
+.verify-box h2 {
+  font-size: 20px;
+  color: #ffa31a;
+  margin-bottom: 15px;
+}
+
+.verify-box p {
+  font-size: 14px;
+  color: #ccc;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.verify-box strong {
+  color: #fff;
+}
+
+.verify-btn {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  font-size: 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+  font-weight: bold;
+}
+
+.verify-btn.resend {
+  background: #ffa31a;
+  color: #000;
+}
+
+.verify-btn.update {
+  background: transparent;
+  border: 1px solid #555;
+  color: #ccc;
+}
+
+.verify-btn.continue {
+  background: #222;
+  color: #999;
+  font-weight: normal;
+  pointer-events: none;
+}
+
+.verify-status-msg {
+  margin-top: 10px;
+  font-size: 13px;
+  color: #0f0;
+}
+
+/* =====================
+  EMAIL VERIFIED SCREEN
+===================== */
+.verify-success-modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #000;
+  height: 100vh;
+  padding: 20px;
+}
+
+.verify-success-modal .verify-box {
+  background: #111;
+  color: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 420px;
+  box-shadow: 0 0 20px rgba(255, 165, 0, 0.2);
+}
+
+.verify-success-modal h2 {
+  font-size: 22px;
   color: #ffa31a;
   margin-bottom: 10px;
 }
 
-.verify-modal button {
+.verify-success-modal p {
+  font-size: 15px;
+  color: #ccc;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.verify-btn.close-window {
   background: #ffa31a;
   border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
   color: #000;
-  margin-top: 10px;
-  transition: background 0.3s ease;
+  font-weight: bold;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
 }
 
-.verify-modal button:hover {
-  background: #ffbe4d;
-}
-
-.verify-status-msg {
-  font-size: 13px;
-  margin-top: 8px;
-  color: #0f0;
+.verify-btn.close-window:hover {
+  background: #ffb84d;
 }
 
 /* =====================
   ANIMATIONS
 ===================== */
 @keyframes popIn {
-  from { transform: scale(0.8); opacity: 0; }
+  from { transform: scale(0.85); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
 
@@ -261,5 +357,9 @@ body.auth-body {
   .ph-form,
   .forgot-form {
     padding: 15px;
+  }
+
+  .verify-box {
+    padding: 20px;
   }
 }
