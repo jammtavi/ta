@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const searchOverlay = document.getElementById("search-overlay");
   const cancelSearch = document.getElementById("cancel-search");
   const searchInput = document.getElementById("search");
+  const recentContainer = document.getElementById("recent-searches");
   const movieGrid = document.getElementById("movie-grid");
   const body = document.body;
   const profileIcon = document.getElementById("profile-icon");
@@ -43,32 +44,59 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const storedMovies = fetchAndStoreMovies();
 
-  // 🔹 Open & Close Search Overlay
-  function openSearch() {
-    if (!searchOverlay || !searchInput) return;
-    searchOverlay.classList.add("active");
-    body.classList.add("search-active");
-    searchOverlay.setAttribute("aria-hidden", "false");
-    setTimeout(() => searchInput.focus(), 150);
-    history.pushState({ searchOpen: true }, "");
+  // 🔹 Search Helpers
+  function getRecentSearches() {
+    return JSON.parse(localStorage.getItem("recentSearches") || "[]");
   }
 
-  function closeSearch(reset = true) {
-    searchOverlay.classList.remove("active");
-    body.classList.remove("search-active");
-    searchOverlay.setAttribute("aria-hidden", "true");
-
-    if (reset) {
-      searchInput.value = "";
-      renderMovies(storedMovies);
-    }
-
-    if (window.history.state?.searchOpen) {
-      history.back();
-    }
+  function saveRecentSearch(term) {
+    if (!term) return;
+    let history = getRecentSearches();
+    history = history.filter(item => item !== term);
+    history.unshift(term);
+    if (history.length > 8) history.pop();
+    localStorage.setItem("recentSearches", JSON.stringify(history));
+    renderRecentSearches();
   }
 
-  // 🔹 Search Logic
+  function deleteRecentSearch(term) {
+    let history = getRecentSearches();
+    history = history.filter(item => item !== term);
+    localStorage.setItem("recentSearches", JSON.stringify(history));
+    renderRecentSearches();
+  }
+
+  function renderRecentSearches() {
+    if (!recentContainer) return;
+    const history = getRecentSearches();
+    recentContainer.innerHTML = "";
+
+    if (history.length === 0) return;
+
+    history.forEach(term => {
+      const item = document.createElement("div");
+      item.className = "recent-item";
+      item.innerHTML = `
+        <span class="term">${term}</span>
+        <span class="remove" title="Remove">×</span>
+      `;
+
+      item.querySelector(".term").addEventListener("click", () => {
+        searchInput.value = term;
+        searchMovies();
+        closeSearch(false);
+      });
+
+      item.querySelector(".remove").addEventListener("click", (e) => {
+        e.stopPropagation();
+        deleteRecentSearch(term);
+      });
+
+      recentContainer.appendChild(item);
+    });
+  }
+
+  // 🔹 Search Functions
   function debounce(func, delay) {
     let timer;
     return function (...args) {
@@ -96,7 +124,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const debouncedSearch = debounce(searchMovies, 250);
 
-  // 🔹 Render Movie Cards
+  // 🔹 Open / Close Search
+  function openSearch() {
+    searchOverlay.classList.add("active");
+    body.classList.add("search-active");
+    searchOverlay.setAttribute("aria-hidden", "false");
+    setTimeout(() => searchInput.focus(), 150);
+    renderRecentSearches();
+    history.pushState({ searchOpen: true }, "");
+  }
+
+  function closeSearch(reset = true) {
+    searchOverlay.classList.remove("active");
+    body.classList.remove("search-active");
+    searchOverlay.setAttribute("aria-hidden", "true");
+
+    if (reset) {
+      searchInput.value = "";
+      renderMovies(storedMovies);
+    }
+
+    if (window.history.state?.searchOpen) {
+      history.back();
+    }
+  }
+
+  // 🔹 Render Movies
   function renderMovies(movieList) {
     if (!movieGrid) return;
     movieGrid.innerHTML = "";
@@ -156,48 +209,50 @@ document.addEventListener("DOMContentLoaded", () => {
     profileMenu.style.visibility = profileMenu.classList.contains("active") ? "visible" : "hidden";
   });
 
-  // 🔹 Search Events
+  // 🔹 Events
   searchIcon?.addEventListener("click", openSearch);
   cancelSearch?.addEventListener("click", () => closeSearch(true));
   searchInput?.addEventListener("input", debouncedSearch);
 
-  // ENTER key → search + close without reset
+  // Enter key triggers search + saves term
   searchInput?.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
+      const query = searchInput.value.trim();
       searchMovies();
-      closeSearch(false); // don't reset results
+      saveRecentSearch(query);
+      closeSearch(false);
     }
   });
 
-  // ESC key → close with reset
+  // ESC key closes search + resets
   window.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && searchOverlay.classList.contains("active")) {
       closeSearch(true);
     }
   });
 
-  // Click outside → close with reset
+  // Click outside closes + resets
   searchOverlay?.addEventListener("click", (e) => {
     if (!e.target.closest(".search-container")) {
       closeSearch(true);
     }
   });
 
-  // Back button → close
+  // Back button support
   window.addEventListener("popstate", (e) => {
     if (e.state?.searchOpen && searchOverlay.classList.contains("active")) {
       closeSearch(true);
     }
   });
 
-  // Initial movie load
+  // Initial load
   if (movieGrid && !window.location.pathname.includes("movie.html")) {
     renderMovies(storedMovies);
   }
 });
 
-// 🔹 Global Function
+// 🔹 Global
 window.openMovieDetails = function (movieId) {
   window.location.href = `movie.html?id=${movieId}`;
 };
