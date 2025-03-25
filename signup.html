@@ -60,7 +60,7 @@
         <button onclick="resendVerification()" class="verify-btn resend">Resend email</button>
         <button onclick="openUpdateEmail()" class="verify-btn update">Update your email</button>
         <button onclick="continueToApp()" class="verify-btn continue">Continue</button>
-        <div class="verify-status-msg" id="verify-status-msg"></div>
+        <div class="verify-status-msg" id="verify-status-msg" aria-live="polite"></div>
       </div>
     </div>
 
@@ -72,7 +72,7 @@
         <input type="email" id="new-email" placeholder="New email" />
         <button onclick="submitUpdatedEmail()" class="verify-btn resend">Update & Resend</button>
         <button onclick="closeUpdateModal()" class="verify-btn update">Cancel</button>
-        <div class="verify-status-msg" id="update-status-msg"></div>
+        <div class="verify-status-msg" id="update-status-msg" aria-live="polite"></div>
       </div>
     </div>
   </div>
@@ -81,8 +81,8 @@
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyDpOnti9yv1DQa5mspgG02B_mPP4SruopM",
-  authDomain: "moviehub-3c7db.firebaseapp.com",
-  projectId: "moviehub-3c7db",
+      authDomain: "moviehub-3c7db.firebaseapp.com",
+      projectId: "moviehub-3c7db",
       appId: "1:137910493083:web:a92dc3bc47ceedd3d1cb3e"
     };
     firebase.initializeApp(firebaseConfig);
