@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const storedMovies = fetchAndStoreMovies();
 
-  // 🔹 Open & Close Search
+  // 🔹 Open & Close Search Overlay
   function openSearch() {
     if (!searchOverlay || !searchInput) return;
     searchOverlay.classList.add("active");
@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // 🔹 Search Logic
+  // 🔹 Search Functions
   function debounce(func, delay) {
     let timer;
     return function (...args) {
@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const debouncedSearch = debounce(searchMovies, 250);
 
-  // 🔹 Render Movies
+  // 🔹 Render Movie Cards
   function renderMovies(movieList) {
     if (!movieGrid) return;
     movieGrid.innerHTML = "";
@@ -118,43 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // 🔹 Movie Details Page Handler
-  if (window.location.pathname.includes("movie.html")) {
-    const urlParams = new URLSearchParams(window.location.search);
-    const movieId = urlParams.get("id");
-
-    let movies = JSON.parse(localStorage.getItem("movies") || "[]");
-    if (!Array.isArray(movies) || movies.length === 0) {
-      movies = fetchAndStoreMovies();
-    }
-
-    const movie = movies.find(m => m.id === movieId);
-    if (movie) {
-      document.getElementById("movie-title").textContent = movie.title;
-      document.getElementById("movie-description").textContent = movie.description;
-      const poster = document.getElementById("movie-poster");
-      poster.src = movie.poster;
-      poster.alt = `${movie.title} Poster`;
-      const download = document.getElementById("download-button");
-      download.href = movie.downloadLink;
-      document.title = `${movie.title} - Movie Details`;
-    } else {
-      const error = document.getElementById("error-message");
-      if (error) error.style.display = "block";
-      setTimeout(() => window.location.href = "index.html", 2000);
-    }
-  }
-
-  // 🔹 Go Back Logic
-  window.goBack = function () {
-    if (document.referrer.includes(window.location.hostname)) {
-      window.history.back();
-    } else {
-      window.location.href = "index.html";
-    }
-  };
-
-  // 🔹 Profile Dropdown
+  // 🔹 Profile Dropdown Menu
   let dropdownActive = false;
   profileIcon?.addEventListener("click", (e) => {
     dropdownActive = !dropdownActive;
@@ -173,6 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // Close on scroll
   let lastScrollY = window.scrollY;
   window.addEventListener("scroll", () => {
     if (Math.abs(window.scrollY - lastScrollY) > 30) {
@@ -193,7 +158,7 @@ document.addEventListener("DOMContentLoaded", () => {
   cancelSearch?.addEventListener("click", closeSearch);
   searchInput?.addEventListener("input", debouncedSearch);
 
-  // Press Enter to search
+  // ENTER key triggers search
   searchInput?.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -201,14 +166,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // ESC to close search
+  // ESC key closes search
   window.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && searchOverlay.classList.contains("active")) {
       closeSearch();
     }
   });
 
-  // Click outside search container closes it
+  // Click outside closes search
   searchOverlay?.addEventListener("click", (e) => {
     if (!e.target.closest(".search-container")) {
       closeSearch();
@@ -222,8 +187,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Initial render (on homepage only)
+  // Initial movie render (only on homepage)
   if (movieGrid && !window.location.pathname.includes("movie.html")) {
     renderMovies(storedMovies);
   }
 });
+
+// 🔹 Global function for movie card click
+window.openMovieDetails = function (movieId) {
+  window.location.href = `movie.html?id=${movieId}`;
+};
