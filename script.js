@@ -3,75 +3,87 @@ document.addEventListener("DOMContentLoaded", () => {
   const searchOverlay = document.getElementById("search-overlay");
   const cancelSearch = document.getElementById("cancel-search");
   const searchInput = document.getElementById("search");
-  const recentContainer = document.getElementById("recent-searches");
   const movieGrid = document.getElementById("movie-grid");
   const body = document.body;
   const profileIcon = document.getElementById("profile-icon");
   const profileMenu = document.getElementById("profile-menu");
+  const recentSearchesContainer = document.getElementById("recent-searches");
 
-  // 🔹 Fetch or Initialize Movies
+  // Initialize movies
   function fetchAndStoreMovies() {
-    const existingMovies = localStorage.getItem("movies");
-    if (existingMovies) return JSON.parse(existingMovies);
+    const existing = localStorage.getItem("movies");
+    if (existing) return JSON.parse(existing);
 
     const movies = [
-      {
-        id: "movie1",
-        title: "Brazzers Hot Night",
-        description: "An intense adult film production.",
-        poster: "images/brazzers1.jpg",
-        downloadLink: "https://example.com/download/movie1"
-      },
-      {
-        id: "movie2",
-        title: "Bang Bros Adventure",
-        description: "Ride along with the wildest.",
-        poster: "images/bangbros.jpg",
-        downloadLink: "https://example.com/download/movie2"
-      },
-      {
-        id: "movie3",
-        title: "Brazzers College Fun",
-        description: "Steamy party at college dorm.",
-        poster: "images/brazzers2.jpg",
-        downloadLink: "https://example.com/download/movie3"
-      }
+      { id: "movie1", title: "Brazzers Movie 1", description: "Adult film 1", poster: "images/poster1.jpg", downloadLink: "https://example.com/1" },
+      { id: "movie2", title: "Brazzers Movie 2", description: "Adult film 2", poster: "images/poster2.jpg", downloadLink: "https://example.com/2" },
+      { id: "movie3", title: "BangBros Movie", description: "Hot release", poster: "images/poster3.jpg", downloadLink: "https://example.com/3" }
     ];
-
     localStorage.setItem("movies", JSON.stringify(movies));
     return movies;
   }
 
   const storedMovies = fetchAndStoreMovies();
 
-  // 🔹 Search Helpers
-  function getRecentSearches() {
-    return JSON.parse(localStorage.getItem("recentSearches") || "[]");
+  // Render all movies
+  function renderMovies(list) {
+    if (!movieGrid) return;
+    movieGrid.innerHTML = "";
+
+    if (!list.length) {
+      movieGrid.innerHTML = `<p class="loading-text">No movies found.</p>`;
+      return;
+    }
+
+    list.forEach(movie => {
+      const card = document.createElement("article");
+      card.classList.add("movie-card");
+      card.innerHTML = `
+        <img src="${movie.poster}" alt="${movie.title}" loading="lazy" />
+        <h3>${movie.title}</h3>
+      `;
+      card.addEventListener("click", () => openMovieDetails(movie.id));
+      movieGrid.appendChild(card);
+    });
   }
 
-  function saveRecentSearch(term) {
+  // Normalize string for search
+  function normalize(str) {
+    return str.normalize("NFD").replace(/[^a-zA-Z0-9 ]/g, "").toLowerCase();
+  }
+
+  // Search logic
+  function searchMovies() {
+    const query = searchInput.value.trim();
+    if (!query) {
+      renderMovies(storedMovies);
+      return;
+    }
+
+    const filtered = storedMovies.filter(movie =>
+      normalize(movie.title).includes(normalize(query))
+    );
+    renderMovies(filtered);
+
+    updateRecentSearches(query);
+  }
+
+  // Save recent search
+  function updateRecentSearches(term) {
     if (!term) return;
-    let history = getRecentSearches();
-    history = history.filter(item => item !== term);
+    let history = JSON.parse(localStorage.getItem("recentSearches") || "[]");
+    history = history.filter(t => t.toLowerCase() !== term.toLowerCase());
     history.unshift(term);
-    if (history.length > 8) history.pop();
+    if (history.length > 10) history = history.slice(0, 10);
     localStorage.setItem("recentSearches", JSON.stringify(history));
     renderRecentSearches();
   }
 
-  function deleteRecentSearch(term) {
-    let history = getRecentSearches();
-    history = history.filter(item => item !== term);
-    localStorage.setItem("recentSearches", JSON.stringify(history));
-    renderRecentSearches();
-  }
-
+  // Render recent searches as plain text
   function renderRecentSearches() {
-    if (!recentContainer) return;
-    const history = getRecentSearches();
-    recentContainer.innerHTML = "";
-
-    if (history.length === 0) return;
+    if (!recentSearchesContainer) return;
+    const history = JSON.parse(localStorage.getItem("recentSearches") || "[]");
+    recentSearchesContainer.innerHTML = "";
 
     history.forEach(term => {
       const item = document.createElement("div");
@@ -89,14 +101,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
       item.querySelector(".remove").addEventListener("click", (e) => {
         e.stopPropagation();
-        deleteRecentSearch(term);
+        const updated = history.filter(t => t !== term);
+        localStorage.setItem("recentSearches", JSON.stringify(updated));
+        renderRecentSearches();
       });
 
-      recentContainer.appendChild(item);
+      recentSearchesContainer.appendChild(item);
     });
   }
 
-  // 🔹 Search Functions
+  // Debounce search
   function debounce(func, delay) {
     let timer;
     return function (...args) {
@@ -105,77 +119,69 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
 
-  function normalizeString(str) {
-    return str.normalize("NFD").replace(/[^a-zA-Z0-9 ]/g, "").toLowerCase();
-  }
+  const debouncedSearch = debounce(searchMovies, 300);
 
-  function searchMovies() {
-    const query = normalizeString(searchInput.value.trim());
-    if (!query) {
-      renderMovies(storedMovies);
-      return;
-    }
-
-    const filtered = storedMovies.filter(movie =>
-      normalizeString(movie.title).includes(query)
-    );
-    renderMovies(filtered);
-  }
-
-  const debouncedSearch = debounce(searchMovies, 250);
-
-  // 🔹 Open / Close Search
+  // Open and close search overlay
   function openSearch() {
     searchOverlay.classList.add("active");
     body.classList.add("search-active");
     searchOverlay.setAttribute("aria-hidden", "false");
-    setTimeout(() => searchInput.focus(), 150);
+    searchInput.focus();
     renderRecentSearches();
-    history.pushState({ searchOpen: true }, "");
   }
 
-  function closeSearch(reset = true) {
+  function closeSearch(clear = true) {
     searchOverlay.classList.remove("active");
     body.classList.remove("search-active");
     searchOverlay.setAttribute("aria-hidden", "true");
-
-    if (reset) {
-      searchInput.value = "";
-      renderMovies(storedMovies);
-    }
-
-    if (window.history.state?.searchOpen) {
-      history.back();
-    }
+    if (clear) searchInput.value = "";
   }
 
-  // 🔹 Render Movies
-  function renderMovies(movieList) {
-    if (!movieGrid) return;
-    movieGrid.innerHTML = "";
-
-    if (movieList.length === 0) {
-      movieGrid.innerHTML = `<p class="loading-text">No movies found.</p>`;
-      return;
+  // Keyboard ESC support
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && searchOverlay.classList.contains("active")) {
+      closeSearch();
     }
+  });
 
-    movieList.forEach(movie => {
-      const card = document.createElement("article");
-      card.classList.add("movie-card");
-      card.innerHTML = `
-        <img src="${movie.poster}" alt="${movie.title} Poster" loading="lazy" class="lazy-load">
-        <h3>${movie.title}</h3>
-      `;
-      card.addEventListener("click", () => openMovieDetails(movie.id));
-      movieGrid.appendChild(card);
-    });
+  // Click outside search
+  document.addEventListener("click", (e) => {
+    if (searchOverlay.classList.contains("active") &&
+        !e.target.closest(".search-container") &&
+        !e.target.closest("#search-icon")) {
+      closeSearch();
+    }
+  });
 
-    document.querySelectorAll(".lazy-load").forEach(img => {
-      img.onload = () => img.classList.add("loaded");
-    });
+  // Open movie details page
+  window.openMovieDetails = function (id) {
+    window.location.href = `movie.html?id=${id}`;
+  };
+
+  // Load movie details page
+  if (window.location.pathname.includes("movie.html")) {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+    const movie = storedMovies.find(m => m.id === id);
+    if (movie) setMovieDetails(movie);
+    else handleMovieNotFound();
   }
 
-  // 🔹 Profile Dropdown
+  function setMovieDetails(movie) {
+    document.getElementById("movie-title").textContent = movie.title;
+    document.getElementById("movie-description").textContent = movie.description;
+    document.getElementById("movie-poster").src = movie.poster;
+    document.getElementById("download-button").href = movie.downloadLink;
+    document.title = `${movie.title} - Movie Details`;
+  }
+
+  function handleMovieNotFound() {
+    const error = document.getElementById("error-message");
+    if (error) error.style.display = "block";
+    setTimeout(() => window.location.href = "index.html", 2000);
+  }
+
+  // Profile dropdown
   let dropdownActive = false;
   profileIcon?.addEventListener("click", (e) => {
     dropdownActive = !dropdownActive;
@@ -194,65 +200,19 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  let lastScrollY = window.scrollY;
-  window.addEventListener("scroll", () => {
-    if (Math.abs(window.scrollY - lastScrollY) > 30) {
-      profileMenu?.classList.remove("active");
-      profileMenu?.setAttribute("aria-hidden", "true");
-      profileMenu?.setAttribute("aria-expanded", "false");
-      dropdownActive = false;
-    }
-    lastScrollY = window.scrollY;
-  });
-
-  profileMenu?.addEventListener("transitionend", () => {
-    profileMenu.style.visibility = profileMenu.classList.contains("active") ? "visible" : "hidden";
-  });
-
-  // 🔹 Events
+  // Events
   searchIcon?.addEventListener("click", openSearch);
-  cancelSearch?.addEventListener("click", () => closeSearch(true));
+  cancelSearch?.addEventListener("click", () => closeSearch());
   searchInput?.addEventListener("input", debouncedSearch);
 
-  // Enter key triggers search + saves term
   searchInput?.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
-      e.preventDefault();
-      const query = searchInput.value.trim();
       searchMovies();
-      saveRecentSearch(query);
-      closeSearch(false);
+      closeSearch(false); // keep results
     }
   });
 
-  // ESC key closes search + resets
-  window.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && searchOverlay.classList.contains("active")) {
-      closeSearch(true);
-    }
-  });
-
-  // Click outside closes + resets
-  searchOverlay?.addEventListener("click", (e) => {
-    if (!e.target.closest(".search-container")) {
-      closeSearch(true);
-    }
-  });
-
-  // Back button support
-  window.addEventListener("popstate", (e) => {
-    if (e.state?.searchOpen && searchOverlay.classList.contains("active")) {
-      closeSearch(true);
-    }
-  });
-
-  // Initial load
   if (movieGrid && !window.location.pathname.includes("movie.html")) {
     renderMovies(storedMovies);
   }
 });
-
-// 🔹 Global
-window.openMovieDetails = function (movieId) {
-  window.location.href = `movie.html?id=${movieId}`;
-};
