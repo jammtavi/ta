@@ -457,3 +457,7 @@ input:focus {
   outline: none;
   box-shadow: none;
 }
+
+button, a {
+  -webkit-tap-highlight-color: transparent;
+}
