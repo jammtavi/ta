@@ -4,8 +4,6 @@
   <meta charset="UTF-8" />
   <title>Login</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-
-  <!-- Styles -->
   <link rel="stylesheet" href="auth.css" />
 
   <!-- Firebase -->
@@ -18,15 +16,19 @@
 <body class="auth-body">
 
   <div class="ph-signup-container">
+    <!-- ❌ Close Button -->
+    <button class="close-btn" onclick="window.location.href='index.html'">×</button>
+
+    <!-- Heading -->
     <div style="text-align: center;">
       <h1 style="color: #fff; font-size: 28px; margin-bottom: 0;">
-        <span style="color: white;">Porn</span><span style="color: #ffa31a; background: #ffa31a; color: #000; padding: 0 6px; border-radius: 4px;">hub</span>
+        <span style="color: white;">Porn</span><span style="background:#ffa31a; color:#000; padding: 0 6px; border-radius: 4px;">hub</span>
       </h1>
       <h2 style="font-size: 22px; margin: 10px 0;">Member Sign in</h2>
       <p style="font-size: 14px; color: #aaa; margin-bottom: 25px;">Access your account</p>
     </div>
 
-    <!-- Login Form -->
+    <!-- 🔐 Login Form -->
     <form id="login-form" class="ph-form">
       <input type="email" name="email" placeholder="Email" required />
 
@@ -47,31 +49,42 @@
       </p>
 
       <p style="text-align: center;">
-        <a href="forgot-password.html" onclick="showResetForm()" style="color: #ffa31a;">Forgot Password?</a>
+        <a href="#" onclick="showResetForm()" style="color: #ffa31a;">Forgot Password?</a>
       </p>
+    </form>
+
+    <!-- 🔁 Reset Password Form (Hidden by Default) -->
+    <form id="reset-password-form" class="forgot-form" style="display: none;">
+      <h3 class="forgot-heading">Lost Password?</h3>
+      <p class="forgot-subtext">Please enter your email you registered with.</p>
+
+      <input type="email" id="reset-email" placeholder="Email" required />
+      <button type="submit" class="forgot-submit">Send Email</button>
+
+      <p id="reset-status-msg"></p>
+      <p class="back-login"><a href="#" onclick="showLoginForm()">← Back to Login</a></p>
     </form>
   </div>
 
   <!-- Firebase Config -->
   <script src="firebase-config.js"></script>
-  <script src="auth.js"></script>
 
   <script>
-    // Toggle password visibility
     const togglePassword = document.getElementById("togglePassword");
     const passwordInput = document.getElementById("password");
 
+    // Toggle password view
     togglePassword.addEventListener("click", () => {
-      const isVisible = passwordInput.type === "text";
-      passwordInput.type = isVisible ? "password" : "text";
+      const visible = passwordInput.type === "text";
+      passwordInput.type = visible ? "password" : "text";
       togglePassword.classList.toggle("fa-eye");
       togglePassword.classList.toggle("fa-eye-slash");
     });
 
-    // Login with Firebase
+    // Firebase Login
     document.getElementById("login-form").addEventListener("submit", async (e) => {
       e.preventDefault();
-      const email = e.target.email.value;
+      const email = e.target.email.value.trim();
       const password = e.target.password.value;
 
       try {
@@ -82,7 +95,7 @@
       }
     });
 
-    // Google login
+    // Google Login
     function googleLogin() {
       const provider = new firebase.auth.GoogleAuthProvider();
       auth.signInWithPopup(provider)
@@ -95,7 +108,7 @@
         });
     }
 
-    // Show/hide reset form
+    // Show Reset Form
     function showResetForm() {
       document.getElementById("login-form").style.display = "none";
       document.getElementById("reset-password-form").style.display = "block";
@@ -103,6 +116,7 @@
       document.getElementById("reset-email").value = "";
     }
 
+    // Back to Login
     function showLoginForm() {
       document.getElementById("reset-password-form").style.display = "none";
       document.getElementById("login-form").style.display = "block";
@@ -114,7 +128,7 @@
       }
     }
 
-    // Handle password reset
+    // Password Reset Handler
     document.getElementById("reset-password-form").addEventListener("submit", function (e) {
       e.preventDefault();
       const email = document.getElementById("reset-email").value.trim();
