@@ -7,27 +7,28 @@
 
   <title>Movie Download Hub</title>
 
-  <!-- 🔹 Open Graph -->
+  <!-- Open Graph -->
   <meta property="og:title" content="Movie Download Hub - Download & Stream Movies" />
   <meta property="og:description" content="Get the latest movie releases in high quality. Download or stream instantly." />
   <meta property="og:image" content="thumbnail.jpg" />
   <meta property="og:url" content="https://moviedownloadhub.com" />
   <meta property="og:type" content="website" />
 
-  <!-- 🔹 Twitter Meta -->
+  <!-- Twitter Meta -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Movie Download Hub" />
   <meta name="twitter:description" content="Download and stream your favorite movies in high quality." />
   <meta name="twitter:image" content="thumbnail.jpg" />
 
-  <!-- 🔹 FontAwesome & Styles -->
+  <!-- FontAwesome + Styles -->
   <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
   <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" /></noscript>
+
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- 🔹 Header -->
+  <!-- Header -->
   <header>
     <nav class="top-nav">
       <button id="menu-icon" aria-label="Open Menu">
@@ -48,7 +49,7 @@
 
           <div class="dropdown-menu" id="profile-menu" role="menu">
             <div id="auth-controls">
-              <!-- Firebase auth will insert content here -->
+              <!-- Firebase will render here -->
             </div>
           </div>
         </div>
@@ -56,39 +57,39 @@
     </nav>
   </header>
 
-  <!-- 🔹 Search Overlay -->
+  <!-- Search Overlay -->
   <div id="search-overlay" aria-hidden="true">
     <div class="search-container">
       <input type="text" id="search" placeholder="Search for movies..." aria-label="Search movies" />
       <button id="cancel-search">Cancel</button>
+      <div id="recent-searches" class="recent-searches"></div>
     </div>
   </div>
 
-  <!-- 🔹 Main Section -->
+  <!-- Main Section -->
   <main id="movie-section">
     <h2>Latest Movies</h2>
     <div id="movie-grid" class="optimized-grid">
-      <!-- Movies injected by JavaScript -->
+      <!-- Movies injected by JS -->
     </div>
   </main>
 
-  <!-- 🔹 Footer -->
+  <!-- Footer -->
   <footer class="footer">
     <p>© 2025 Movie Download Hub. All Rights Reserved.</p>
   </footer>
 
-  <!-- 🔹 Firebase SDK -->
+  <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 
-  <!-- 🔹 Your Firebase config and auth logic -->
+  <!-- Firebase config -->
   <script src="firebase-config.js"></script>
-  <script src="auth.js"></script>
 
-  <!-- 🔹 Main Script (search, movie render, etc) -->
+  <!-- Main logic -->
   <script src="script.js" defer></script>
 
-  <!-- 🔹 Auth Dropdown Rendering -->
+  <!-- Auth rendering -->
   <script>
     auth.onAuthStateChanged((user) => {
       const authControls = document.getElementById("auth-controls");
