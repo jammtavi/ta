@@ -10,13 +10,17 @@
 <body class="auth-body">
 
   <div class="email-verified-container">
-    <div class="verified-card">
+    <div class="verified-card fade-in">
       <div class="icon-circle">
         <i class="fas fa-check"></i>
       </div>
       <h2>Email Verified</h2>
-      <p>Your email has been successfully verified.<br>You can now close this window</p>
-      <button onclick="window.close()">Close Window</button>
+      <p>Your email has been successfully verified.<br>You can now close this window or go to login.</p>
+
+      <div class="btn-group">
+        <button onclick="window.location.href='login.html'">Go to Login</button>
+        <button onclick="window.close()">Close Window</button>
+      </div>
     </div>
   </div>
 
