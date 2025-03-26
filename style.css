@@ -77,38 +77,29 @@ body.search-active {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.95);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 30px;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-10%);
-  transition: opacity 0.4s ease-out, transform 0.4s ease-out;
-  z-index: 2000;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Transparent black */
+  backdrop-filter: blur(12px); /* Stronger blur */
+  z-index: 1000;
+  display: none;
 }
 
 #search-overlay.active {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
+  display: block;
 }
 
 /* 🔹 Search Container */
+/* Move search box slightly to the right */
 .search-container {
-  display: flex;
-  align-items: center;
-  width: 90%;
-  max-width: 500px;
-  background: rgba(255, 255, 255, 0.12);
-  border-radius: 25px;
-  padding: 14px;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
-  transform: scale(0.9);
-  transition: transform 0.3s ease-in-out;
+  position: absolute;
+  top: 50%;
+  left: 55%; /* Move it more to the right */
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.7); /* Dark semi-transparent background */
+  padding: 15px;
+  border-radius: 8px;
+  backdrop-filter: blur(8px); /* Blurred background effect */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 #search-overlay.active .search-container {
