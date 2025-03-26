@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const storedMovies = fetchAndStoreMovies();
 
-  // Render all movies
+  // Render movies
   function renderMovies(list) {
     if (!movieGrid) return;
     movieGrid.innerHTML = "";
@@ -64,12 +64,10 @@ document.addEventListener("DOMContentLoaded", () => {
       normalize(movie.title).includes(normalize(query))
     );
     renderMovies(filtered);
-
-    updateRecentSearches(query);
   }
 
-  // Save recent search
-  function updateRecentSearches(term) {
+  // Save recent search only when pressing Enter
+  function saveRecentSearch(term) {
     if (!term) return;
     let history = JSON.parse(localStorage.getItem("recentSearches") || "[]");
     history = history.filter(t => t.toLowerCase() !== term.toLowerCase());
@@ -79,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
     renderRecentSearches();
   }
 
-  // Render recent searches as plain text
+  // Render recent searches
   function renderRecentSearches() {
     if (!recentSearchesContainer) return;
     const history = JSON.parse(localStorage.getItem("recentSearches") || "[]");
@@ -205,9 +203,11 @@ document.addEventListener("DOMContentLoaded", () => {
   cancelSearch?.addEventListener("click", () => closeSearch());
   searchInput?.addEventListener("input", debouncedSearch);
 
+  // Pressing Enter will perform search and save it in history
   searchInput?.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
       searchMovies();
+      saveRecentSearch(searchInput.value.trim());
       closeSearch(false); // keep results
     }
   });
