@@ -441,27 +441,44 @@ input:focus {
   gap: 15px;
 }
 
-/* 🔹 Action Buttons (Icon-only) */
+/* 🔹 Action Buttons (Icon-only, Fixed Size, No Jumping) */
 .action-btn {
   background: none;
   border: none;
-  font-size: 22px;
   color: #fff;
+  font-size: 22px;
   cursor: pointer;
   padding: 0;
   margin: 0 8px;
-  transition: color 0.2s ease;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.action-btn:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.action-btn i {
+  pointer-events: none;
 }
 
 .action-btn:hover {
   transform: scale(1.2);
 }
 
+/* Active states (color only) */
 #like-btn.active { color: #7a00ff; }
 #dislike-btn.active { color: #ff7a00; }
 #favorite-btn.active { color: #e91e63; }
 #playlist-btn.active { color: #00bfa6; }
 #share-btn.active { color: #2196f3; }
+
 
 /* 🔹 Share Popup */
 .share-popup {
