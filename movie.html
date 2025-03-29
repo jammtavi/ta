@@ -86,28 +86,6 @@
     const savePlaylist = document.getElementById("save-playlist");
     const closePlaylist = document.getElementById("close-playlist");
 
-    // Share popup
-    const sharePopup = document.createElement("div");
-    sharePopup.className = "share-popup";
-    sharePopup.innerHTML = `
-      <div style="display: flex; gap: 12px; align-items: center;">
-        <a href="https://api.whatsapp.com/send?text=${encodeURIComponent(window.location.href)}" target="_blank" aria-label="WhatsApp">
-          <i class="fab fa-whatsapp" style="font-size: 20px; color: #25D366;"></i>
-        </a>
-        <a href="https://t.me/share/url?url=${encodeURIComponent(window.location.href)}" target="_blank" aria-label="Telegram">
-          <i class="fab fa-telegram" style="font-size: 20px; color: #0088cc;"></i>
-        </a>
-        <a href="#" onclick="alert('Instagram sharing only works via mobile app.')" aria-label="Instagram">
-          <i class="fab fa-instagram" style="font-size: 20px; color: #E1306C;"></i>
-        </a>
-        <a href="#" onclick="alert('Snapchat sharing must be done via app.')" aria-label="Snapchat">
-          <i class="fab fa-snapchat-ghost" style="font-size: 20px; color: #FFFC00;"></i>
-        </a>
-      </div>
-    `;
-    document.body.appendChild(sharePopup);
-
-    // Load Movies
     let movies = JSON.parse(localStorage.getItem("movies") || "[]");
     if (!Array.isArray(movies) || movies.length === 0) {
       movies = [
@@ -142,7 +120,6 @@
       setTimeout(() => window.location.href = "index.html", 2000);
     }
 
-    // 🔐 Only used for Favorites & Playlist (not Like/Dislike)
     function requireLogin(action, redirectToSignup = false) {
       const user = firebase.auth().currentUser;
       if (!user) {
@@ -156,7 +133,6 @@
       action();
     }
 
-    // 👍 Like button (no login needed)
     likeBtn.addEventListener("click", () => {
       likeBtn.classList.toggle("active");
       dislikeBtn.classList.remove("active");
@@ -165,7 +141,6 @@
       savePrefs();
     });
 
-    // 👎 Dislike button (no login needed)
     dislikeBtn.addEventListener("click", () => {
       dislikeBtn.classList.toggle("active");
       likeBtn.classList.remove("active");
@@ -174,7 +149,6 @@
       savePrefs();
     });
 
-    // ❤️ Favorite button (requires login)
     favoriteBtn.addEventListener("click", () => {
       requireLogin(() => {
         favoriteBtn.classList.toggle("active");
@@ -183,7 +157,6 @@
       }, true);
     });
 
-    // 📁 Playlist button (requires login)
     playlistBtn.addEventListener("click", () => {
       requireLogin(() => {
         playlistModal.classList.add("active");
@@ -209,19 +182,31 @@
       }
     });
 
-    // 📤 Share button
+    // ✅ Native Share API (mobile/tablet/desktop support)
     shareBtn.addEventListener("click", () => {
-      sharePopup.classList.add("active");
-      setTimeout(() => {
-        sharePopup.classList.remove("active");
-      }, 2500);
+      const shareData = {
+        title: document.getElementById("movie-title")?.textContent || "Check this movie!",
+        text: "Watch or download now:",
+        url: window.location.href
+      };
+
+      if (navigator.share) {
+        navigator.share(shareData).catch(err => {
+          console.warn("Sharing failed:", err);
+        });
+      } else if (navigator.clipboard) {
+        navigator.clipboard.writeText(shareData.url).then(() => {
+          alert("Link copied to clipboard!");
+        });
+      } else {
+        alert("Sharing is not supported on this device.");
+      }
     });
 
     function savePrefs() {
       localStorage.setItem(`prefs_${movieId}`, JSON.stringify(prefs));
     }
 
-    // ⬅️ Back button
     window.goBack = function () {
       if (document.referrer.includes(window.location.hostname)) {
         window.history.back();
