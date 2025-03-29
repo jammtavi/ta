@@ -3,21 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <title>Movie Details</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-  <meta name="description" content="Watch and download your favorite movies in high quality.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="description" content="Movie Details - Watch and Download Your Favorite Movies in High Quality.">
 
   <!-- SEO & Social -->
-  <meta property="og:title" content="Movie Details" />
-  <meta property="og:description" content="Stream and download high-quality movies." />
+  <meta property="og:title" content="Movie Details - Watch & Download" />
+  <meta property="og:description" content="Stream and download high-quality movies instantly." />
   <meta property="og:image" content="thumbnail.jpg" />
   <meta property="og:url" content="https://moviedownloadhub.com/movie.html" />
+  <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
 
-  <!-- Styles -->
+  <!-- Styles & Fonts -->
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
 
-  <!-- Firebase -->
+  <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
   <script src="firebase-config.js"></script>
@@ -32,165 +33,203 @@
   </header>
 
   <!-- Movie Details -->
-  <main id="movie-details">
+  <main id="movie-details" class="modern-movie-details">
     <div class="details-container">
-      <img id="movie-poster" src="" alt="Movie Poster" loading="lazy" />
+      <img id="movie-poster" src="" alt="Movie Poster" class="poster" loading="lazy" />
       <div class="movie-info">
         <h2 id="movie-title"></h2>
         <p id="movie-description"></p>
-        <a id="download-button" href="#" target="_blank" rel="noopener noreferrer">Download</a>
+        <a id="download-button" href="#" target="_blank" rel="noopener noreferrer" class="download-btn">Download</a>
 
         <!-- Action Buttons -->
         <div class="movie-actions">
           <button class="action-btn" id="like-btn" aria-label="Like"><i class="fas fa-thumbs-up"></i></button>
           <button class="action-btn" id="dislike-btn" aria-label="Dislike"><i class="fas fa-thumbs-down"></i></button>
-          <button class="action-btn" id="favorite-btn" aria-label="Favorite"><i class="fas fa-heart"></i></button>
-          <button class="action-btn" id="playlist-btn" aria-label="Playlist"><i class="fas fa-folder-plus"></i></button>
+          <button class="action-btn" id="favorite-btn" aria-label="Add to Favorites"><i class="fas fa-heart"></i></button>
+          <button class="action-btn" id="playlist-btn" aria-label="Add to Playlist"><i class="fas fa-folder-plus"></i></button>
           <button class="action-btn" id="share-btn" aria-label="Share"><i class="fas fa-share-alt"></i></button>
         </div>
       </div>
     </div>
-    <p id="error-message" style="display: none;">Movie not found. Redirecting...</p>
+    <p id="error-message" class="error-message" aria-live="polite" style="display: none;">Movie not found. Redirecting...</p>
   </main>
 
   <!-- Playlist Modal -->
   <div id="playlist-modal" class="playlist-modal" aria-hidden="true">
     <div class="modal-content">
-      <h3>Add to Playlist</h3>
-      <input type="text" id="playlist-name" placeholder="Playlist name" />
+      <h3>Create or Add to Playlist</h3>
+      <input type="text" id="playlist-name" placeholder="Playlist name..." />
       <button id="save-playlist">Save</button>
       <button id="close-playlist">Cancel</button>
     </div>
   </div>
 
+  <!-- Footer -->
+  <footer class="footer">
+    <p>© 2025 Movie Download Hub. All Rights Reserved.</p>
+  </footer>
+
   <!-- Script -->
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const movieId = new URLSearchParams(window.location.search).get("id");
+  document.addEventListener("DOMContentLoaded", () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const movieId = urlParams.get("id");
 
-      const likeBtn = document.getElementById("like-btn");
-      const dislikeBtn = document.getElementById("dislike-btn");
-      const favoriteBtn = document.getElementById("favorite-btn");
-      const playlistBtn = document.getElementById("playlist-btn");
-      const shareBtn = document.getElementById("share-btn");
+    const likeBtn = document.getElementById("like-btn");
+    const dislikeBtn = document.getElementById("dislike-btn");
+    const favoriteBtn = document.getElementById("favorite-btn");
+    const playlistBtn = document.getElementById("playlist-btn");
+    const shareBtn = document.getElementById("share-btn");
 
-      const playlistModal = document.getElementById("playlist-modal");
-      const playlistInput = document.getElementById("playlist-name");
-      const savePlaylist = document.getElementById("save-playlist");
-      const closePlaylist = document.getElementById("close-playlist");
+    const playlistModal = document.getElementById("playlist-modal");
+    const playlistInput = document.getElementById("playlist-name");
+    const savePlaylist = document.getElementById("save-playlist");
+    const closePlaylist = document.getElementById("close-playlist");
 
-      let movies = JSON.parse(localStorage.getItem("movies") || "[]");
-      if (!movies.length) {
-        movies = [
-          { id: "movie1", title: "Sample Movie 1", description: "Description 1", poster: "images/poster1.jpg", downloadLink: "#" },
-          { id: "movie2", title: "Sample Movie 2", description: "Description 2", poster: "images/poster2.jpg", downloadLink: "#" }
-        ];
-        localStorage.setItem("movies", JSON.stringify(movies));
-      }
+    // Share popup
+    const sharePopup = document.createElement("div");
+    sharePopup.className = "share-popup";
+    sharePopup.innerHTML = `
+      <div style="display: flex; gap: 12px; align-items: center;">
+        <a href="https://api.whatsapp.com/send?text=${encodeURIComponent(window.location.href)}" target="_blank" aria-label="WhatsApp">
+          <i class="fab fa-whatsapp" style="font-size: 20px; color: #25D366;"></i>
+        </a>
+        <a href="https://t.me/share/url?url=${encodeURIComponent(window.location.href)}" target="_blank" aria-label="Telegram">
+          <i class="fab fa-telegram" style="font-size: 20px; color: #0088cc;"></i>
+        </a>
+        <a href="#" onclick="alert('Instagram sharing only works via mobile app.')" aria-label="Instagram">
+          <i class="fab fa-instagram" style="font-size: 20px; color: #E1306C;"></i>
+        </a>
+        <a href="#" onclick="alert('Snapchat sharing must be done via app.')" aria-label="Snapchat">
+          <i class="fab fa-snapchat-ghost" style="font-size: 20px; color: #FFFC00;"></i>
+        </a>
+      </div>
+    `;
+    document.body.appendChild(sharePopup);
 
-      const movie = movies.find(m => m.id === movieId);
-      if (!movie) return notFound();
+    // Load Movies
+    let movies = JSON.parse(localStorage.getItem("movies") || "[]");
+    if (!Array.isArray(movies) || movies.length === 0) {
+      movies = [
+        { id: "movie1", title: "Brazzers Movie 1", description: "Adult film 1", poster: "images/poster1.jpg", downloadLink: "https://example.com/1" },
+        { id: "movie2", title: "Brazzers Movie 2", description: "Adult film 2", poster: "images/poster2.jpg", downloadLink: "https://example.com/2" },
+        { id: "movie3", title: "BangBros Movie", description: "Hot release", poster: "images/poster3.jpg", downloadLink: "https://example.com/3" }
+      ];
+      localStorage.setItem("movies", JSON.stringify(movies));
+    }
 
+    const movie = movies.find(m => m.id === movieId);
+    if (!movie) return handleMovieNotFound();
+    setMovieDetails(movie);
+
+    const prefs = JSON.parse(localStorage.getItem(`prefs_${movieId}`) || "{}");
+    if (prefs.liked) likeBtn.classList.add("active");
+    if (prefs.disliked) dislikeBtn.classList.add("active");
+    if (prefs.favorited) favoriteBtn.classList.add("active");
+
+    function setMovieDetails(movie) {
       document.getElementById("movie-title").textContent = movie.title;
       document.getElementById("movie-description").textContent = movie.description;
       document.getElementById("movie-poster").src = movie.poster;
+      document.getElementById("movie-poster").alt = `${movie.title} Poster`;
       document.getElementById("download-button").href = movie.downloadLink;
       document.title = `${movie.title} - Movie Details`;
+    }
 
-      const prefs = JSON.parse(localStorage.getItem(`prefs_${movieId}`) || "{}");
-      if (prefs.liked) likeBtn.classList.add("active");
-      if (prefs.disliked) dislikeBtn.classList.add("active");
-      if (prefs.favorited) favoriteBtn.classList.add("active");
+    function handleMovieNotFound() {
+      const error = document.getElementById("error-message");
+      if (error) error.style.display = "block";
+      setTimeout(() => window.location.href = "index.html", 2000);
+    }
 
-      function savePrefs() {
-        localStorage.setItem(`prefs_${movieId}`, JSON.stringify(prefs));
-      }
-
-      function requireLogin(action, redirect = false) {
-        const user = firebase.auth().currentUser;
-        if (!user) {
-          if (redirect) {
-            window.location.href = "signup.html";
-          } else {
-            alert("Please login to use this feature.");
-          }
-          return;
+    // 🔐 Only used for Favorites & Playlist (not Like/Dislike)
+    function requireLogin(action, redirectToSignup = false) {
+      const user = firebase.auth().currentUser;
+      if (!user) {
+        if (redirectToSignup) {
+          window.location.href = "signup.html";
+        } else {
+          alert("You must be logged in to use this feature.");
         }
-        action();
+        return;
       }
+      action();
+    }
 
-      likeBtn.addEventListener("click", () => {
-        likeBtn.classList.toggle("active");
-        dislikeBtn.classList.remove("active");
-        prefs.liked = likeBtn.classList.contains("active");
-        prefs.disliked = false;
+    // 👍 Like button (no login needed)
+    likeBtn.addEventListener("click", () => {
+      likeBtn.classList.toggle("active");
+      dislikeBtn.classList.remove("active");
+      prefs.liked = likeBtn.classList.contains("active");
+      prefs.disliked = false;
+      savePrefs();
+    });
+
+    // 👎 Dislike button (no login needed)
+    dislikeBtn.addEventListener("click", () => {
+      dislikeBtn.classList.toggle("active");
+      likeBtn.classList.remove("active");
+      prefs.disliked = dislikeBtn.classList.contains("active");
+      prefs.liked = false;
+      savePrefs();
+    });
+
+    // ❤️ Favorite button (requires login)
+    favoriteBtn.addEventListener("click", () => {
+      requireLogin(() => {
+        favoriteBtn.classList.toggle("active");
+        prefs.favorited = favoriteBtn.classList.contains("active");
         savePrefs();
-      });
+      }, true);
+    });
 
-      dislikeBtn.addEventListener("click", () => {
-        dislikeBtn.classList.toggle("active");
-        likeBtn.classList.remove("active");
-        prefs.disliked = dislikeBtn.classList.contains("active");
-        prefs.liked = false;
-        savePrefs();
-      });
+    // 📁 Playlist button (requires login)
+    playlistBtn.addEventListener("click", () => {
+      requireLogin(() => {
+        playlistModal.classList.add("active");
+        playlistModal.setAttribute("aria-hidden", "false");
+        playlistInput.focus();
+        playlistBtn.classList.add("active");
+      }, true);
+    });
 
-      favoriteBtn.addEventListener("click", () => {
-        requireLogin(() => {
-          favoriteBtn.classList.toggle("active");
-          prefs.favorited = favoriteBtn.classList.contains("active");
-          savePrefs();
-        }, true);
-      });
+    closePlaylist.addEventListener("click", () => {
+      playlistModal.classList.remove("active");
+      playlistModal.setAttribute("aria-hidden", "true");
+      playlistInput.value = "";
+      playlistBtn.classList.remove("active");
+    });
 
-      playlistBtn.addEventListener("click", () => {
-        requireLogin(() => {
-          playlistModal.classList.add("active");
-          playlistInput.focus();
-          playlistBtn.classList.add("active");
-        }, true);
-      });
-
-      closePlaylist.addEventListener("click", () => {
+    savePlaylist.addEventListener("click", () => {
+      const name = playlistInput.value.trim();
+      if (name) {
+        alert(`🎉 "${movie.title}" added to playlist: ${name}`);
         playlistModal.classList.remove("active");
         playlistInput.value = "";
-        playlistBtn.classList.remove("active");
-      });
-
-      savePlaylist.addEventListener("click", () => {
-        const name = playlistInput.value.trim();
-        if (name) {
-          alert(`Added to playlist: ${name}`);
-          playlistModal.classList.remove("active");
-          playlistInput.value = "";
-        }
-      });
-
-      shareBtn.addEventListener("click", () => {
-        const url = window.location.href;
-        const title = movie.title;
-
-        if (navigator.share) {
-          navigator.share({ title, text: `${title} - Watch Now`, url }).catch(console.warn);
-        } else if (navigator.clipboard) {
-          navigator.clipboard.writeText(url).then(() => {
-            alert("Link copied to clipboard!");
-          });
-        } else {
-          alert("Sharing not supported.");
-        }
-      });
-
-      function notFound() {
-        document.getElementById("error-message").style.display = "block";
-        setTimeout(() => window.location.href = "index.html", 2000);
       }
-
-      window.goBack = () => {
-        if (document.referrer.includes(location.hostname)) history.back();
-        else window.location.href = "index.html";
-      };
     });
-  </script>
+
+    // 📤 Share button
+    shareBtn.addEventListener("click", () => {
+      sharePopup.classList.add("active");
+      setTimeout(() => {
+        sharePopup.classList.remove("active");
+      }, 2500);
+    });
+
+    function savePrefs() {
+      localStorage.setItem(`prefs_${movieId}`, JSON.stringify(prefs));
+    }
+
+    // ⬅️ Back button
+    window.goBack = function () {
+      if (document.referrer.includes(window.location.hostname)) {
+        window.history.back();
+      } else {
+        window.location.href = "index.html";
+      }
+    };
+  });
+</script>
 </body>
 </html>
