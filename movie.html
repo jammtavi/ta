@@ -64,6 +64,24 @@
     </div>
   </div>
 
+  <!-- Like Confirmation Bar -->
+  <div id="like-confirmation" class="like-confirm">
+    <div class="like-left">
+      <i class="fas fa-thumbs-up"></i>
+      <span>Video Liked</span>
+    </div>
+    <button onclick="window.location.href='liked.html'">View liked videos</button>
+  </div>
+
+  <!-- Favorite Confirmation Bar -->
+  <div id="fav-confirmation" class="like-confirm">
+    <div class="like-left">
+      <i class="fas fa-heart"></i>
+      <span>Added to Favorites</span>
+    </div>
+    <button onclick="window.location.href='favorites.html'">View favorites</button>
+  </div>
+
   <!-- Footer -->
   <footer class="footer">
     <p>© 2025 Movie Download Hub. All Rights Reserved.</p>
@@ -85,6 +103,9 @@
     const playlistInput = document.getElementById("playlist-name");
     const savePlaylist = document.getElementById("save-playlist");
     const closePlaylist = document.getElementById("close-playlist");
+
+    const likeBar = document.getElementById("like-confirmation");
+    const favBar = document.getElementById("fav-confirmation");
 
     let movies = JSON.parse(localStorage.getItem("movies") || "[]");
     if (!Array.isArray(movies) || movies.length === 0) {
@@ -139,6 +160,11 @@
       prefs.liked = likeBtn.classList.contains("active");
       prefs.disliked = false;
       savePrefs();
+
+      if (prefs.liked) {
+        likeBar.classList.add("show");
+        setTimeout(() => likeBar.classList.remove("show"), 2500);
+      }
     });
 
     dislikeBtn.addEventListener("click", () => {
@@ -154,6 +180,11 @@
         favoriteBtn.classList.toggle("active");
         prefs.favorited = favoriteBtn.classList.contains("active");
         savePrefs();
+
+        if (prefs.favorited) {
+          favBar.classList.add("show");
+          setTimeout(() => favBar.classList.remove("show"), 2500);
+        }
       }, true);
     });
 
@@ -182,24 +213,19 @@
       }
     });
 
-    // ✅ Native Share API (mobile/tablet/desktop support)
     shareBtn.addEventListener("click", () => {
       const shareData = {
-        title: document.getElementById("movie-title")?.textContent || "Check this movie!",
-        text: "Watch or download now:",
+        title: movie.title,
+        text: "Watch this movie now!",
         url: window.location.href
       };
 
       if (navigator.share) {
-        navigator.share(shareData).catch(err => {
-          console.warn("Sharing failed:", err);
-        });
-      } else if (navigator.clipboard) {
+        navigator.share(shareData).catch(err => console.warn("Share failed:", err));
+      } else {
         navigator.clipboard.writeText(shareData.url).then(() => {
           alert("Link copied to clipboard!");
         });
-      } else {
-        alert("Sharing is not supported on this device.");
       }
     });
 
@@ -215,6 +241,6 @@
       }
     };
   });
-</script>
+  </script>
 </body>
 </html>
