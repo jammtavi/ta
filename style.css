@@ -533,3 +533,58 @@ input:focus {
 button, a {
   -webkit-tap-highlight-color: transparent;
 }
+
+/* Confirmation Bar (shared for Like & Favorite) */
+.like-confirm {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #222;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.4);
+  font-size: 15px;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.like-confirm.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.like-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: bold;
+}
+
+.like-confirm i {
+  font-size: 18px;
+  color: #fff;
+}
+
+.like-confirm button {
+  background: transparent;
+  border: 1px solid #aaa;
+  color: #ccc;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.like-confirm button:hover {
+  background: #444;
+  color: #fff;
+}
