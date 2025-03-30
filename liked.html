@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Liked Videos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="top-nav">
+    <button onclick="window.location.href='index.html'" class="back-button">← Back</button>
+    <span class="logo">Liked Videos</span>
+  </header>
+
+  <main id="movie-section">
+    <div id="movie-grid"></div>
+  </main>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const grid = document.getElementById("movie-grid");
+      const movies = JSON.parse(localStorage.getItem("movies") || "[]");
+      const liked = movies.filter(movie => {
+        const prefs = JSON.parse(localStorage.getItem(`prefs_${movie.id}`) || "{}");
+        return prefs.liked;
+      });
+
+      if (!liked.length) {
+        grid.innerHTML = "<p style='text-align:center;'>No liked videos yet.</p>";
+        return;
+      }
+
+      liked.forEach(movie => {
+        const card = document.createElement("div");
+        card.className = "movie-card";
+        card.innerHTML = `
+          <img src="${movie.poster}" alt="${movie.title}" />
+          <h3>${movie.title}</h3>
+        `;
+        card.addEventListener("click", () => {
+          window.location.href = `movie.html?id=${movie.id}`;
+        });
+        grid.appendChild(card);
+      });
+    });
+  </script>
+</body>
+</html>
