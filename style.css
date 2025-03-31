@@ -291,45 +291,75 @@ body.search-active {
     border-top: 1px solid rgba(255,255,255,0.15);
 }
 
-/* 🔹 Profile Dropdown */
-.profile-dropdown {
-    position: relative;
+.profile-slideout {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 100%;
+  max-width: 320px;
+  height: 100vh;
+  background: #111;
+  color: #fff;
+  z-index: 4000;
+  transition: right 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 30px;
 }
 
-.dropdown-menu {
-    position: absolute;
-    right: 0;
-    top: 45px;
-    background: rgba(26, 26, 26, 0.95);
-    backdrop-filter: blur(8px);
-    border-radius: 8px;
-    width: 150px;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-10px);
-    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
-    box-shadow: 0 0 10px rgba(122, 0, 255, 0.2);
-    pointer-events: none;
+.profile-slideout.active {
+  right: 0;
 }
 
-.dropdown-menu.active {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-    pointer-events: auto;
+.close-slideout {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: #ffa31a;
+  cursor: pointer;
 }
 
-.dropdown-menu a {
-    display: block;
-    padding: 10px 15px;
-    color: #fff;
-    font-size: 14px;
-    text-decoration: none;
-    transition: background 0.2s ease-in-out;
+.profile-header {
+  margin-top: 30px;
+  margin-bottom: 30px;
 }
 
-.dropdown-menu a:hover {
-    background: rgba(255, 255, 255, 0.1);
+.profile-options {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  align-items: center;
+}
+
+.profile-btn {
+  background: #1c1c1c;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.3s ease, background 0.3s ease;
+  text-align: center;
+}
+
+.profile-btn:hover {
+  background: #2c2c2c;
+  transform: scale(1.05);
+}
+
+.profile-btn span {
+  font-size: 13px;
+  margin-top: 5px;
 }
 
 /* 🔹 Movie Info Centered */
