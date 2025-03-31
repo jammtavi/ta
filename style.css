@@ -292,7 +292,6 @@ body.search-active {
 }
 
 .profile-slideout {
-.profile-slideout {
   position: fixed;
   top: 0;
   right: -100%;
