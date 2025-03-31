@@ -1,65 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Liked Videos</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
-<body style="background: #000; color: #fff; font-family: 'Poppins', sans-serif; text-align: center; padding: 30px 20px;">
+<body class="auth-body">
 
-  <!-- Disabled History View -->
-  <div id="liked-disabled-view" style="display: none;">
-    <i class="fas fa-thumbs-up" style="font-size: 42px; color: white; margin-bottom: 20px;"></i>
-    <h2>Liked Videos history is currently disabled</h2>
-    <button id="enable-history-btn" style="margin-top: 20px; padding: 12px 20px; font-size: 14px; border-radius: 8px; background: #333; border: none; color: #fff; cursor: pointer;">
-      Enable liked videos history
-    </button>
-  </div>
+  <div class="liked-container">
+    <div id="liked-content" class="fade-in">
+      <div class="liked-icon">
+        <i class="fas fa-thumbs-up"></i>
+      </div>
 
-  <!-- Active Liked View -->
-  <div id="liked-active-view" style="display: none;">
-    <i class="fas fa-thumbs-up" style="font-size: 42px; color: white; margin-bottom: 20px;"></i>
-    <h2>Welcome to your Liked Videos!</h2>
-    <p style="margin-top: 10px;">Seems you haven't liked any videos yet.</p>
-    <p style="margin-top: 20px; font-size: 15px; color: #ccc;">
-      Liked videos can be lost without an account.
-      <a href="signup.html" style="color: orange;">Sign up</a> to save your collection of videos.
-      <a href="login.html" style="color: orange;">Log In</a> to access your existing list.
-    </p>
+      <h2 id="liked-heading">Welcome to your Liked Videos!</h2>
+      <p id="liked-subtext">Seems you haven't liked any videos yet.</p>
 
-    <button id="clear-liked" style="margin-top: 30px; padding: 12px 20px; font-size: 14px; border-radius: 8px; background: #333; border: none; color: #fff; cursor: pointer;">
-      Clear all videos and disable liked videos history
-    </button>
+      <div id="liked-auth-msg">
+        <p>Liked videos can be lost without an account.
+          <a href="signup.html" style="color: orange;">Sign up</a> to save your collection of videos.
+          <a href="login.html" style="color: orange;">Log In</a> to access your existing list.
+        </p>
+      </div>
+
+      <button id="clear-liked" class="ph-btn" style="margin-top: 20px;">
+        Clear all videos and disable liked videos history
+      </button>
+    </div>
+
+    <!-- Disabled View -->
+    <div id="liked-disabled" style="display: none;" class="fade-in">
+      <div class="liked-icon">
+        <i class="fas fa-thumbs-up"></i>
+      </div>
+      <h2>Liked Videos history is currently disabled</h2>
+      <button id="enable-liked" class="ph-btn" style="margin-top: 20px;">Enable liked videos history</button>
+    </div>
   </div>
 
   <script>
-    const disabledView = document.getElementById("liked-disabled-view");
-    const activeView = document.getElementById("liked-active-view");
-    const enableBtn = document.getElementById("enable-history-btn");
+    const isDisabled = localStorage.getItem("liked_disabled") === "true";
+    const likedContent = document.getElementById("liked-content");
+    const likedDisabled = document.getElementById("liked-disabled");
     const clearBtn = document.getElementById("clear-liked");
+    const enableBtn = document.getElementById("enable-liked");
 
-    const likedHistoryEnabled = localStorage.getItem("likedHistory") !== "false";
-
-    if (!likedHistoryEnabled) {
-      disabledView.style.display = "block";
-    } else {
-      activeView.style.display = "block";
+    if (isDisabled) {
+      likedContent.style.display = "none";
+      likedDisabled.style.display = "block";
     }
 
-    enableBtn?.addEventListener("click", () => {
-      localStorage.setItem("likedHistory", "true");
-      location.reload();
-    });
-
-    clearBtn?.addEventListener("click", () => {
-      const confirmClear = confirm("This will clear all the videos and disable liked videos history.");
-      if (confirmClear) {
-        localStorage.removeItem("likedVideos");
-        localStorage.setItem("likedHistory", "false");
+    clearBtn.addEventListener("click", () => {
+      if (confirm("This will clear all the videos and disable liked videos history.")) {
+        localStorage.removeItem("liked_videos");
+        localStorage.setItem("liked_disabled", "true");
         location.reload();
       }
+    });
+
+    enableBtn.addEventListener("click", () => {
+      localStorage.setItem("liked_disabled", "false");
+      location.reload();
     });
   </script>
 
