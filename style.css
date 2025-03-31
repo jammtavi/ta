@@ -625,3 +625,13 @@ button, a {
   border: none;
   -webkit-tap-highlight-color: transparent;
 }
+
+#profile-icon,
+#profile-icon:focus,
+#profile-icon:active {
+  outline: none;
+  box-shadow: none;
+  border: none;
+  -webkit-tap-highlight-color: transparent;
+  background: none;
+}
