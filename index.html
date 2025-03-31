@@ -7,19 +7,6 @@
 
   <title>Movie Download Hub</title>
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="Movie Download Hub - Download & Stream Movies" />
-  <meta property="og:description" content="Get the latest movie releases in high quality. Download or stream instantly." />
-  <meta property="og:image" content="thumbnail.jpg" />
-  <meta property="og:url" content="https://moviedownloadhub.com" />
-  <meta property="og:type" content="website" />
-
-  <!-- Twitter Meta -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Movie Download Hub" />
-  <meta name="twitter:description" content="Download and stream your favorite movies in high quality." />
-  <meta name="twitter:image" content="thumbnail.jpg" />
-
   <!-- FontAwesome + Styles -->
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
@@ -71,19 +58,18 @@
 
   <!-- Slideout Profile Panel -->
   <div id="profile-panel" class="profile-slideout" aria-hidden="true">
-    
-  <!-- Top Row: Close + Logo -->
-  <div class="profile-top">
-    <button id="close-profile" class="close-slideout">×</button>
-    <h1 class="logo-style">
-      <span class="logo-white">Movie</span><span class="logo-flag">hub</span>
-    </h1>
-  </div>
+    <!-- Top: Close + Logo -->
+    <div class="profile-top">
+      <button id="close-profile" class="close-slideout">×</button>
+      <h1 class="logo-style">
+        <span class="logo-white">Movie</span><span class="logo-flag">hub</span>
+      </h1>
+    </div>
 
-  <!-- Bottom Row: Buttons -->
-  <div class="profile-actions" id="auth-controls">
-    <!-- Firebase will render buttons here -->
-  </div>
+    <!-- Bottom: Buttons -->
+    <div class="profile-actions" id="auth-controls">
+      <!-- Firebase renders here -->
+    </div>
   </div>
 
   <!-- Footer -->
@@ -95,7 +81,7 @@
   <script src="firebase-config.js"></script>
   <script src="script.js" defer></script>
 
-  <!-- Slideout Script -->
+  <!-- Slideout Logic -->
   <script>
     const profilePanel = document.getElementById("profile-panel");
     const closeProfile = document.getElementById("close-profile");
@@ -112,33 +98,33 @@
     });
 
     auth.onAuthStateChanged((user) => {
-  const authControls = document.getElementById("auth-controls");
-  if (!authControls) return;
+      const authControls = document.getElementById("auth-controls");
+      if (!authControls) return;
 
-  if (user) {
-    authControls.innerHTML = `
-      <div class="profile-btn" onclick="location.href='liked.html'">
-        <i class="fas fa-thumbs-up"></i><span>Liked</span>
-      </div>
-      <div class="profile-btn" onclick="logoutUser()">
-        <i class="fas fa-sign-out-alt"></i><span>Logout</span>
-      </div>
-    `;
-  } else {
-    authControls.innerHTML = `
-      <div class="profile-btn" onclick="location.href='signup.html'">
-        <i class="fas fa-user-plus"></i><span>Sign Up</span>
-      </div>
-      <div class="profile-btn" onclick="location.href='login.html'">
-        <i class="fas fa-user"></i><span>Log In</span>
-      </div>
-      <div class="profile-btn" onclick="location.href='liked.html'">
-        <i class="fas fa-thumbs-up"></i><span>Liked</span>
-      </div>
-    `;
-  }
-});
-      
+      if (user) {
+        authControls.innerHTML = `
+          <div class="profile-btn" onclick="location.href='liked.html'">
+            <i class="fas fa-thumbs-up"></i><span>Liked</span>
+          </div>
+          <div class="profile-btn" onclick="logoutUser()">
+            <i class="fas fa-sign-out-alt"></i><span>Logout</span>
+          </div>
+        `;
+      } else {
+        authControls.innerHTML = `
+          <div class="profile-btn" onclick="location.href='signup.html'">
+            <i class="fas fa-user-plus"></i><span>Sign Up</span>
+          </div>
+          <div class="profile-btn" onclick="location.href='login.html'">
+            <i class="fas fa-user"></i><span>Log In</span>
+          </div>
+          <div class="profile-btn" onclick="location.href='liked.html'">
+            <i class="fas fa-thumbs-up"></i><span>Liked</span>
+          </div>
+        `;
+      }
+    });
+
     function logoutUser() {
       auth.signOut().then(() => {
         window.location.reload();
