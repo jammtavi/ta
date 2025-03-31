@@ -347,20 +347,44 @@ body.search-active {
   margin-top: 20px;
 }
 
-.profile-pill {
-  background: #1c1c1c;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 999px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background 0.3s ease;
+.profile-icon-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+  margin-top: 30px;
+  flex-wrap: wrap;
 }
 
-.profile-pill:hover {
-  background: #2a2a2a;
+.icon-box {
+  background: #222;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  position: relative;
+  text-align: center;
 }
+
+.icon-box:hover {
+  background: #333;
+}
+
+.icon-box i {
+  font-size: 22px;
+}
+
+.icon-box span {
+  font-size: 13px;
+  margin-top: 6px;
+}
+
 
 .profile-btn {
   background: #1c1c1c;
