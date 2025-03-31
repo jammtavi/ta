@@ -58,7 +58,6 @@
 
   <!-- Slideout Profile Panel -->
   <div id="profile-panel" class="profile-slideout" aria-hidden="true">
-  <!-- Top: Close + Logo -->
   <div class="profile-top">
     <button id="close-profile" class="close-slideout">×</button>
     <h1 class="logo-style">
@@ -66,9 +65,9 @@
     </h1>
   </div>
 
-  <!-- Horizontal Buttons -->
-  <div class="profile-actions" id="auth-controls">
-    <!-- Firebase will inject buttons -->
+  <!-- Row of round icon buttons -->
+  <div class="profile-icon-row" id="auth-controls">
+    <!-- Firebase will render buttons here -->
   </div>
   </div>
   
@@ -103,17 +102,33 @@
 
   if (user) {
     authControls.innerHTML = `
-      <button class="profile-pill" onclick="location.href='liked.html'">Liked Videos</button>
-      <button class="profile-pill" onclick="logoutUser()">Logout</button>
+      <div class="icon-box" onclick="location.href='liked.html'">
+        <i class="fas fa-thumbs-up"></i>
+        <span>Liked</span>
+      </div>
+      <div class="icon-box" onclick="logoutUser()">
+        <i class="fas fa-sign-out-alt"></i>
+        <span>Logout</span>
+      </div>
     `;
   } else {
     authControls.innerHTML = `
-      <button class="profile-pill" onclick="location.href='signup.html'">Sign Up</button>
-      <button class="profile-pill" onclick="location.href='login.html'">Log In</button>
-      <button class="profile-pill" onclick="location.href='liked.html'">Liked Videos</button>
+      <div class="icon-box" onclick="location.href='signup.html'">
+        <i class="fas fa-user-plus"></i>
+        <span>Sign Up</span>
+      </div>
+      <div class="icon-box" onclick="location.href='login.html'">
+        <i class="fas fa-user"></i>
+        <span>Log In</span>
+      </div>
+      <div class="icon-box" onclick="location.href='liked.html'">
+        <i class="fas fa-thumbs-up"></i>
+        <span>Liked</span>
+      </div>
     `;
   }
 });
+    
     
     function logoutUser() {
       auth.signOut().then(() => {
