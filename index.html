@@ -58,20 +58,20 @@
 
   <!-- Slideout Profile Panel -->
   <div id="profile-panel" class="profile-slideout" aria-hidden="true">
-    <!-- Top: Close + Logo -->
-    <div class="profile-top">
-      <button id="close-profile" class="close-slideout">×</button>
-      <h1 class="logo-style">
-        <span class="logo-white">Movie</span><span class="logo-flag">hub</span>
-      </h1>
-    </div>
-
-    <!-- Bottom: Buttons -->
-    <div class="profile-actions" id="auth-controls">
-      <!-- Firebase renders here -->
-    </div>
+  <!-- Top: Close + Logo -->
+  <div class="profile-top">
+    <button id="close-profile" class="close-slideout">×</button>
+    <h1 class="logo-style">
+      <span class="logo-white">Movie</span><span class="logo-flag">hub</span>
+    </h1>
   </div>
 
+  <!-- Horizontal Buttons -->
+  <div class="profile-actions" id="auth-controls">
+    <!-- Firebase will inject buttons -->
+  </div>
+  </div>
+  
   <!-- Footer -->
   <footer class="footer">
     <p>© 2025 Movie Download Hub. All Rights Reserved.</p>
@@ -98,33 +98,23 @@
     });
 
     auth.onAuthStateChanged((user) => {
-      const authControls = document.getElementById("auth-controls");
-      if (!authControls) return;
+  const authControls = document.getElementById("auth-controls");
+  if (!authControls) return;
 
-      if (user) {
-        authControls.innerHTML = `
-          <div class="profile-btn" onclick="location.href='liked.html'">
-            <i class="fas fa-thumbs-up"></i><span>Liked</span>
-          </div>
-          <div class="profile-btn" onclick="logoutUser()">
-            <i class="fas fa-sign-out-alt"></i><span>Logout</span>
-          </div>
-        `;
-      } else {
-        authControls.innerHTML = `
-          <div class="profile-btn" onclick="location.href='signup.html'">
-            <i class="fas fa-user-plus"></i><span>Sign Up</span>
-          </div>
-          <div class="profile-btn" onclick="location.href='login.html'">
-            <i class="fas fa-user"></i><span>Log In</span>
-          </div>
-          <div class="profile-btn" onclick="location.href='liked.html'">
-            <i class="fas fa-thumbs-up"></i><span>Liked</span>
-          </div>
-        `;
-      }
-    });
-
+  if (user) {
+    authControls.innerHTML = `
+      <button class="profile-pill" onclick="location.href='liked.html'">Liked Videos</button>
+      <button class="profile-pill" onclick="logoutUser()">Logout</button>
+    `;
+  } else {
+    authControls.innerHTML = `
+      <button class="profile-pill" onclick="location.href='signup.html'">Sign Up</button>
+      <button class="profile-pill" onclick="location.href='login.html'">Log In</button>
+      <button class="profile-pill" onclick="location.href='liked.html'">Liked Videos</button>
+    `;
+  }
+});
+    
     function logoutUser() {
       auth.signOut().then(() => {
         window.location.reload();
