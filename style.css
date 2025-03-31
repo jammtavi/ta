@@ -22,7 +22,7 @@ body.search-active {
     background: rgba(26, 26, 26, 0.9);
     backdrop-filter: blur(15px);
     padding: 12px 15px;
-    position: sticky;
+    position: relative;
     top: 0;
     width: 100%;
     z-index: 1000;
@@ -587,4 +587,34 @@ button, a {
 .like-confirm button:hover {
   background: #444;
   color: #fff;
+}
+
+.logo-link {
+  text-decoration: none;
+}
+
+.logo-style {
+  font-size: 20px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-white {
+  color: white;
+}
+
+.logo-orange {
+  background: #ffa31a;
+  color: #000;
+  padding: 0 6px;
+  border-radius: 4px;
+  margin-left: 4px;
+}
+
+.logo-link {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
