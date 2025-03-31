@@ -71,17 +71,19 @@
 
   <!-- Slideout Profile Panel -->
   <div id="profile-panel" class="profile-slideout" aria-hidden="true">
+    
+  <!-- Top Row: Close + Logo -->
+  <div class="profile-top">
     <button id="close-profile" class="close-slideout">×</button>
+    <h1 class="logo-style">
+      <span class="logo-white">Movie</span><span class="logo-flag">hub</span>
+    </h1>
+  </div>
 
-    <div class="profile-header">
-      <h1 class="logo-style">
-        <span class="logo-white">Movie</span><span class="logo-flag">hub</span>
-      </h1>
-    </div>
-
-    <div class="profile-options" id="auth-controls">
-      <!-- Firebase renders here -->
-    </div>
+  <!-- Bottom Row: Buttons -->
+  <div class="profile-actions" id="auth-controls">
+    <!-- Firebase will render buttons here -->
+  </div>
   </div>
 
   <!-- Footer -->
