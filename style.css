@@ -591,11 +591,15 @@ button, a {
 
 .logo-link {
   text-decoration: none;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .logo-style {
   font-size: 20px;
   font-weight: bold;
+  font-family: 'Poppins', sans-serif;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -605,16 +609,11 @@ button, a {
   color: white;
 }
 
-.logo-orange {
-  background: #ffa31a;
-  color: #000;
-  padding: 0 6px;
+.logo-flag {
+  padding: 2px 6px;
   border-radius: 4px;
+  background: linear-gradient(to bottom, #5BCEFA 20%, #F5A9B8 40%, #ffffff 60%, #F5A9B8 80%, #5BCEFA 100%);
+  color: black;
   margin-left: 4px;
 }
 
-.logo-link {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}
