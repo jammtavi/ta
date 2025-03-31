@@ -292,74 +292,76 @@ body.search-active {
 }
 
 .profile-slideout {
+.profile-slideout {
   position: fixed;
   top: 0;
   right: -100%;
   width: 100%;
-  max-width: 320px;
+  max-width: 300px;
   height: 100vh;
   background: #111;
   color: #fff;
   z-index: 4000;
   transition: right 0.4s ease;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 30px;
+  padding: 20px;
 }
 
 .profile-slideout.active {
   right: 0;
 }
 
+.profile-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
 .close-slideout {
-  position: absolute;
-  top: 15px;
-  left: 15px;
   background: none;
   border: none;
-  font-size: 28px;
+  font-size: 26px;
   color: #ffa31a;
   cursor: pointer;
 }
 
-.profile-header {
-  margin-top: 30px;
-  margin-bottom: 30px;
+.logo-style {
+  font-size: 20px;
 }
 
-.profile-options {
+.logo-white {
+  color: #fff;
+}
+
+.logo-flag {
+  background: #ffa31a;
+  color: #000;
+  padding: 0 6px;
+  border-radius: 4px;
+}
+
+.profile-actions {
   display: flex;
-  flex-direction: column;
-  gap: 20px;
-  width: 100%;
-  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .profile-btn {
   background: #1c1c1c;
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
   color: #fff;
-  font-size: 20px;
+  font-size: 14px;
+  padding: 10px 14px;
+  border-radius: 8px;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  gap: 6px;
   cursor: pointer;
-  transition: transform 0.3s ease, background 0.3s ease;
-  text-align: center;
+  transition: background 0.3s ease;
 }
 
 .profile-btn:hover {
   background: #2c2c2c;
-  transform: scale(1.05);
-}
-
-.profile-btn span {
-  font-size: 13px;
-  margin-top: 5px;
 }
 
 /* 🔹 Movie Info Centered */
