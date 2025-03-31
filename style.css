@@ -706,3 +706,73 @@ button, a {
   -webkit-tap-highlight-color: transparent;
   background: none;
 }
+
+/* Liked Videos Page */
+
+.liked-container {
+  background: #000;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  flex-direction: column;
+  text-align: center;
+  color: #fff;
+}
+
+.liked-icon {
+  font-size: 60px;
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+.liked-container h2 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.liked-container p {
+  font-size: 15px;
+  color: #ccc;
+  margin: 0 0 12px;
+  line-height: 1.5;
+}
+
+.liked-container a {
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.ph-btn {
+  background: #333;
+  color: #fff;
+  padding: 14px 20px;
+  border-radius: 8px;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  max-width: 90%;
+  width: 320px;
+}
+
+.ph-btn:hover {
+  background: #444;
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-out both;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
