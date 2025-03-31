@@ -21,10 +21,12 @@
   <meta name="twitter:image" content="thumbnail.jpg" />
 
   <!-- FontAwesome + Styles -->
-  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" /></noscript>
-
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 </head>
 <body>
 
@@ -32,87 +34,102 @@
   <header>
     <nav class="top-nav">
       <button id="menu-icon" aria-label="Open Menu">
-        <i class="fas fa-bars" aria-hidden="true"></i>
+        <i class="fas fa-bars"></i>
       </button>
 
       <a href="index.html" class="logo-link">
-  <h1 class="logo-style">
-    <span class="logo-white">Movie</span><span class="logo-flag">hub</span>
-  </h1>
+        <h1 class="logo-style">
+          <span class="logo-white">Movie</span><span class="logo-flag">hub</span>
+        </h1>
       </a>
-
 
       <div class="nav-icons">
         <button id="search-icon" aria-label="Search Movies">
-          <i class="fas fa-search" aria-hidden="true"></i>
+          <i class="fas fa-search"></i>
         </button>
-
-        <div class="profile-dropdown">
-          <button id="profile-icon" aria-label="User Profile">
-            <i class="fas fa-user" aria-hidden="true"></i>
-          </button>
-
-          <div class="dropdown-menu" id="profile-menu" role="menu">
-            <div id="auth-controls">
-              <!-- Firebase will render here -->
-            </div>
-          </div>
-        </div>
+        <button id="profile-icon" aria-label="User Profile">
+          <i class="fas fa-user"></i>
+        </button>
       </div>
     </nav>
   </header>
 
   <!-- Search Overlay -->
-<div id="search-overlay" aria-hidden="true">
-  <div class="search-container">
-    <input type="text" id="search" placeholder="Search for movies..." aria-label="Search movies" />
-    <button id="cancel-search">Cancel</button>
-  </div>
-
-  <!-- Recent searches will appear below the bar -->
-  <div id="recent-searches" class="recent-searches"></div>
-</div>
-
+  <div id="search-overlay" aria-hidden="true">
+    <div class="search-container">
+      <input type="text" id="search" placeholder="Search for movies..." />
+      <button id="cancel-search">Cancel</button>
+    </div>
+    <div id="recent-searches" class="recent-searches"></div>
   </div>
 
   <!-- Main Section -->
   <main id="movie-section">
     <h2>Latest Movies</h2>
-    <div id="movie-grid" class="optimized-grid">
-      <!-- Movies injected by JS -->
-    </div>
+    <div id="movie-grid" class="optimized-grid"></div>
   </main>
+
+  <!-- Slideout Profile Panel -->
+  <div id="profile-panel" class="profile-slideout" aria-hidden="true">
+    <button id="close-profile" class="close-slideout">×</button>
+
+    <div class="profile-header">
+      <h1 class="logo-style">
+        <span class="logo-white">Movie</span><span class="logo-flag">hub</span>
+      </h1>
+    </div>
+
+    <div class="profile-options" id="auth-controls">
+      <!-- Firebase renders here -->
+    </div>
+  </div>
 
   <!-- Footer -->
   <footer class="footer">
     <p>© 2025 Movie Download Hub. All Rights Reserved.</p>
   </footer>
 
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-
-  <!-- Firebase config -->
+  <!-- Firebase Config -->
   <script src="firebase-config.js"></script>
-
-  <!-- Main logic -->
   <script src="script.js" defer></script>
 
-  <!-- Auth rendering -->
+  <!-- Slideout Script -->
   <script>
+    const profilePanel = document.getElementById("profile-panel");
+    const closeProfile = document.getElementById("close-profile");
+    const profileIcon = document.getElementById("profile-icon");
+
+    profileIcon?.addEventListener("click", () => {
+      profilePanel.classList.add("active");
+      profilePanel.setAttribute("aria-hidden", "false");
+    });
+
+    closeProfile?.addEventListener("click", () => {
+      profilePanel.classList.remove("active");
+      profilePanel.setAttribute("aria-hidden", "true");
+    });
+
     auth.onAuthStateChanged((user) => {
       const authControls = document.getElementById("auth-controls");
       if (!authControls) return;
 
       if (user) {
         authControls.innerHTML = `
-          <a href="#">Hi, ${user.email.split('@')[0]}</a>
-          <a href="#" onclick="logoutUser()">Logout</a>
+          <div class="profile-btn" onclick="location.href='liked.html'">
+            <i class="fas fa-thumbs-up"></i><span>Liked</span>
+          </div>
+          <div class="profile-btn" onclick="logoutUser()">
+            <i class="fas fa-sign-out-alt"></i><span>Logout</span>
+          </div>
         `;
       } else {
         authControls.innerHTML = `
-          <a href="login.html">Login</a>
-          <a href="signup.html">Sign Up</a>
+          <div class="profile-btn" onclick="location.href='signup.html'">
+            <i class="fas fa-user-plus"></i><span>Sign Up</span>
+          </div>
+          <div class="profile-btn" onclick="location.href='login.html'">
+            <i class="fas fa-user"></i><span>Log In</span>
+          </div>
         `;
       }
     });
