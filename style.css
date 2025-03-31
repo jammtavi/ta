@@ -617,3 +617,11 @@ button, a {
   margin-left: 4px;
 }
 
+#menu-icon:focus,
+#menu-icon:active,
+#menu-icon {
+  outline: none;
+  box-shadow: none;
+  border: none;
+  -webkit-tap-highlight-color: transparent;
+}
