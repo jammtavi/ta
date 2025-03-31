@@ -112,30 +112,33 @@
     });
 
     auth.onAuthStateChanged((user) => {
-      const authControls = document.getElementById("auth-controls");
-      if (!authControls) return;
+  const authControls = document.getElementById("auth-controls");
+  if (!authControls) return;
 
-      if (user) {
-        authControls.innerHTML = `
-          <div class="profile-btn" onclick="location.href='liked.html'">
-            <i class="fas fa-thumbs-up"></i><span>Liked</span>
-          </div>
-          <div class="profile-btn" onclick="logoutUser()">
-            <i class="fas fa-sign-out-alt"></i><span>Logout</span>
-          </div>
-        `;
-      } else {
-        authControls.innerHTML = `
-          <div class="profile-btn" onclick="location.href='signup.html'">
-            <i class="fas fa-user-plus"></i><span>Sign Up</span>
-          </div>
-          <div class="profile-btn" onclick="location.href='login.html'">
-            <i class="fas fa-user"></i><span>Log In</span>
-          </div>
-        `;
-      }
-    });
-
+  if (user) {
+    authControls.innerHTML = `
+      <div class="profile-btn" onclick="location.href='liked.html'">
+        <i class="fas fa-thumbs-up"></i><span>Liked</span>
+      </div>
+      <div class="profile-btn" onclick="logoutUser()">
+        <i class="fas fa-sign-out-alt"></i><span>Logout</span>
+      </div>
+    `;
+  } else {
+    authControls.innerHTML = `
+      <div class="profile-btn" onclick="location.href='signup.html'">
+        <i class="fas fa-user-plus"></i><span>Sign Up</span>
+      </div>
+      <div class="profile-btn" onclick="location.href='login.html'">
+        <i class="fas fa-user"></i><span>Log In</span>
+      </div>
+      <div class="profile-btn" onclick="location.href='liked.html'">
+        <i class="fas fa-thumbs-up"></i><span>Liked</span>
+      </div>
+    `;
+  }
+});
+      
     function logoutUser() {
       auth.signOut().then(() => {
         window.location.reload();
