@@ -688,23 +688,16 @@ button, a {
   margin-left: 4px;
 }
 
+/* Remove focus outlines from buttons and icons */
+button:focus,
+button:focus-visible,
+button:active,
+#search-icon:focus,
 #menu-icon:focus,
-#menu-icon:active,
-#menu-icon {
-  outline: none;
-  box-shadow: none;
-  border: none;
-  -webkit-tap-highlight-color: transparent;
-}
-
-#profile-icon,
 #profile-icon:focus,
-#profile-icon:active {
-  outline: none;
-  box-shadow: none;
-  border: none;
-  -webkit-tap-highlight-color: transparent;
-  background: none;
+.close-btn:focus {
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 /* Liked Videos Page */
