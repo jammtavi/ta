@@ -70,6 +70,30 @@
     <!-- Firebase will render buttons here -->
   </div>
   </div>
+
+  <!-- Slide-out Profile Panel -->
+<div id="profile-slideout" class="profile-slideout">
+  <div class="slideout-header">
+    <button id="close-slideout" aria-label="Close">&times;</button>
+    <h1 class="logo-style"><span class="logo-white">Movie</span><span class="logo-flag">hub</span></h1>
+  </div>
+  <div class="slideout-user">
+    <p id="profile-name">Username</p>
+    <span class="profile-sub">See Your Profile</span>
+  </div>
+  <div class="slideout-actions">
+    <button><i class="fas fa-bell"></i> Notifications</button>
+    <button><i class="fas fa-comment-dots"></i> Inbox</button>
+    <button onclick="window.location.href='favorites.html'"><i class="fas fa-heart"></i> Favorites</button>
+    <button onclick="window.location.href='liked.html'"><i class="fas fa-thumbs-up"></i> Liked Videos</button>
+    <button><i class="fas fa-folder"></i> Playlists</button>
+    <button><i class="fas fa-user-friends"></i> Friends</button>
+    <button><i class="fas fa-cog"></i> Settings</button>
+    <button id="logout-btn"><i class="fas fa-sign-out-alt"></i> Log Out</button>
+  </div>
+</div>
+<div id="slideout-overlay" class="slideout-overlay"></div>
+  
   
   <!-- Footer -->
   <footer class="footer">
@@ -128,13 +152,41 @@
     `;
   }
 });
-    
+
+    const profileIcon = document.getElementById("profile-icon");
+const profilePanel = document.getElementById("profile-slideout");
+const slideoutOverlay = document.getElementById("slideout-overlay");
+const closeSlideout = document.getElementById("close-slideout");
+const logoutBtn = document.getElementById("logout-btn");
+
+profileIcon?.addEventListener("click", () => {
+  profilePanel.classList.add("active");
+  slideoutOverlay.classList.add("active");
+  const user = firebase.auth().currentUser;
+  if (user) {
+    document.getElementById("profile-name").textContent = user.email.split('@')[0];
+  }
+});
+closeSlideout?.addEventListener("click", () => {
+  profilePanel.classList.remove("active");
+  slideoutOverlay.classList.remove("active");
+});
+slideoutOverlay?.addEventListener("click", () => {
+  profilePanel.classList.remove("active");
+  slideoutOverlay.classList.remove("active");
+});
+logoutBtn?.addEventListener("click", () => {
+  firebase.auth().signOut().then(() => {
+    location.reload();
+  });
+});
     
     function logoutUser() {
       auth.signOut().then(() => {
         window.location.reload();
       });
     }
+    
   </script>
 
 </body>
