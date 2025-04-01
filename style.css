@@ -773,7 +773,7 @@ button:active,
   }
 }
 
-.ph-form input,
-.forgot-form input {
+.forgot-form input[type="email"] {
   margin-bottom: 10px;
 }
+
