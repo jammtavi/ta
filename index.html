@@ -53,48 +53,27 @@
   <!-- Main Section -->
   <main id="movie-section">
     <h2>Latest Movies</h2>
-    <div id="movie-grid" class="optimized-grid"></div>
+    <div id="movie-grid" class="optimized-grid">
+      <!-- Movies rendered by script.js -->
+    </div>
   </main>
 
-  <!-- Slideout Profile Panel -->
-  <div id="profile-panel" class="profile-slideout" aria-hidden="true">
-  <div class="profile-top">
-    <button id="close-profile" class="close-slideout">×</button>
-    <h1 class="logo-style">
-      <span class="logo-white">Movie</span><span class="logo-flag">hub</span>
-    </h1>
-  </div>
-
-  <!-- Row of round icon buttons -->
-  <div class="profile-icon-row" id="auth-controls">
-    <!-- Firebase will render buttons here -->
-  </div>
-  </div>
-
   <!-- Slide-out Profile Panel -->
-<div id="profile-slideout" class="profile-slideout">
-  <div class="slideout-header">
-    <button id="close-slideout" aria-label="Close">&times;</button>
-    <h1 class="logo-style"><span class="logo-white">Movie</span><span class="logo-flag">hub</span></h1>
+  <div id="profile-slideout" class="profile-slideout">
+    <div class="slideout-header">
+      <button id="close-slideout" aria-label="Close">&times;</button>
+      <h1 class="logo-style"><span class="logo-white">Movie</span><span class="logo-flag">hub</span></h1>
+    </div>
+    <div class="slideout-user">
+      <p id="profile-name">Username</p>
+      <span class="profile-sub">See Your Profile</span>
+    </div>
+    <div class="slideout-actions" id="auth-buttons">
+      <!-- Dynamic content based on login status -->
+    </div>
   </div>
-  <div class="slideout-user">
-    <p id="profile-name">Username</p>
-    <span class="profile-sub">See Your Profile</span>
-  </div>
-  <div class="slideout-actions">
-    <button><i class="fas fa-bell"></i> Notifications</button>
-    <button><i class="fas fa-comment-dots"></i> Inbox</button>
-    <button onclick="window.location.href='favorites.html'"><i class="fas fa-heart"></i> Favorites</button>
-    <button onclick="window.location.href='liked.html'"><i class="fas fa-thumbs-up"></i> Liked Videos</button>
-    <button><i class="fas fa-folder"></i> Playlists</button>
-    <button><i class="fas fa-user-friends"></i> Friends</button>
-    <button><i class="fas fa-cog"></i> Settings</button>
-    <button id="logout-btn"><i class="fas fa-sign-out-alt"></i> Log Out</button>
-  </div>
-</div>
-<div id="slideout-overlay" class="slideout-overlay"></div>
-  
-  
+  <div id="slideout-overlay" class="slideout-overlay"></div>
+
   <!-- Footer -->
   <footer class="footer">
     <p>© 2025 Movie Download Hub. All Rights Reserved.</p>
@@ -104,90 +83,56 @@
   <script src="firebase-config.js"></script>
   <script src="script.js" defer></script>
 
-  <!-- Slideout Logic -->
+  <!-- Profile Slideout Logic -->
   <script>
-    const profilePanel = document.getElementById("profile-panel");
-    const closeProfile = document.getElementById("close-profile");
+    const profilePanel = document.getElementById("profile-slideout");
+    const slideoutOverlay = document.getElementById("slideout-overlay");
+    const closeSlideout = document.getElementById("close-slideout");
     const profileIcon = document.getElementById("profile-icon");
 
     profileIcon?.addEventListener("click", () => {
       profilePanel.classList.add("active");
-      profilePanel.setAttribute("aria-hidden", "false");
+      slideoutOverlay.classList.add("active");
+
+      const user = firebase.auth().currentUser;
+      const nameEl = document.getElementById("profile-name");
+      const authButtons = document.getElementById("auth-buttons");
+
+      if (user) {
+        nameEl.textContent = user.email.split('@')[0];
+        authButtons.innerHTML = `
+          <button onclick="window.location.href='favorites.html'"><i class="fas fa-heart"></i> Favorites</button>
+          <button onclick="window.location.href='liked.html'"><i class="fas fa-thumbs-up"></i> Liked Videos</button>
+          <button onclick="window.location.href='playlists.html'"><i class="fas fa-folder"></i> Playlists</button>
+          <button id="logout-btn"><i class="fas fa-sign-out-alt"></i> Log Out</button>
+        `;
+      } else {
+        nameEl.textContent = "Guest";
+        authButtons.innerHTML = `
+          <button onclick="window.location.href='signup.html'"><i class="fas fa-user-plus"></i> Sign Up</button>
+          <button onclick="window.location.href='login.html'"><i class="fas fa-user"></i> Log In</button>
+          <button onclick="window.location.href='liked.html'"><i class="fas fa-thumbs-up"></i> Liked Videos</button>
+        `;
+      }
     });
 
-    closeProfile?.addEventListener("click", () => {
+    closeSlideout?.addEventListener("click", () => {
       profilePanel.classList.remove("active");
-      profilePanel.setAttribute("aria-hidden", "true");
+      slideoutOverlay.classList.remove("active");
     });
 
-    auth.onAuthStateChanged((user) => {
-  const authControls = document.getElementById("auth-controls");
-  if (!authControls) return;
+    slideoutOverlay?.addEventListener("click", () => {
+      profilePanel.classList.remove("active");
+      slideoutOverlay.classList.remove("active");
+    });
 
-  if (user) {
-    authControls.innerHTML = `
-      <div class="icon-box" onclick="location.href='liked.html'">
-        <i class="fas fa-thumbs-up"></i>
-        <span>Liked</span>
-      </div>
-      <div class="icon-box" onclick="logoutUser()">
-        <i class="fas fa-sign-out-alt"></i>
-        <span>Logout</span>
-      </div>
-    `;
-  } else {
-    authControls.innerHTML = `
-      <div class="icon-box" onclick="location.href='signup.html'">
-        <i class="fas fa-user-plus"></i>
-        <span>Sign Up</span>
-      </div>
-      <div class="icon-box" onclick="location.href='login.html'">
-        <i class="fas fa-user"></i>
-        <span>Log In</span>
-      </div>
-      <div class="icon-box" onclick="location.href='liked.html'">
-        <i class="fas fa-thumbs-up"></i>
-        <span>Liked</span>
-      </div>
-    `;
-  }
-});
-
-    const profileIcon = document.getElementById("profile-icon");
-const profilePanel = document.getElementById("profile-slideout");
-const slideoutOverlay = document.getElementById("slideout-overlay");
-const closeSlideout = document.getElementById("close-slideout");
-const logoutBtn = document.getElementById("logout-btn");
-
-profileIcon?.addEventListener("click", () => {
-  profilePanel.classList.add("active");
-  slideoutOverlay.classList.add("active");
-  const user = firebase.auth().currentUser;
-  if (user) {
-    document.getElementById("profile-name").textContent = user.email.split('@')[0];
-  }
-});
-closeSlideout?.addEventListener("click", () => {
-  profilePanel.classList.remove("active");
-  slideoutOverlay.classList.remove("active");
-});
-slideoutOverlay?.addEventListener("click", () => {
-  profilePanel.classList.remove("active");
-  slideoutOverlay.classList.remove("active");
-});
-logoutBtn?.addEventListener("click", () => {
-  firebase.auth().signOut().then(() => {
-    location.reload();
-  });
-});
-    
-    function logoutUser() {
-      auth.signOut().then(() => {
-        window.location.reload();
-      });
-    }
-    
+    document.addEventListener("click", (e) => {
+      if (e.target.id === "logout-btn") {
+        firebase.auth().signOut().then(() => {
+          location.reload();
+        });
+      }
+    });
   </script>
-
 </body>
 </html>
