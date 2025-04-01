@@ -402,8 +402,3 @@ body.auth-body {
 .forgot-form input[type="email"] {
   margin-bottom: 12px;
 }
-
-.ph-form input,
-.ph-form button {
-  margin-bottom: 12px; /* Add spacing */
-}
