@@ -772,3 +772,8 @@ button:active,
     transform: translateY(0);
   }
 }
+
+.ph-form input,
+.forgot-form input {
+  margin-bottom: 10px;
+}
