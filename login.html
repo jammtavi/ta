@@ -118,16 +118,23 @@
 
     // Back to Login
     function showLoginForm() {
-      document.getElementById("reset-password-form").style.display = "none";
-      document.getElementById("login-form").style.display = "block";
+  document.getElementById("reset-password-form").style.display = "none";
+  
+  // Re-apply login form display with style reflow
+  setTimeout(() => {
+    const loginForm = document.getElementById("login-form");
+    loginForm.style.display = "block";
+    loginForm.scrollIntoView({ behavior: 'smooth' }); // optional: scroll into view
+  }, 10);
 
-      if (passwordInput.type === "text") {
-        passwordInput.type = "password";
-        togglePassword.classList.add("fa-eye-slash");
-        togglePassword.classList.remove("fa-eye");
-      }
+  // Ensure password input type and icon are reset
+  if (passwordInput.type === "text") {
+    passwordInput.type = "password";
+    togglePassword.classList.add("fa-eye-slash");
+    togglePassword.classList.remove("fa-eye");
+  }
     }
-
+    
     // Password Reset Handler
     document.getElementById("reset-password-form").addEventListener("submit", function (e) {
       e.preventDefault();
