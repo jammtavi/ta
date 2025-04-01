@@ -772,8 +772,3 @@ button:active,
     transform: translateY(0);
   }
 }
-
-.forgot-form input[type="email"] {
-  margin-bottom: 10px;
-}
-
