@@ -688,17 +688,20 @@ button, a {
   margin-left: 4px;
 }
 
-/* Remove focus outlines from buttons and icons */
+/* Remove focus outlines from control buttons */
 button:focus,
 button:focus-visible,
 button:active,
 #search-icon:focus,
 #menu-icon:focus,
 #profile-icon:focus,
-.close-btn:focus {
+.close-btn:focus,
+#clear-history:focus,
+#enable-history:focus {
   outline: none !important;
   box-shadow: none !important;
 }
+
 
 /* Liked Videos Page */
 
