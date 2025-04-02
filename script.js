@@ -216,3 +216,53 @@ document.addEventListener("DOMContentLoaded", () => {
     renderMovies(storedMovies);
   }
 });
+
+// ========== CLOUD SYNC ==========
+const API_BASE = 'https://your-deployed-api.com/api'; // Replace with your real URL
+
+function saveFavorite(movieId) {
+  const user = firebase.auth().currentUser;
+  if (!user) return;
+  fetch(`${API_BASE}/favorites`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ userId: user.uid, movieId })
+  });
+}
+
+function saveLike(movieId, liked) {
+  const user = firebase.auth().currentUser;
+  if (!user) return;
+  fetch(`${API_BASE}/likes`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ userId: user.uid, movieId, liked })
+  });
+}
+
+function saveToPlaylist(name, movieId) {
+  const user = firebase.auth().currentUser;
+  if (!user) return;
+  fetch(`${API_BASE}/playlists`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ userId: user.uid, name, movieId })
+  });
+}
+
+// Optional: Sync favorites/likes/playlists after login
+firebase.auth().onAuthStateChanged(user => {
+  if (user) {
+    fetch(`${API_BASE}/favorites/${user.uid}`)
+      .then(res => res.json())
+      .then(data => console.log("Synced favorites:", data));
+
+    fetch(`${API_BASE}/likes/${user.uid}`)
+      .then(res => res.json())
+      .then(data => console.log("Synced likes:", data));
+
+    fetch(`${API_BASE}/playlists/${user.uid}`)
+      .then(res => res.json())
+      .then(data => console.log("Synced playlists:", data));
+  }
+});
